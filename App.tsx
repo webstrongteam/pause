@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react'
 import FlashMessage from 'react-native-flash-message'
-import { useFonts } from 'expo-font';
+import { useFonts } from 'expo-font'
 import { setCustomText } from 'react-native-global-props'
 import Router from './src/router'
 import Spinner from './src/components/Spinner/Spinner'
@@ -8,42 +8,40 @@ import Template from './src/components/Template/Template'
 import { setupDatabase } from './database/db'
 
 export default function App() {
-  const [loading, setLoading] = useState<boolean>(true)
+	const [loading, setLoading] = useState<boolean>(true)
 
-  const [loaded] = useFonts({
-    'Lato-Light': require('./assets/fonts/Lato-Light.ttf'),
-    'Lato-Regular': require('./assets/fonts/Lato-Regular.ttf'),
-    'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
-  })
+	const [loaded] = useFonts({
+		'Lato-Light': require('./assets/fonts/Lato-Light.ttf'),
+		'Lato-Regular': require('./assets/fonts/Lato-Regular.ttf'),
+		'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
+	})
 
-  useEffect(() => {
-    if (loaded) {
-      initApp()
-    }
-  }, [loaded])
+	useEffect(() => {
+		if (loaded) {
+			initApp()
+		}
+	}, [loaded])
 
-  const initApp = () => {
-      // Set default styles for all Text components.
-      const customTextProps = {
-        style: { fontFamily: 'Lato-Regular' },
-      }
-      setCustomText(customTextProps)
+	const initApp = () => {
+		// Set default styles for all Text components.
+		const customTextProps = {
+			style: { fontFamily: 'Lato-Regular' },
+		}
+		setCustomText(customTextProps)
 
-      setupDatabase(() => {
-        setLoading(false)
-      })
-  }
+		setupDatabase(() => {
+			setLoading(false)
+		})
+	}
 
-  if (loading) {
-    return (
-      <Spinner color='#000' size={64} />
-    )
-  }
+	if (loading) {
+		return <Spinner color='#000' size={64} />
+	}
 
-  return (
-    <Template>
-      <Router />
-      <FlashMessage style={{ zIndex: 1000 }} position='bottom' animated={true} />
-    </Template>
-  )
+	return (
+		<Template>
+			<Router />
+			<FlashMessage style={{ zIndex: 1000 }} position='bottom' animated />
+		</Template>
+	)
 }

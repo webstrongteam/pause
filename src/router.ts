@@ -4,13 +4,13 @@ import { createStackNavigator } from 'react-navigation-stack'
 import Home from './screens/Home/Home'
 
 const MainNavigator = createStackNavigator(
-  {
-    Home: { screen: Home },
-  },
-  {
-    initialRouteName: 'Home',
-    headerMode: 'none',
-  },
+	{
+		Home: { screen: Home },
+	},
+	{
+		initialRouteName: 'Home',
+		headerMode: 'none',
+	},
 )
 
 const router = createAppContainer(MainNavigator)

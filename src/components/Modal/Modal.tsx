@@ -1,7 +1,7 @@
-import React, {ReactNode, useEffect} from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import { BackHandler, Dimensions, Keyboard } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-/* @ts-ignore */
+// @ts-ignore
 import Modal, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
 
 type Props = {
@@ -35,7 +35,7 @@ const Modal = ({ toggleModal, visible, title, buttons = [], bgColor = '#fff', co
 
 	return (
 		<>
-			{/*@ts-ignore*/}
+			{/* @ts-expect-error */}
 			<Modal
 				width={Dimensions.get('window').width - 50}
 				visible={visible}

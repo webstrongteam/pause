@@ -1,36 +1,34 @@
 {
-  "expo": {
-    "name": "Pause",
-    "slug": "pause",
-    "description": "",
-    "version": "1.0.0",
-    "githubUrl": "https://github.com/webstrongteam/pause",
-    "orientation": "portrait",
-    "platforms": ["ios", "android"],
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "buildNumber": "1.0.0",
-      "bundleIdentifier": "com.webStrong.pause",
-      "supportsTablet": false
-    },
-    "android": {
-      "package": "com.webStrong.pause",
-      "versionCode": 1000
-    },
-    "packagerOpts": {
-      "config": "metro.config.js",
-      "sourceExts": ["ts", "tsx", "scss", "sass"]
-    }
-  }
+	"expo": {
+		"name": "Pause",
+		"slug": "pause",
+		"description": "",
+		"version": "1.0.0",
+		"githubUrl": "https://github.com/webstrongteam/pause",
+		"orientation": "portrait",
+		"platforms": ["ios", "android"],
+		"icon": "./assets/icon.png",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"updates": {
+			"fallbackToCacheTimeout": 0
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"buildNumber": "1.0.0",
+			"bundleIdentifier": "com.webStrong.pause",
+			"supportsTablet": false
+		},
+		"android": {
+			"package": "com.webStrong.pause",
+			"versionCode": 1000
+		},
+		"packagerOpts": {
+			"config": "metro.config.js",
+			"sourceExts": ["ts", "tsx", "scss", "sass"]
+		}
+	}
 }
