@@ -1,9 +1,12 @@
 {
   "expo": {
-    "name": "pause",
+    "name": "Pause",
     "slug": "pause",
+    "description": "",
     "version": "1.0.0",
+    "githubUrl": "https://github.com/webstrongteam/pause",
     "orientation": "portrait",
+    "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -17,16 +20,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.webStrong.pause",
+      "supportsTablet": false
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "package": "com.webStrong.pause",
+      "versionCode": 1000
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": ["ts", "tsx", "scss", "sass"]
     }
   }
 }

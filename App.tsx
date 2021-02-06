@@ -1,21 +1,49 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import FlashMessage from 'react-native-flash-message'
+import { useFonts } from 'expo-font';
+import { setCustomText } from 'react-native-global-props'
+import Router from './src/router'
+import Spinner from './src/components/Spinner/Spinner'
+import Template from './src/components/Template/Template'
+import { setupDatabase } from './database/db'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [loading, setLoading] = useState<boolean>(true)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  const [loaded] = useFonts({
+    'Lato-Light': require('./assets/fonts/Lato-Light.ttf'),
+    'Lato-Regular': require('./assets/fonts/Lato-Regular.ttf'),
+    'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf'),
+  })
+
+  useEffect(() => {
+    if (loaded) {
+      initApp()
+    }
+  }, [loaded])
+
+  const initApp = () => {
+      // Set default styles for all Text components.
+      const customTextProps = {
+        style: { fontFamily: 'Lato-Regular' },
+      }
+      setCustomText(customTextProps)
+
+      setupDatabase(() => {
+        setLoading(false)
+      })
+  }
+
+  if (loading) {
+    return (
+      <Spinner color='#000' size={64} />
+    )
+  }
+
+  return (
+    <Template>
+      <Router />
+      <FlashMessage style={{ zIndex: 1000 }} position='bottom' animated={true} />
+    </Template>
+  )
+}

@@ -1,13 +1,11 @@
 node_modules/**/*
-.expo/*
+.expo*
+/.idea/*
+/firebase/*
 npm-debug.*
+package-lock.json
 *.jks
-*.p8
 *.p12
 *.key
 *.mobileprovision
-*.orig.*
-web-build/
-
-# macOS
-.DS_Store
+*scss.d.ts
