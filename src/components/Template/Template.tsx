@@ -1,6 +1,7 @@
 import React, { ReactNode, useState } from 'react'
-import { Platform, StatusBar, View } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import Spinner from '../Spinner/Spinner'
+import styles from './Template.styles'
 
 type Props = {
 	children: ReactNode
@@ -12,16 +13,12 @@ const Template = ({ children }: Props) => {
 	// load settings to context
 
 	return (
-		<View style={{ flex: 1 }}>
+		<View style={styles.container}>
 			{loading ? (
 				<Spinner size={64} />
 			) : (
 				<>
-					<View
-						style={{
-							height: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
-						}}
-					>
+					<View style={styles.statusBar}>
 						<StatusBar backgroundColor='rgba(0, 0, 0, 0.2)' translucent />
 					</View>
 					{children}

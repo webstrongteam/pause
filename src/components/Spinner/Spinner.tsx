@@ -1,5 +1,6 @@
 import React from 'react'
 import { ActivityIndicator, Platform, View } from 'react-native'
+import styles from './Spinner.styles'
 
 type Props = {
 	size?: number | 'small' | 'large'
@@ -8,22 +9,24 @@ type Props = {
 }
 
 const Spinner = ({ size = 32, color = '#fff', bgColor = '#fff' }: Props) => {
-	let setSize: number | 'small' | 'large'
-	if (size) {
-		if (size > 32 && Platform.OS === 'ios') setSize = 'large'
-		else setSize = size
-	} else setSize = 18
+	const getSize = (): number | 'small' | 'large' => {
+		if (Platform.OS === 'ios') {
+			if (size > 32) {
+				return 'large'
+			}
+			return 'small'
+		}
+		return size
+	}
 
 	return (
 		<View
 			style={{
-				flex: 1,
-				alignItems: 'center',
-				justifyContent: 'center',
+				...styles.spinner,
 				backgroundColor: bgColor,
 			}}
 		>
-			<ActivityIndicator size={setSize} color={color} />
+			<ActivityIndicator size={getSize()} color={color} />
 		</View>
 	)
 }
