@@ -1,0 +1,53 @@
+@mixin Text {
+	font-size: 32px;
+	font-family: 'Lato-Light';
+	color: #fff;
+	text-align: center;
+}
+
+.container {
+	flex: 1;
+	background-color: #1a6a73;
+}
+.header {
+	flex-direction: row;
+	justify-content: space-between;
+	height: 185;
+	padding-top: 40;
+	margin-right: 20;
+	margin-left: 20;
+}
+.label {
+	color: #1a6a73;
+	font-size: 28px;
+	font-family: 'Lato-Light';
+}
+.levelText {
+	@include Text();
+}
+.levelInfo {
+	@include Text();
+	font-size: 16px;
+	margin-bottom: 10;
+}
+.nextLevelText {
+	@include Text();
+	margin-top: 100;
+	margin-bottom: 30;
+}
+.nextLevelInfo {
+	align-self: center;
+	height: 40;
+	width: 285;
+	background-color: #c5d1d9;
+	overflow: hidden;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 30;
+	border-radius: 14px;
+}
+.nextLevelInfoText {
+	@include Text();
+	color: #000;
+	font-size: 16px;
+}
