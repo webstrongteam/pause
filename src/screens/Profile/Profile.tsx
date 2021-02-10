@@ -6,6 +6,7 @@ import { TextType, ViewType } from '../../types/styles'
 import styles from './Profile.scss'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
+import NextLevelInfo from '../../components/NextLevelInfo/NextLevelInfo'
 
 const Profile = ({ navigation }:any) => (
 	<ScrollView style={styles.container as ViewType}>
@@ -26,15 +27,7 @@ const Profile = ({ navigation }:any) => (
             punkty do następnego poziomu
 		</Text>
 		<Text style={styles.nextLevelText as TextType}>Następny poziom:</Text>
-		<View style={styles.nextLevelInfo as ViewType}>
-			<Text style={styles.nextLevelInfoText as TextType}>Nowy utwór muzyczny</Text>
-		</View>
-		<View style={styles.nextLevelInfo as ViewType}>
-			<Text style={styles.nextLevelInfoText as TextType}>2 nowe ćwiczenia</Text>
-		</View>
-		<View style={styles.nextLevelInfo as ViewType}>
-			<Text style={styles.nextLevelInfoText as TextType}>Nowe kolory aplikacji</Text>
-		</View>
+		<NextLevelInfo />
 	</ScrollView>
 )
 

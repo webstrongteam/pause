@@ -34,22 +34,6 @@
 	margin-top: 100px;
 	margin-bottom: 30px;
 }
-.nextLevelInfo {
-	align-self: center;
-	height: 40px;
-	width: 285px;
-	background-color: #c5d1d9;
-	align-items: center;
-	justify-content: center;
-	margin-bottom: 30px;
-	border-radius: 14px;
-}
-.nextLevelInfoText {
-	@include Text();
-	color: #000;
-	font-size: 16px;
-}
-
 .fontBold{
 	font-family: 'Lato-Bold';
 }
