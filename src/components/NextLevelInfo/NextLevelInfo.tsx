@@ -3,17 +3,17 @@ import { View, Text } from 'react-native'
 import { TextType, ViewType } from '../../types/styles'
 import styles from './NextLevelInfo.scss'
 
-const NextLevelInfo = () => (
+type Props = {
+	levelBenefits: string[]
+}
+
+const NextLevelInfo = ({ levelBenefits }: Props) => (
 	<View>
-		<View style={styles.nextLevelInfo as ViewType}>
-			<Text style={styles.nextLevelInfoText as TextType}>Nowy utwór muzyczny</Text>
-		</View>
-		<View style={styles.nextLevelInfo as ViewType}>
-			<Text style={styles.nextLevelInfoText as TextType}>2 nowe ćwiczenia</Text>
-		</View>
-		<View style={styles.nextLevelInfo as ViewType}>
-			<Text style={styles.nextLevelInfoText as TextType}>Nowe kolory aplikacji</Text>
-		</View>
+		{levelBenefits.map((benefit: string, index: number) => (
+			<View key={index} style={styles.nextLevelInfo as ViewType}>
+				<Text style={styles.nextLevelInfoText as TextType}>{benefit}</Text>
+			</View>
+		))}
 	</View>
 )
 

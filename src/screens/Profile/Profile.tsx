@@ -32,7 +32,9 @@ const Profile = ({ navigation }: Props) => (
 			punkty do następnego poziomu
 		</Text>
 		<Text style={styles.nextLevelText as TextType}>Następny poziom:</Text>
-		<NextLevelInfo />
+		<NextLevelInfo
+			levelBenefits={['Nowy utwór muzyczny', '2 nowe ćwiczenia', 'Nowy kolor aplikacji']}
+		/>
 	</ScrollView>
 )
 
