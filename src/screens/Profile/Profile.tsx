@@ -17,11 +17,11 @@ const Profile = () => (
 		<Text style={styles.levelText as TextType}>Poziom 3</Text>
 		<ProgressBar maxValue={1000} currentValue={300} barColor='#F2B077' />
 		<Text style={styles.levelInfo as TextType}>
-			<Text style={{ fontFamily: 'Lato-Bold' }}>1280 </Text>
+			<Text style={styles.fontBold as TextType}>1280 </Text>
             punktów
 		</Text>
 		<Text style={styles.levelInfo as TextType}>
-			<Text style={{ fontFamily: 'Lato-Bold' }}>231 </Text>
+			<Text style={styles.fontBold as TextType}>231 </Text>
             punkty do następnego poziomu
 		</Text>
 		<Text style={styles.nextLevelText as TextType}>Następny poziom:</Text>

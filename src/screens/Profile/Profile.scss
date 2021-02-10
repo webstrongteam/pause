@@ -12,10 +12,9 @@
 .header {
 	flex-direction: row;
 	justify-content: space-between;
-	height: 185;
-	padding-top: 40;
-	margin-right: 20;
-	margin-left: 20;
+	height: 185px;
+	padding-top: 40px;
+	margin: 0 20px
 }
 .label {
 	color: #1a6a73;
@@ -28,26 +27,29 @@
 .levelInfo {
 	@include Text();
 	font-size: 16px;
-	margin-bottom: 10;
+	margin-bottom: 10px;
 }
 .nextLevelText {
 	@include Text();
-	margin-top: 100;
-	margin-bottom: 30;
+	margin-top: 100px;
+	margin-bottom: 30px;
 }
 .nextLevelInfo {
 	align-self: center;
-	height: 40;
-	width: 285;
+	height: 40px;
+	width: 285px;
 	background-color: #c5d1d9;
-	overflow: hidden;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 30;
+	margin-bottom: 30px;
 	border-radius: 14px;
 }
 .nextLevelInfoText {
 	@include Text();
 	color: #000;
 	font-size: 16px;
+}
+
+.fontBold{
+	font-family: 'Lato-Bold';
 }
