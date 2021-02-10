@@ -3,7 +3,7 @@ import { openDatabase } from 'expo-sqlite'
 import app from '../app.json'
 
 export const VERSION = app.expo.version
-const db = openDatabase('pause.db', VERSION)
+export const db = openDatabase('pause.db', VERSION)
 
 const getLocale = () => {
 	const locale =
