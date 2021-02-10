@@ -5,12 +5,13 @@ import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import { TextType, ViewType } from '../../types/styles'
 import styles from './Profile.scss'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
+import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 
-const Profile = () => (
+const Profile = ({ navigation }:any) => (
 	<ScrollView style={styles.container as ViewType}>
 		<WavyHeader />
 		<View style={styles.header as ViewType}>
-			<Icon name='x' type='feather' color='#1A6A73' size={40} />
+			<CloseIcon goBack={() => navigation.goBack()}/>
 			<Text style={styles.label as TextType}>PROFIL</Text>
 		</View>
 		<Icon name='account' type='material-community' color='#fff' size={140} />
