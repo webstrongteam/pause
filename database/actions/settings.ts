@@ -9,7 +9,6 @@ export const getSettings = (): Promise<Settings> =>
 					resolve(rows.item(0))
 				})
 			},
-			// eslint-disable-next-line no-console
 			(err) => reject(err),
 		)
 	})
