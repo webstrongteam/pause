@@ -7,12 +7,17 @@ import styles from './Profile.scss'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 import NextLevelInfo from '../../components/NextLevelInfo/NextLevelInfo'
+import { NavigationScreenType } from '../../types/navigation'
 
-const Profile = ({ navigation }:any) => (
+type Props = {
+	navigation: NavigationScreenType
+}
+
+const Profile = ({ navigation }: Props) => (
 	<ScrollView style={styles.container as ViewType}>
 		<WavyHeader />
 		<View style={styles.header as ViewType}>
-			<CloseIcon goBack={() => navigation.goBack()}/>
+			<CloseIcon onPress={() => navigation.goBack()} />
 			<Text style={styles.label as TextType}>PROFIL</Text>
 		</View>
 		<Icon name='account' type='material-community' color='#fff' size={140} />
@@ -20,11 +25,11 @@ const Profile = ({ navigation }:any) => (
 		<ProgressBar maxValue={1000} currentValue={300} barColor='#F2B077' />
 		<Text style={styles.levelInfo as TextType}>
 			<Text style={styles.fontBold as TextType}>1280 </Text>
-            punktów
+			punktów
 		</Text>
 		<Text style={styles.levelInfo as TextType}>
 			<Text style={styles.fontBold as TextType}>231 </Text>
-            punkty do następnego poziomu
+			punkty do następnego poziomu
 		</Text>
 		<Text style={styles.nextLevelText as TextType}>Następny poziom:</Text>
 		<NextLevelInfo />
