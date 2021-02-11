@@ -19,7 +19,7 @@ const Template = ({ children }: Props) => {
 			) : (
 				<>
 					<View style={styles.statusBar}>
-						<StatusBar backgroundColor='rgba(0, 0, 0, 0.2)' translucent />
+						<StatusBar barStyle='dark-content' backgroundColor='rgba(0, 0, 0, 0.2)' translucent />
 					</View>
 					{children}
 				</>

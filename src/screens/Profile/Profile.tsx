@@ -14,23 +14,28 @@ type Props = {
 }
 
 const Profile = ({ navigation }: Props) => (
-	<ScrollView style={styles.container as ViewType}>
+	<ScrollView bounces={false} style={styles.container as ViewType}>
 		<WavyHeader />
+
 		<View style={styles.header as ViewType}>
 			<CloseIcon onPress={() => navigation.goBack()} />
 			<Text style={styles.label as TextType}>PROFIL</Text>
 		</View>
+
 		<Icon name='account' type='material-community' color='#fff' size={140} />
 		<Text style={styles.levelText as TextType}>Poziom 3</Text>
 		<ProgressBar maxValue={1000} currentValue={300} barColor='#F2B077' />
+
 		<Text style={styles.levelInfo as TextType}>
 			<Text style={styles.fontBold as TextType}>1280 </Text>
-			punktów
+			<Text>punktów</Text>
 		</Text>
+
 		<Text style={styles.levelInfo as TextType}>
 			<Text style={styles.fontBold as TextType}>231 </Text>
-			punkty do następnego poziomu
+			<Text>punkty do następnego poziomu</Text>
 		</Text>
+
 		<Text style={styles.nextLevelText as TextType}>Następny poziom:</Text>
 		<NextLevelInfo
 			levelBenefits={['Nowy utwór muzyczny', '2 nowe ćwiczenia', 'Nowy kolor aplikacji']}
