@@ -1,22 +1,28 @@
 import React, { ReactNode, useEffect } from 'react'
 import { BackHandler, Dimensions, Keyboard } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-// @ts-ignore
-import Modal, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
+import ModalBase, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
 
 type Props = {
 	toggleModal: () => void
 	visible: boolean
 	title: string
-	buttons: {
+	buttons?: {
 		text: string
 		onPress: () => void
 	}[]
-	bgColor: string
-	content: ReactNode
+	bgColor?: string
+	children?: ReactNode
 }
 
-const Modal = ({ toggleModal, visible, title, buttons = [], bgColor = '#fff', content }: Props) => {
+const Modal = ({
+	toggleModal,
+	visible,
+	title,
+	buttons = [],
+	bgColor = '#fff',
+	children,
+}: Props) => {
 	const backAction = () => {
 		if (visible) {
 			toggleModal()
@@ -35,8 +41,7 @@ const Modal = ({ toggleModal, visible, title, buttons = [], bgColor = '#fff', co
 
 	return (
 		<>
-			{/* @ts-expect-error */}
-			<Modal
+			<ModalBase
 				width={Dimensions.get('window').width - 50}
 				visible={visible}
 				onSwipeOut={toggleModal}
@@ -55,8 +60,8 @@ const Modal = ({ toggleModal, visible, title, buttons = [], bgColor = '#fff', co
 					</ModalFooter>
 				}
 			>
-				<ModalContent>{content}</ModalContent>
-			</Modal>
+				<ModalContent>{children}</ModalContent>
+			</ModalBase>
 		</>
 	)
 }
