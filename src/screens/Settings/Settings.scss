@@ -1,0 +1,45 @@
+@mixin Text {
+	font-size: 16px;
+	font-family: 'Lato-Light';
+	color: #5A5A5A;
+	text-align: center;
+}
+
+.container {
+	flex: 1;
+	background-color: #1a6a73;
+}
+.title {
+	color: #1a6a73;
+	font-size: 28px;
+	font-family: 'Lato-Light';
+}
+.header {
+	flex-direction: row;
+	justify-content: space-between;
+	height: 185px;
+	padding-top: 40px;
+	margin: 0 20px;
+}
+.label{
+    @include Text();
+    color:#fff;
+    text-transform: uppercase;
+}
+.settings{
+    margin-top: 60px;
+    align-items: center;
+}
+.buttonGroup{
+    margin-top: 8px;
+    background-color: #C5D1D9;
+    color: #5A5A5A;
+    width: 165px;
+    border-radius: 14px;
+}
+.selectedButton{
+    background-color: white;
+    border-radius: 12px;
+    width:95%;
+    align-self: center;
+}
