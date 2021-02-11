@@ -1,50 +1,50 @@
 {
-    "common":{
-        "title":"Pause",
-        "yes": "Yes",
-        "no": "No",
-        "ok": "Ok",
-        "level": "Level",
-        "breakEnded": "The break is over"
-    },
-    "Pause":{
-        "durationTime":"Duration Time",
-        "music":"Music",
-        "exercise":"Exercise",
-        "seriesDurationTime":"Duration of the series:",
-        "numberOfReps": "Number of repetitons:",
-        "breakDurationTime":"Duration of the break:",
-        "totalTime":"Total time:"
-    },
-    "Settings":{
-        "label":"Settings",
-        "language":"Language",
-        "pol":"Polish",
-        "eng":"English",
-        "difficulty":"Difficulty level",
-        "easy":"Easy",
-        "medium":"Medium",
-        "advanced":"Advanced",
-        "breakDurationTime":"Duration of the break:",
-        "short":"Short",
-        "long":"Long",
-        "clearData":"Clear data",
-        "clearDataDescription":"Are you sure you want to clear all data?"
-    },
-    "Profile":{
-        "label":"Profile",
-        "points":"points",
-        "pointsToNextLvl":"points to the next level"
-    },
-    "Player":{
-        "breakIn":"Break in:",
-        "nextSeriesIn":"Next series in:",
-        "leaveExercise":"Leave exercise",
-        "leaveExerciseDescription":"Are you sure you want to leave exercise?"
-    },
-    "Level":{
-        "nextLevel":"Next Level",
-        "newLevel":"New Level!",
-        "youGet":"You get:"
-    } 
+	"common": {
+		"title": "Pause",
+		"yes": "Yes",
+		"no": "No",
+		"ok": "Ok",
+		"level": "Level",
+		"breakEnded": "The break is over"
+	},
+	"Pause": {
+		"durationTime": "Duration Time",
+		"music": "Music",
+		"exercise": "Exercise",
+		"seriesDurationTime": "Duration of the series:",
+		"numberOfReps": "Number of repetitons:",
+		"breakDurationTime": "Duration of the break:",
+		"totalTime": "Total time:"
+	},
+	"Settings": {
+		"title": "Settings",
+		"language": "Language",
+		"pol": "Polish",
+		"eng": "English",
+		"difficulty": "Difficulty level",
+		"easy": "Easy",
+		"medium": "Medium",
+		"advanced": "Advanced",
+		"breakDurationTime": "Duration of the break:",
+		"short": "Short",
+		"long": "Long",
+		"clearData": "Clear data",
+		"clearDataDescription": "Are you sure you want to clear all data?"
+	},
+	"Profile": {
+		"title": "Profile",
+		"points": "points",
+		"pointsToNextLvl": "points to the next level"
+	},
+	"Player": {
+		"breakIn": "Break in:",
+		"nextSeriesIn": "Next series in:",
+		"leaveExercise": "Leave exercise",
+		"leaveExerciseDescription": "Are you sure you want to leave exercise?"
+	},
+	"Level": {
+		"nextLevel": "Next Level",
+		"newLevel": "New Level!",
+		"youGet": "You get:"
+	}
 }

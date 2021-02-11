@@ -1,50 +1,50 @@
 {
-    "common":{
-        "title":"Pauza",
-        "yes": "Tak",
-        "no": "Nie",
-        "ok": "Ok",
-        "level": "Poziom",
-        "breakEnded": "Przerwa zakończona"
-    },
-    "Pause":{
-        "durationTime":"Czas trwania",
-        "music":"Muzyka",
-        "exercise":"Ćwiczenie",
-        "seriesDurationTime":"Czas trwania serii:",
-        "numberOfReps": "Ilość powtórzeń:",
-        "breakDurationTime":"Czas trwania przerwy:",
-        "totalTime":"Łączny czas ćwiczenia:"
-    },
-    "Settings":{
-        "label":"Ustawienia",
-        "language":"Język",
-        "pol":"Polski",
-        "eng":"Angielski",
-        "difficulty":"Poziom trudności",
-        "easy":"Łatwy",
-        "medium":"Średni",
-        "advanced":"Zaawansowany",
-        "breakDurationTime":"Czas trwania przerwy:",
-        "short":"Krótki",
-        "long":"Długi",
-        "clearData":"Wyczyść dane",
-        "clearDataDescription":"Czy na pewno chcesz usunąć wszystkie dane?"
-    },
-    "Profile":{
-        "label":"Profil",
-        "points":"puntków",
-        "pointsToNextLvl":"punkty do następnego poziomu"
-    },
-    "Player":{
-        "breakIn":"Przerwa za:",
-        "nextSeriesIn":"Następna seria za:",
-        "leaveExercise":"Opuść ćwiczenie",
-        "leaveExerciseDescription":"Czy na pewno chcesz opuścić ćwiczenie?"
-    },
-    "Level":{
-        "nextLevel":"Następny poziom",
-        "newLevel":"Nowy poziom!",
-        "youGet":"Otrzymujesz:"
-    } 
+	"common": {
+		"title": "Pauza",
+		"yes": "Tak",
+		"no": "Nie",
+		"ok": "Ok",
+		"level": "Poziom",
+		"breakEnded": "Przerwa zakończona"
+	},
+	"Pause": {
+		"durationTime": "Czas trwania",
+		"music": "Muzyka",
+		"exercise": "Ćwiczenie",
+		"seriesDurationTime": "Czas trwania serii:",
+		"numberOfReps": "Ilość powtórzeń:",
+		"breakDurationTime": "Czas trwania przerwy:",
+		"totalTime": "Łączny czas ćwiczenia:"
+	},
+	"Settings": {
+		"title": "Ustawienia",
+		"language": "Język",
+		"pol": "Polski",
+		"eng": "Angielski",
+		"difficulty": "Poziom trudności",
+		"easy": "Łatwy",
+		"medium": "Średni",
+		"advanced": "Zaawansowany",
+		"breakDurationTime": "Czas trwania przerwy:",
+		"short": "Krótki",
+		"long": "Długi",
+		"clearData": "Wyczyść dane",
+		"clearDataDescription": "Czy na pewno chcesz usunąć wszystkie dane?"
+	},
+	"Profile": {
+		"title": "Profil",
+		"points": "puntków",
+		"pointsToNextLvl": "punkty do następnego poziomu"
+	},
+	"Player": {
+		"breakIn": "Przerwa za:",
+		"nextSeriesIn": "Następna seria za:",
+		"leaveExercise": "Opuść ćwiczenie",
+		"leaveExerciseDescription": "Czy na pewno chcesz opuścić ćwiczenie?"
+	},
+	"Level": {
+		"nextLevel": "Następny poziom",
+		"newLevel": "Nowy poziom!",
+		"youGet": "Otrzymujesz:"
+	}
 }
