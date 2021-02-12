@@ -9,7 +9,7 @@ const MainNavigator = createStackNavigator(
 	{
 		Home: { screen: Home },
 		Profile: { screen: Profile },
-		Settings: { screen: Settings}
+		Settings: { screen: Settings },
 	},
 	{
 		initialRouteName: 'Settings',

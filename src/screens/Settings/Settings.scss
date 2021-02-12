@@ -1,8 +1,16 @@
 @mixin Text {
 	font-size: 16px;
 	font-family: 'Lato-Light';
-	color: #5A5A5A;
+	color: #5a5a5a;
 	text-align: center;
+}
+
+@mixin ButtonGroup {
+	margin-top: 8px;
+	background-color: #c5d1d9;
+	color: #5a5a5a;
+	border-radius: 14px;
+	padding: 4px 4px;
 }
 
 .container {
@@ -13,6 +21,7 @@
 	color: #1a6a73;
 	font-size: 28px;
 	font-family: 'Lato-Light';
+	text-transform: uppercase;
 }
 .header {
 	flex-direction: row;
@@ -21,25 +30,43 @@
 	padding-top: 40px;
 	margin: 0 20px;
 }
-.label{
-    @include Text();
-    color:#fff;
-    text-transform: uppercase;
+.label {
+	@include Text();
+	color: #fff;
+	text-transform: uppercase;
+	margin-top: 40px;
 }
-.settings{
-    margin-top: 60px;
-    align-items: center;
+.settings {
+	margin-top: 20px;
+	align-items: center;
 }
-.buttonGroup{
-    margin-top: 8px;
-    background-color: #C5D1D9;
-    color: #5A5A5A;
-    width: 165px;
-    border-radius: 14px;
+.selectedButton {
+	background-color: white;
+	border-radius: 12px;
+	width: 90%;
+	align-self: center;
 }
-.selectedButton{
-    background-color: white;
-    border-radius: 12px;
-    width:95%;
-    align-self: center;
+.languages {
+	@include ButtonGroup();
+	width: 185px;
+}
+.difficulty {
+	@include ButtonGroup();
+	width: 300px;
+}
+.breakTime {
+	@include ButtonGroup();
+	width: 215px;
+}
+.buttonStyles {
+	width: 300px;
+	background-color: #c5d1d9;
+	border-radius: 14px;
+	align-self: center;
+	margin-top: 100px;
+}
+.buttonTitle {
+	@include Text();
+	text-transform: uppercase;
+	margin-right: 5px;
 }

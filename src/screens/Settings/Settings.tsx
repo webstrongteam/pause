@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { ScrollView, View, Text } from 'react-native'
-import { Icon, ButtonGroup } from 'react-native-elements'
+import { Icon, ButtonGroup, Button } from 'react-native-elements'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import styles from './Settings.scss'
@@ -12,33 +12,51 @@ type Props = {
 }
 
 const Settings = ({ navigation }: Props) => {
+	const [languageIndex, setLanguageIndex] = useState(0)
+	const [difficultyIndex, setDifficultyIndex] = useState(0)
+	const [breakTimeIndex, setBreakTimeIndex] = useState(0)
 
-    const [languageIndex, setLanguageIndex] = useState(0)
+	const indexes = [languageIndex, difficultyIndex, breakTimeIndex]
+	const buttonGroupStyles = [styles.languages, styles.difficulty, styles.breakTime]
+	const sets = [setLanguageIndex, setDifficultyIndex, setBreakTimeIndex]
+	const labels = ['Język', 'Poziom trudności', 'Czas trwania przerwy']
+	const buttons = [
+		['Polski', 'Angielski'],
+		['Łatwy', 'Średni', 'Trudny'],
+		['Krótki', 'Średni', 'Długi'],
+	]
 
-    const buttons = [['Polski', 'Angielski'], ['Łatwy', 'Średni', 'Zaawansowany'], ['Krótki','Średni','Długi']]
-    const [languages, difficulty, breakTime] = buttons
-
-    return(
-        <ScrollView style={styles.container as ViewType}>
-            <WavyHeader />
-            <View style={styles.header as ViewType}>
-                <CloseIcon onPress={() => navigation.goBack()} />
-                <Text style={styles.title as TextType}>PROFIL</Text>
-            </View>
-            <View style={styles.settings as ViewType}>
-                <Text style={styles.label as TextType}>JĘZYK</Text>
-                <ButtonGroup
-                    onPress={(num) => setLanguageIndex(num)} 
-                    buttons={languages}
-                    selectedIndex={languageIndex}
-                    containerStyle={styles.buttonGroup as ViewType}
-                    selectedButtonStyle={styles.selectedButton as ViewType}
-                    selectedTextStyle={{color:"#1A6A73"}}
-                    textStyle={{fontSize:16}}/>
-            </View>
-            
-        </ScrollView>
-    )
-    
+	return (
+		<ScrollView style={styles.container as ViewType}>
+			<WavyHeader />
+			<View style={styles.header as ViewType}>
+				<CloseIcon onPress={() => navigation.goBack()} />
+				<Text style={styles.title as TextType}>Profil</Text>
+			</View>
+			<View style={styles.settings as ViewType}>
+				{labels.map((val, i) => (
+					<View key={i}>
+						<Text style={styles.label as TextType}>{val}</Text>
+						<ButtonGroup
+							onPress={(num) => sets[i](num)}
+							buttons={buttons[i]}
+							selectedIndex={indexes[i]}
+							containerStyle={buttonGroupStyles[i] as ViewType}
+							selectedButtonStyle={styles.selectedButton as ViewType}
+							selectedTextStyle={{ color: '#1A6A73' }}
+							textStyle={{ fontSize: 16 }}
+						/>
+					</View>
+				))}
+			</View>
+			<Button
+				icon={<Icon name='trash-o' type='font-awesome' color='#5a5a5a' />}
+				iconRight
+				title='Wyczyść dane'
+				buttonStyle={styles.buttonStyles as ViewType}
+				titleStyle={styles.buttonTitle as TextType}
+			/>
+		</ScrollView>
+	)
 }
 export default Settings
