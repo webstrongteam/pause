@@ -46,11 +46,8 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Install Packages
-        run: npm install
-
       - name: Expo Publish Channel
-        run: expo publish --non-interactive --release-channel pr${{ github.event.number }}
+        run: expo publish --non-interactive
 
       - name: Add Comment To PR
         uses: mshick/add-pr-comment@v1
@@ -60,5 +57,5 @@ jobs:
         with:
           message: |
             ## Application
-            ![Expo QR](https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=exp://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }})
-            Published to https://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }}
+            ![Expo QR](https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=exp://exp.host/${{ env.EXPO_PROJECT }}
+            Published to https://exp.host/${{ env.EXPO_PROJECT }}
