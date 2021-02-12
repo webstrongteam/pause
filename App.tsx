@@ -1,3 +1,5 @@
+// @ts-ignore
+import { ModalPortal } from 'react-native-modals'
 import React, { useEffect, useState } from 'react'
 import FlashMessage from 'react-native-flash-message'
 import { useFonts } from 'expo-font'
@@ -43,6 +45,7 @@ export default function App() {
 		<Template>
 			<SettingsContextProvider>
 				<Router />
+				<ModalPortal />
 				<FlashMessage style={{ zIndex: 1000 }} position='top' animated />
 			</SettingsContextProvider>
 		</Template>

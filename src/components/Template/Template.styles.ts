@@ -5,6 +5,6 @@ export default StyleSheet.create({
 		flex: 1,
 	},
 	statusBar: {
-		height: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
+		height: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
 	},
 })
