@@ -1,6 +1,6 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useEffect } from 'react'
 import { createStateContext } from '../createStateContext'
-import { Settings, Translations } from '../../types/settings'
+import { Lang, Settings, Translations } from '../../types/settings'
 import { getSettings } from '../../../database/actions/settings'
 import useAsyncEffect from '../hooks/useAsyncEffect'
 
@@ -24,18 +24,29 @@ const SettingsContext = createStateContext(settingsInitialState, (setStore) => (
 }))
 
 const SettingsHandler = () => {
-	const { setSettings, setTranslations } = useSettingsContext()
+	const { setSettings, setTranslations, useSubscribe } = useSettingsContext()
+	const contextSettings = useSubscribe((s) => s.settings)
 
 	const fetchSettings = async () => {
 		const settings: Settings = await getSettings()
 
 		setSettings(settings)
-		setTranslations(settings.lang === 'pl' ? pl : en)
+		updateLanguage(settings.lang)
+	}
+
+	const updateLanguage = (lang: Lang) => {
+		setTranslations(lang === 'pl' ? pl : en)
 	}
 
 	useAsyncEffect(async () => {
 		await fetchSettings()
 	}, [])
+
+	useEffect(() => {
+		if (contextSettings?.lang) {
+			updateLanguage(contextSettings.lang)
+		}
+	}, [contextSettings?.lang])
 
 	return <></>
 }

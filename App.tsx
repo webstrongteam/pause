@@ -42,12 +42,12 @@ export default function App() {
 	}
 
 	return (
-		<Template>
-			<SettingsContextProvider>
+		<SettingsContextProvider>
+			<Template>
 				<Router />
 				<ModalPortal />
 				<FlashMessage style={{ zIndex: 1000 }} position='top' animated />
-			</SettingsContextProvider>
-		</Template>
+			</Template>
+		</SettingsContextProvider>
 	)
 }
