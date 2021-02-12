@@ -47,9 +47,9 @@ jobs:
             ${{ runner.os }}-
 
       - name: Expo Publish Channel
-        run: expo publish --non-interactive --release-channel pr${{ github.event.number }}
+        run: expo publish --non-interactive --release-channel PR-${{ github.event.number }}
 
-      - name: Add Comment To PR
+      - name: Add QR code to PR
         uses: mshick/add-pr-comment@v1
         env:
           GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
@@ -57,5 +57,5 @@ jobs:
         with:
           message: |
             ## Application
-            ![Expo QR](https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=exp://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }})
-            Published to https://exp.host/${{ env.EXPO_PROJECT }}?release-channel=pr${{ github.event.number }}
+            ![Expo QR](https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=exp://exp.host/${{ env.EXPO_PROJECT }}?release-channel=PR-${{ github.event.number }})
+            Published to https://exp.host/${{ env.EXPO_PROJECT }}?release-channel=PR-${{ github.event.number }}
