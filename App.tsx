@@ -8,6 +8,7 @@ import Router from './src/router'
 import Spinner from './src/components/Spinner/Spinner'
 import Template from './src/components/Template/Template'
 import { setupDatabase } from './database/db'
+import { SettingsContextProvider } from './src/utils/context/SettingsContext'
 
 export default function App() {
 	const [loading, setLoading] = useState<boolean>(true)
@@ -41,10 +42,12 @@ export default function App() {
 	}
 
 	return (
-		<Template>
-			<Router />
-			<ModalPortal />
-			<FlashMessage style={{ zIndex: 1000 }} position='bottom' animated />
-		</Template>
+		<SettingsContextProvider>
+			<Template>
+				<Router />
+				<ModalPortal />
+				<FlashMessage style={{ zIndex: 1000 }} position='top' animated />
+			</Template>
+		</SettingsContextProvider>
 	)
 }
