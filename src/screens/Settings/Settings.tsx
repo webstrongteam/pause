@@ -11,6 +11,15 @@ type Props = {
 	navigation: NavigationScreenType
 }
 
+// const {useSubscribe, setSettings} = useSettingsContext()
+// const settings = useSubscribe(s => s.settings)
+// const translations = useSubscribe(s => s.translations)
+//
+// const changeLanguageHandler = async (lang: Lang) => {
+// 	const newSettings = await changeLanguage(lang)
+// 	setSettings(newSettings)
+// }
+
 const Settings = ({ navigation }: Props) => {
 	const [languageIndex, setLanguageIndex] = useState(0)
 	const [difficultyIndex, setDifficultyIndex] = useState(0)
