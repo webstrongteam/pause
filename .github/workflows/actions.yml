@@ -47,7 +47,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Expo Publish Channel
-        run: expo publish --non-interactive --release-channel pr${{ github.event.number }}
+        run: expo publish --non-interactive --release-channel default
 
       - name: Add Comment To PR
         uses: mshick/add-pr-comment@v1
