@@ -41,7 +41,7 @@
 	align-items: center;
 }
 .selectedButton {
-	background-color: white;
+	background-color: #fff;
 	border-radius: 12px;
 	width: 90%;
 	align-self: center;
@@ -56,17 +56,22 @@
 }
 .breakTime {
 	@include ButtonGroup();
-	width: 215px;
+	width: 260px;
 }
 .buttonStyles {
 	width: 300px;
 	background-color: #c5d1d9;
 	border-radius: 14px;
-	align-self: center;
-	margin-top: 100px;
 }
 .buttonTitle {
 	@include Text();
 	text-transform: uppercase;
 	margin-right: 5px;
+}
+.clearButtonPosition {
+	position: absolute;
+	bottom: 20px;
+	padding-top: 20px;
+	width: 100%;
+	align-items: center;
 }
