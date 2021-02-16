@@ -23,7 +23,6 @@ const Profile = ({ navigation }: Props) => (
 				<Text style={styles.title as TextType}>PROFIL</Text>
 			</View>
 		</View>
-		
 
 		<Icon name='account' type='material-community' color='#fff' size={140} />
 		<Text style={styles.levelText as TextType}>Poziom 3</Text>
