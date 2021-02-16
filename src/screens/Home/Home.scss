@@ -1,20 +1,20 @@
 .container {
-	background-color: #1A6A73;
+	background-color: #1a6a73;
 	height: 100%;
 }
 
-.wavyHeader{
+.wavyHeader {
 	height: 200px;
 	background-color: red;
 	z-index: 100;
 }
 
-.pauseButton{
+.pauseButton {
 	align-items: center;
 	top: 150px;
 }
 
-.progressBar{
+.progressBar {
 	width: 100%;
 	position: absolute;
 	bottom: 20px;
@@ -22,7 +22,7 @@
 	height: 100px;
 }
 
-.bottomInfo{
+.bottomInfo {
 	width: 100%;
 	margin-top: 10px;
 	flex-direction: row;
@@ -30,7 +30,7 @@
 	align-items: center;
 }
 
-.levelText{
+.levelText {
 	text-align: center;
 	font-size: 30px;
 	font-family: 'Lato-Light';
