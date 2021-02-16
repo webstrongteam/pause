@@ -108,11 +108,11 @@ const SettingsScreen = ({ navigation }: Props) => {
 						},
 					]}
 				>
-				<View style={styles.Modal as ViewType}>
-					<Text style={styles.ModalText as TextType}>
-						{translations.Settings.clearDataDescription}
-					</Text>
-				</View>
+					<View style={styles.Modal as ViewType}>
+						<Text style={styles.ModalText as TextType}>
+							{translations.Settings.clearDataDescription}
+						</Text>
+					</View>
 				</Modal>
 				<WavyHeader />
 				<View style={styles.header as ViewType}>
