@@ -1,7 +1,9 @@
-import React, { PropsWithChildren, useEffect } from 'react'
+import React, { useEffect, ReactNode } from 'react'
 import { BackHandler, Dimensions, Keyboard } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import ModalBase, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
+import { TextType } from '../../types/styles'
+import styles from './Modal.scss'
 
 type Props = {
 	toggleModal: () => void
@@ -12,7 +14,7 @@ type Props = {
 		onPress: () => void
 	}[]
 	bgColor?: string
-	children?: PropsWithChildren<{}>
+	children: ReactNode
 }
 
 const Modal = ({
@@ -49,13 +51,18 @@ const Modal = ({
 				modalStyle={{ backgroundColor: bgColor }}
 				modalTitle={
 					<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-						<ModalTitle title={title} />
+						<ModalTitle textStyle={styles.ModalTitleText as TextType} title={title} />
 					</TouchableWithoutFeedback>
 				}
 				footer={
 					<ModalFooter>
 						{buttons.map((item, i) => (
-							<ModalButton key={i} text={item.text} onPress={item.onPress} />
+							<ModalButton
+								textStyle={styles.ModalButtonText as TextType}
+								key={i}
+								text={item.text}
+								onPress={item.onPress}
+							/>
 						))}
 					</ModalFooter>
 				}

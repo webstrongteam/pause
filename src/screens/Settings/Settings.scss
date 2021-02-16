@@ -1,0 +1,95 @@
+@mixin Text {
+	font-size: 16px;
+	font-family: 'Lato-Light';
+	color: #5a5a5a;
+	text-align: center;
+}
+
+@mixin ButtonGroup {
+	margin-top: 8px;
+	background-color: #c5d1d9;
+	color: #5a5a5a;
+	border-radius: 14px;
+	padding: 4px 4px;
+}
+
+.container {
+	flex: 1;
+	background-color: #1a6a73;
+}
+.title {
+	color: #1a6a73;
+	font-size: 26px;
+	font-family: 'Lato-Light';
+	text-transform: uppercase;
+}
+.headerContainer {
+	height: 185px;
+	padding-top: 40px;
+	margin: 0 20px;
+}
+.header {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+.label {
+	@include Text();
+	color: #fff;
+	text-transform: uppercase;
+	margin-top: 40px;
+}
+.settings {
+	margin: 20px 0 48px 0;
+	align-items: center;
+}
+.selectedButton {
+	background-color: #fff;
+	border-radius: 12px;
+	width: 90%;
+	align-self: center;
+}
+.languages {
+	@include ButtonGroup();
+	width: 185px;
+}
+.difficulty {
+	@include ButtonGroup();
+	width: 300px;
+}
+.breakTime {
+	@include ButtonGroup();
+	width: 260px;
+}
+.buttonStyles {
+	width: 300px;
+	background-color: #c5d1d9;
+	border-radius: 14px;
+}
+.buttonTitle {
+	@include Text();
+	text-transform: uppercase;
+	margin-right: 5px;
+}
+.buttonGroupText {
+	font-size: 16px;
+}
+.buttonGroupSelectedText {
+	color: #1a6a73;
+}
+.clearButtonPosition {
+	position: absolute;
+	bottom: 20px;
+	padding-top: 20px;
+	width: 100%;
+	align-items: center;
+}
+
+.ModalText {
+	@include Text();
+	color: #000;
+}
+
+.Modal {
+	margin-top: 20px;
+}

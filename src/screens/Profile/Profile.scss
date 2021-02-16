@@ -9,16 +9,19 @@
 	flex: 1;
 	background-color: #1a6a73;
 }
-.header {
-	flex-direction: row;
-	justify-content: space-between;
+.headerContainer {
 	height: 185px;
 	padding-top: 40px;
 	margin: 0 20px;
 }
-.label {
+.header {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+.title {
 	color: #1a6a73;
-	font-size: 28px;
+	font-size: 26px;
 	font-family: 'Lato-Light';
 }
 .levelText {
