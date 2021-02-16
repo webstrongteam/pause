@@ -75,3 +75,12 @@
 	width: 100%;
 	align-items: center;
 }
+
+.ModalText{
+	@include Text();
+	color:#000;
+}
+
+.Modal{
+	margin-top: 20px;
+}
