@@ -1,9 +1,38 @@
 .container {
-	flex: 1;
+	background-color: #1A6A73;
+	height: 100%;
 }
 
-.heading {
-	font-size: 32px;
-	font-weight: 700;
+.wavyHeader{
+	height: 200px;
+	background-color: red;
+	z-index: 100;
+}
+
+.pauseButton{
+	align-items: center;
+	top: 150px;
+}
+
+.progressBar{
+	width: 100%;
+	position: absolute;
+	bottom: 20px;
+	left: 0;
+	height: 100px;
+}
+
+.bottomInfo{
+	width: 100%;
+	margin-top: 10px;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.levelText{
 	text-align: center;
+	font-size: 30px;
+	font-family: 'Lato-Light';
+	color: #fff;
 }

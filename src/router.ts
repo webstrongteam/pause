@@ -10,7 +10,7 @@ const MainNavigator = createStackNavigator(
 		Profile: { screen: Profile },
 	},
 	{
-		initialRouteName: 'Profile',
+		initialRouteName: 'Home',
 		headerMode: 'none',
 	},
 )
