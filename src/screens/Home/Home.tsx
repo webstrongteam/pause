@@ -10,6 +10,10 @@ import WavyHeader from '../../components/WavyHeader/WavyHeader';
 import PauseButton from '../../components/PauseButton/PauseButton';
 
 const Home = () => (
+	// const { useSubscribe } = useSettingsContext()
+	// const settings = useSubscribe((s) => s.settings)
+	// const translations = useSubscribe((s) => s.translations)
+
 	<View style={styles.container as ViewType}>
 			<WavyHeader/>
 			<View style={styles.pauseButton as ViewType}>

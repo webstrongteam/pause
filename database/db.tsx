@@ -1,20 +1,9 @@
-import { NativeModules, Platform } from 'react-native'
 import { openDatabase } from 'expo-sqlite'
 import app from '../app.json'
+import { getLocale } from '../src/utils/helpers'
 
 export const VERSION = app.expo.version
-const db = openDatabase('pause.db', VERSION)
-
-const getLocale = () => {
-	const locale =
-		Platform.OS === 'ios'
-			? NativeModules.SettingsManager.settings.AppleLocale
-			: NativeModules.I18nManager.localeIdentifier
-	if (locale === 'pl_PL') {
-		return 'pl'
-	}
-	return 'en'
-}
+export const db = openDatabase('pause.db', VERSION)
 
 export const initDatabase = (callback: () => void) => {
 	db.transaction(

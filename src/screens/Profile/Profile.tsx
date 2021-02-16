@@ -17,9 +17,11 @@ const Profile = ({ navigation }: Props) => (
 	<ScrollView bounces={false} style={styles.container as ViewType}>
 		<WavyHeader />
 
-		<View style={styles.header as ViewType}>
-			<CloseIcon onPress={() => navigation.goBack()} />
-			<Text style={styles.label as TextType}>PROFIL</Text>
+		<View style={styles.headerContainer as ViewType}>
+			<View style={styles.header as ViewType}>
+				<CloseIcon onPress={() => navigation.goBack()} />
+				<Text style={styles.title as TextType}>PROFIL</Text>
+			</View>
 		</View>
 
 		<Icon name='account' type='material-community' color='#fff' size={140} />

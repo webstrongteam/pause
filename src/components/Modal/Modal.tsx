@@ -1,22 +1,30 @@
-import React, { ReactNode, useEffect } from 'react'
+import React, { useEffect, ReactNode } from 'react'
 import { BackHandler, Dimensions, Keyboard } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
-// @ts-ignore
-import Modal, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
+import ModalBase, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
+import { TextType } from '../../types/styles'
+import styles from './Modal.scss'
 
 type Props = {
 	toggleModal: () => void
 	visible: boolean
 	title: string
-	buttons: {
+	buttons?: {
 		text: string
 		onPress: () => void
 	}[]
-	bgColor: string
-	content: ReactNode
+	bgColor?: string
+	children: ReactNode
 }
 
-const Modal = ({ toggleModal, visible, title, buttons = [], bgColor = '#fff', content }: Props) => {
+const Modal = ({
+	toggleModal,
+	visible,
+	title,
+	buttons = [],
+	bgColor = '#fff',
+	children,
+}: Props) => {
 	const backAction = () => {
 		if (visible) {
 			toggleModal()
@@ -35,8 +43,7 @@ const Modal = ({ toggleModal, visible, title, buttons = [], bgColor = '#fff', co
 
 	return (
 		<>
-			{/* @ts-expect-error */}
-			<Modal
+			<ModalBase
 				width={Dimensions.get('window').width - 50}
 				visible={visible}
 				onSwipeOut={toggleModal}
@@ -44,19 +51,24 @@ const Modal = ({ toggleModal, visible, title, buttons = [], bgColor = '#fff', co
 				modalStyle={{ backgroundColor: bgColor }}
 				modalTitle={
 					<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-						<ModalTitle title={title} />
+						<ModalTitle textStyle={styles.ModalTitleText as TextType} title={title} />
 					</TouchableWithoutFeedback>
 				}
 				footer={
 					<ModalFooter>
 						{buttons.map((item, i) => (
-							<ModalButton key={i} text={item.text} onPress={item.onPress} />
+							<ModalButton
+								textStyle={styles.ModalButtonText as TextType}
+								key={i}
+								text={item.text}
+								onPress={item.onPress}
+							/>
 						))}
 					</ModalFooter>
 				}
 			>
-				<ModalContent>{content}</ModalContent>
-			</Modal>
+				<ModalContent>{children}</ModalContent>
+			</ModalBase>
 		</>
 	)
 }
