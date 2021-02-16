@@ -4,15 +4,17 @@ import { createStackNavigator } from 'react-navigation-stack'
 import Home from './screens/Home/Home'
 import Profile from './screens/Profile/Profile'
 import Settings from './screens/Settings/Settings'
+import Player from './screens/Player/Player'
 
 const MainNavigator = createStackNavigator(
 	{
 		Home: { screen: Home },
 		Profile: { screen: Profile },
 		Settings: { screen: Settings },
+		Player: { screen: Player },
 	},
 	{
-		initialRouteName: 'Settings',
+		initialRouteName: 'Player',
 		headerMode: 'none',
 	},
 )
