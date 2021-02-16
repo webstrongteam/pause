@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ScrollView, View, Text } from 'react-native'
 import { Icon, ButtonGroup, Button } from 'react-native-elements'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
@@ -9,12 +9,14 @@ import { Difficulty, Lang, Time, Settings } from '../../types/settings'
 import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { changeLanguage, changeDifficulty, changeTime } from '../../../database/actions/settings'
+import Modal from '../../components/Modal/Modal'
 
 type Props = {
 	navigation: NavigationScreenType
 }
 
 const SettingsScreen = ({ navigation }: Props) => {
+	const [modalVisible, setModalVisible] = useState(false)
 	const { useSubscribe, setSettings } = useSettingsContext()
 	const settings = useSubscribe((s) => s.settings)
 	const translations = useSubscribe((s) => s.translations)
@@ -91,6 +93,21 @@ const SettingsScreen = ({ navigation }: Props) => {
 	return (
 		<>
 			<ScrollView style={styles.container as ViewType}>
+				<Modal
+					visible={modalVisible}
+					title={translations.Settings.clearData}
+					toggleModal={() => setModalVisible(false)}
+					buttons={[
+						{
+							text: translations.common.no,
+							onPress: () => setModalVisible(false),
+						},
+						{
+							text: translations.common.yes,
+							onPress: () => setModalVisible(false),
+						},
+					]}
+				/>
 				<WavyHeader />
 				<View style={styles.header as ViewType}>
 					<CloseIcon onPress={() => navigation.goBack()} />
@@ -120,6 +137,7 @@ const SettingsScreen = ({ navigation }: Props) => {
 				<Button
 					icon={<Icon name='trash-o' type='font-awesome' color='#5a5a5a' />}
 					iconRight
+					onPress={() => setModalVisible(true)}
 					title={translations.Settings.clearData}
 					buttonStyle={styles.buttonStyles as ViewType}
 					titleStyle={styles.buttonTitle as TextType}
