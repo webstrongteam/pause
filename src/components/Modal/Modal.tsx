@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, ReactNode } from 'react'
 import { BackHandler, Dimensions, Keyboard } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import ModalBase, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
@@ -14,7 +14,7 @@ type Props = {
 		onPress: () => void
 	}[]
 	bgColor?: string
-	children: React.ReactNode
+	children: ReactNode
 }
 
 const Modal = ({

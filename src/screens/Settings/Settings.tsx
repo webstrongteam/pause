@@ -115,9 +115,11 @@ const SettingsScreen = ({ navigation }: Props) => {
 					</View>
 				</Modal>
 				<WavyHeader />
-				<View style={styles.header as ViewType}>
-					<CloseIcon onPress={() => navigation.goBack()} />
-					<Text style={styles.title as TextType}>{translations.Settings.title}</Text>
+				<View style={styles.headerContainer as ViewType}>
+					<View style={styles.header as ViewType}>
+						<CloseIcon onPress={() => navigation.goBack()} />
+						<Text style={styles.title as TextType}>{translations.Settings.title}</Text>
+					</View>
 				</View>
 				<View style={styles.settings as ViewType}>
 					{settings &&
@@ -132,8 +134,8 @@ const SettingsScreen = ({ navigation }: Props) => {
 									)}
 									containerStyle={buttonGroupStyles[index] as ViewType}
 									selectedButtonStyle={styles.selectedButton as ViewType}
-									selectedTextStyle={{ color: '#1A6A73' }}
-									textStyle={{ fontSize: 16 }}
+									selectedTextStyle={styles.buttonGroupSelectedText as TextType}
+									textStyle={styles.buttonGroupText as TextType}
 								/>
 							</View>
 						))}
