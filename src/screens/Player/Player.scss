@@ -13,6 +13,7 @@
 	height: 185px;
 	padding-top: 40px;
 	margin: 0 20px;
+	z-index: 10000;
 }
 .header {
 	flex-direction: row;
@@ -31,18 +32,7 @@
 	font-size: 24px;
 	font-family: 'Lato-Bold';
 }
-.footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	background-color: #1a6a73;
-}
-.playerInfo {
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	margin: 10px 20px;
-}
+
 .infoText {
 	@include Text();
 	margin-right: 2px;

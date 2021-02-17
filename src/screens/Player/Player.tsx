@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import { TextType, ViewType } from '../../types/styles'
 import styles from './Player.scss'
-import ProgressBar from '../../components/ProgressBar/ProgressBar'
+import Footer from '../../components/Footer/Footer'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
@@ -57,20 +57,17 @@ const Player = ({ navigation }: Props) => {
 				</View>
 			</WavyHeader>
 
-			<View style={styles.footer as ViewType}>
-				<ProgressBar currentValue={300} maxValue={1000} barColor='#F2B077' />
-				<View style={styles.playerInfo as ViewType}>
-					<View>
-						<Text style={styles.infoText as TextType}>WallSit</Text>
-						<View style={styles.musicInfo as ViewType}>
-							<Text style={styles.infoText as TextType}>Sea</Text>
-							<Icon name='music' type='material-community' color='#fff' size={15} />
-						</View>
+			<Footer currentValue={300} maxValue={1000} barColor='#F2B077'>
+				<View>
+					<Text style={styles.infoText as TextType}>WallSit</Text>
+					<View style={styles.musicInfo as ViewType}>
+						<Text style={styles.infoText as TextType}>Sea</Text>
+						<Icon name='music' type='material-community' color='#fff' size={15} />
 					</View>
-					<Text style={styles.playerCounter as TextType}>48s</Text>
-					<Icon name='pause' type='antdesign' color='#fff' size={50} />
 				</View>
-			</View>
+				<Text style={styles.playerCounter as TextType}>48s</Text>
+				<Icon name='pause' type='antdesign' color='#fff' size={50} />
+			</Footer>
 		</View>
 	)
 }
