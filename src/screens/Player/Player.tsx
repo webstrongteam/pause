@@ -14,7 +14,7 @@ type Props = {
 
 const Player = ({ navigation }: Props) => (
 	<View style={styles.container as ViewType}>
-		<WavyHeader color='#1a6a73' />
+		<WavyHeader customBgColor="#1A6A73" />
 
 		<View style={styles.headerContainer as ViewType}>
 			<View style={styles.header as ViewType}>
@@ -30,7 +30,10 @@ const Player = ({ navigation }: Props) => (
 			<View style={styles.playerInfo as ViewType}>
 				<View>
 					<Text style={styles.infoText as TextType}>WallSit</Text>
-					<Text style={styles.infoText as TextType}>Sea</Text>
+					<View style={styles.musicInfo as ViewType}>
+						<Text style={styles.infoText as TextType}>Sea</Text>
+						<Icon name='music' type='material-community' color="#fff" size={15}/>
+					</View>
 				</View>
 				<Text style={styles.playerCounter as TextType}>48s</Text>
 				<Icon name='pause' type='antdesign' color='#fff' size={50} />
