@@ -45,17 +45,18 @@ const Player = ({ navigation }: Props) => {
 					</Text>
 				</View>
 			</Modal>
-			<WavyHeader customBgColor='#1A6A73' />
-
-			<View style={styles.headerContainer as ViewType}>
-				<View style={styles.header as ViewType}>
-					<CloseIcon color='#fff' onPress={() => setModalVisible(true)} />
-					<View style={styles.counter as ViewType}>
-						<Text style={styles.breakIn as TextType}>{translations.Player.breakIn}</Text>
-						<Text style={styles.counterText as TextType}>48s</Text>
+			<WavyHeader bgColor='#1A6A73' outline>
+				<View style={styles.headerContainer as ViewType}>
+					<View style={styles.header as ViewType}>
+						<CloseIcon color='#fff' onPress={() => setModalVisible(true)} />
+						<View style={styles.counter as ViewType}>
+							<Text style={styles.breakIn as TextType}>{translations.Player.breakIn}</Text>
+							<Text style={styles.counterText as TextType}>48s</Text>
+						</View>
 					</View>
 				</View>
-			</View>
+			</WavyHeader>
+
 			<View style={styles.footer as ViewType}>
 				<ProgressBar currentValue={300} maxValue={1000} barColor='#F2B077' />
 				<View style={styles.playerInfo as ViewType}>

@@ -114,13 +114,14 @@ const SettingsScreen = ({ navigation }: Props) => {
 						</Text>
 					</View>
 				</Modal>
-				<WavyHeader />
-				<View style={styles.headerContainer as ViewType}>
-					<View style={styles.header as ViewType}>
-						<CloseIcon onPress={() => navigation.goBack()} />
-						<Text style={styles.title as TextType}>{translations.Settings.title}</Text>
+				<WavyHeader>
+					<View style={styles.headerContainer as ViewType}>
+						<View style={styles.header as ViewType}>
+							<CloseIcon onPress={() => navigation.goBack()} />
+							<Text style={styles.title as TextType}>{translations.Settings.title}</Text>
+						</View>
 					</View>
-				</View>
+				</WavyHeader>
 				<View style={styles.settings as ViewType}>
 					{settings &&
 						Object.keys(buttonGroups).map((key, index) => (
