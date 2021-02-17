@@ -56,3 +56,12 @@
 	flex-direction: row;
 	align-items: center;
 }
+.ModalText {
+	@include Text();
+	color: #000;
+	text-align: center;
+}
+
+.Modal {
+	margin-top: 20px;
+}
