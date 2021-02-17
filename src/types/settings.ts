@@ -1,6 +1,7 @@
 export interface Settings {
 	id: number
 	points: number
+	level: number
 	lang: Lang
 	difficulty: Difficulty
 	time: Time
