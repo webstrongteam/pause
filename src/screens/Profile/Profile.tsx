@@ -30,18 +30,17 @@ const Profile = ({ navigation }: Props) => {
 			</WavyHeader>
 
 			<Icon name='account' type='material-community' color='#fff' size={140} />
-			<Text style={styles.levelText as TextType}>
-{translations.common.level}{' '}3
-   </Text>
+			<Text style={styles.levelText as TextType}>{translations.common.level}&nbsp;3</Text>
+
 			<ProgressBar maxValue={1000} currentValue={300} barColor='#F2B077' />
 
 			<Text style={styles.levelInfo as TextType}>
-				<Text style={styles.fontBold as TextType}>1280 </Text>
+				<Text style={styles.fontBold as TextType}>1280&nbsp;</Text>
 				<Text>{translations.Profile.points}</Text>
 			</Text>
 
 			<Text style={styles.levelInfo as TextType}>
-				<Text style={styles.fontBold as TextType}>231 </Text>
+				<Text style={styles.fontBold as TextType}>231&nbsp;</Text>
 				<Text>{translations.Profile.pointsToNextLvl}</Text>
 			</Text>
 
