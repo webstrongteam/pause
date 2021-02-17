@@ -1,18 +1,46 @@
-import React from 'react'
-import { View } from 'react-native'
+import React, { ReactNode } from 'react'
+import { Dimensions, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
-import { ViewType } from '../../types/styles'
-import styles from './WavyHeader.scss'
+import styles from './WavyHeader.styles'
 
-const WavyHeader = () => (
-	<View style={styles.WavyHeader as ViewType}>
-		<Svg height='100%' width='100%' viewBox='0 0 1440 320' style={styles.WavyHeaderSvg as ViewType}>
-			<Path
-				fill='#fff'
-				d='M0,128L60,106.7C120,85,240,43,360,48C480,53,600,107,720,154.7C840,203,960,245,1080,240C1200,235,1320,181,1380,154.7L1440,128L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z'
-			/>
-		</Svg>
-	</View>
-)
+type Props = {
+	outline?: boolean
+	bgColor?: string
+	variant?: 'header' | 'centered'
+	children?: ReactNode
+}
+
+const WavyHeader = ({ outline = false, bgColor = '#fff', variant = 'header', children }: Props) => {
+	const headerHeight =
+		variant === 'header'
+			? Dimensions.get('screen').height / 8
+			: Dimensions.get('screen').height * 0.4
+
+	return (
+		<>
+			<View style={{ height: headerHeight, backgroundColor: bgColor }}>{children}</View>
+			{outline ? (
+				<View style={{ ...styles.aspectRatio, ...styles.outline, top: headerHeight + 1 }}>
+					<Svg height='100%' width='100%' viewBox='0 0 1440 320'>
+						<Path
+							fill='#fff'
+							d='M0,128l60,-21.3c60,-21.7,180,-63.7,300,-58.7c120,5,240,59,360,106.7c120,48.3,240,90.3,360,85.3c120,-5,240,-59,300,-85.3l60,-26.7l0,-128l-60,0c-60,0,-180,0,-300,0c-120,0,-240,0,-360,0c-120,0,-240,0,-360,0c-120,0,-240,0,-300,0l-60,0z'
+						/>
+					</Svg>
+				</View>
+			) : (
+				<></>
+			)}
+			<View style={styles.aspectRatio}>
+				<Svg height='100%' width='100%' viewBox='0 0 1440 320'>
+					<Path
+						fill={bgColor}
+						d='M0,128l60,-21.3c60,-21.7,180,-63.7,300,-58.7c120,5,240,59,360,106.7c120,48.3,240,90.3,360,85.3c120,-5,240,-59,300,-85.3l60,-26.7l0,-128l-60,0c-60,0,-180,0,-300,0c-120,0,-240,0,-360,0c-120,0,-240,0,-360,0c-120,0,-240,0,-300,0l-60,0z'
+					/>
+				</Svg>
+			</View>
+		</>
+	)
+}
 
 export default WavyHeader
