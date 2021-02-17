@@ -114,13 +114,16 @@ const SettingsScreen = ({ navigation }: Props) => {
 						</Text>
 					</View>
 				</Modal>
-				<WavyHeader />
-				<View style={styles.headerContainer as ViewType}>
-					<View style={styles.header as ViewType}>
-						<CloseIcon onPress={() => navigation.goBack()} />
-						<Text style={styles.title as TextType}>{translations.Settings.title}</Text>
+
+				<WavyHeader>
+					<View style={styles.headerContainer as ViewType}>
+						<View style={styles.header as ViewType}>
+							<CloseIcon onPress={() => navigation.goBack()} />
+							<Text style={styles.title as TextType}>{translations.Settings.title}</Text>
+						</View>
 					</View>
-				</View>
+				</WavyHeader>
+
 				<View style={styles.settings as ViewType}>
 					{settings &&
 						Object.keys(buttonGroups).map((key, index) => (
@@ -141,6 +144,7 @@ const SettingsScreen = ({ navigation }: Props) => {
 						))}
 				</View>
 			</ScrollView>
+
 			<View style={styles.clearButtonPosition as ViewType}>
 				<Button
 					icon={<Icon name='trash-o' type='font-awesome' color='#5a5a5a' />}
