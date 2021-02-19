@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ScrollView, View, Text } from 'react-native'
+import { ScrollView, View, Text, TouchableNativeFeedback } from 'react-native'
 import { Icon, ButtonGroup, Button } from 'react-native-elements'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
@@ -153,6 +153,8 @@ const SettingsScreen = ({ navigation }: Props) => {
 					title={translations.Settings.clearData}
 					buttonStyle={styles.buttonStyles as ViewType}
 					titleStyle={styles.buttonTitle as TextType}
+					useForeground
+					background={TouchableNativeFeedback.Ripple('#666', true)}
 				/>
 			</View>
 		</>
