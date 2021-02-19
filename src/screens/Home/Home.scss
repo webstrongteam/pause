@@ -1,6 +1,6 @@
 .container {
 	background-color: #1a6a73;
-	height: 100%;
+	flex: 1;
 }
 
 .wavyHeader {
@@ -11,7 +11,7 @@
 
 .pauseButton {
 	align-items: center;
-	top: 150px;
+	top: 30%; 
 }
 
 .progressBar {
