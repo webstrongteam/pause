@@ -2,8 +2,7 @@
 	{
 		"name": "Wall Sit",
 		"difficulty": "easy",
-		"iconSrc": "",
-		"basePoints": 50,
+		"iconName": "wall_sit",
 		"requiredLevel": 1,
 		"time": {
 			"short": {

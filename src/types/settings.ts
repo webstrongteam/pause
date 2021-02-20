@@ -13,3 +13,9 @@ export type Difficulty = 'easy' | 'medium' | 'hard'
 export type Time = 'short' | 'medium' | 'long'
 
 export type Translations = Record<string, Record<string, string>>
+
+export type NextLevelBenefits = {
+	music: number
+	exercises: number
+	themes: number
+}

@@ -9,14 +9,14 @@ export const initDatabase = (callback: () => void) => {
 	db.transaction(
 		(tx) => {
 			// tx.executeSql(
-			//     'DROP TABLE IF EXISTS wasted_food;'
+			//     'DROP TABLE IF EXISTS settings;'
 			// );
 			tx.executeSql(
-				'create table if not exists settings (id integer primary key not null, points number, lang text, difficulty text, time text, version text);',
+				'create table if not exists settings (id integer primary key not null, level number, points number, lang text, difficulty text, time text, version text);',
 			)
 			tx.executeSql(
-				'INSERT OR IGNORE INTO settings (id, lang, points, difficulty, time, version) values (0, ?, ?, ?, ?, ?);',
-				[getLocale(), 0, 'easy', 'medium', `${VERSION}_INIT`],
+				'INSERT OR IGNORE INTO settings (id, lang, level, points, difficulty, time, version) values (0, ?, ?, ?, ?, ?, ?);',
+				[getLocale(), 1, 0, 'easy', 'medium', `${VERSION}_INIT`],
 				() => {
 					setupDatabase(callback)
 				},

@@ -4,7 +4,9 @@ import { Pause } from '../../types/pause'
 import { useSettingsContext } from './SettingsContext'
 import { getRandomPause } from '../helpers'
 
-const PauseContext = createStateContext({}, (setStore) => ({
+const settingsInitialState: Pause = {}
+
+const PauseContext = createStateContext(settingsInitialState, (setStore) => ({
 	setPause(pause: Pause) {
 		setStore(() => pause)
 	},

@@ -1,23 +1,20 @@
 import { Difficulty, Time } from './settings'
 
 export interface Pause {
-	music: Music
-	exercise: Exercise
-	points: number
+	music?: Music
+	exercise?: Exercise
+	points?: number
 }
 
-export type Music = {
+export interface Music {
 	name: string
-	src: string
-	photoSrc: string
 	requiredLevel: number
 }
 
-export type Exercise = {
+export interface Exercise {
 	name: string
 	difficulty: Difficulty
-	iconSrc: string
-	basePoints: number
+	iconName: string
 	requiredLevel: number
 	time: Record<
 		Time,
@@ -28,4 +25,15 @@ export type Exercise = {
 			totalTime: number
 		}
 	>
+}
+
+export interface Theme {
+	requiredLevel: number
+	colors: {
+		primary: string
+		secondary: string
+		third: string
+		optional: string
+		progress: string
+	}
 }
