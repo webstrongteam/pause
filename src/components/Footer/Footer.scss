@@ -1,0 +1,12 @@
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background-color: #1a6a73;
+}
+.footerInfo {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin: 10px 20px;
+}
