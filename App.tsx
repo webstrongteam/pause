@@ -9,6 +9,8 @@ import Spinner from './src/components/Spinner/Spinner'
 import Template from './src/components/Template/Template'
 import { setupDatabase } from './database/db'
 import { SettingsContextProvider } from './src/utils/context/SettingsContext'
+import { PauseContextProvider } from './src/utils/context/PauseContext'
+import { ThemeContextProvider } from './src/utils/context/ThemeContext'
 
 export default function App() {
 	const [loading, setLoading] = useState<boolean>(true)
@@ -43,11 +45,15 @@ export default function App() {
 
 	return (
 		<SettingsContextProvider>
-			<Template>
-				<Router />
-				<ModalPortal />
-				<FlashMessage style={{ zIndex: 1000 }} position='top' animated />
-			</Template>
+			<ThemeContextProvider>
+				<PauseContextProvider>
+					<Template>
+						<Router />
+						<ModalPortal />
+						<FlashMessage style={{ zIndex: 1000 }} position='top' animated />
+					</Template>
+				</PauseContextProvider>
+			</ThemeContextProvider>
 		</SettingsContextProvider>
 	)
 }

@@ -1,1 +1,28 @@
-{}
+[
+	{
+		"name": "Wall Sit",
+		"difficulty": "easy",
+		"iconName": "wall_sit",
+		"requiredLevel": 1,
+		"time": {
+			"short": {
+				"pauseTime": 20,
+				"exerciseCount": 3,
+				"exerciseTime": 40,
+				"totalTime": 160
+			},
+			"medium": {
+				"pauseTime": 20,
+				"exerciseCount": 4,
+				"exerciseTime": 50,
+				"totalTime": 260
+			},
+			"long": {
+				"pauseTime": 20,
+				"exerciseCount": 6,
+				"exerciseTime": 70,
+				"totalTime": 460
+			}
+		}
+	}
+]

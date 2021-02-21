@@ -2,17 +2,18 @@ import React, { PropsWithChildren } from 'react'
 import { StatusBar, View } from 'react-native'
 import styles from './Template.styles'
 import Spinner from '../Spinner/Spinner'
-import { useSettingsContext } from '../../utils/context/SettingsContext'
+import { useThemeContext } from '../../utils/context/ThemeContext'
 
 type Props = {
 	children: PropsWithChildren<{}>
 }
 
 const Template = ({ children }: Props) => {
-	const { useSubscribe } = useSettingsContext()
-	const settings = useSubscribe((s) => s.settings)
+	const { useSubscribe } = useThemeContext()
+	const themeRequiredLevel = useSubscribe((s) => s.requiredLevel)
 
-	if (!settings) {
+	// If theme required level is not 0, it means that the settings and themes have been loaded.
+	if (!themeRequiredLevel) {
 		return <Spinner size={64} />
 	}
 
