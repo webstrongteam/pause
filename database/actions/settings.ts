@@ -25,13 +25,17 @@ export const changeLanguage = (lang: Lang): Promise<Settings> =>
 		)
 	})
 
-export const changePoints = (points: number): Promise<Settings> =>
+export const changeLevelAndPoints = (level: number, points: number): Promise<Settings> =>
 	new Promise((resolve, reject) => {
 		db.transaction(
 			(tx) => {
-				tx.executeSql('update settings set points = ? where id = 0;', [points], () => {
-					resolve(getSettings())
-				})
+				tx.executeSql(
+					'update settings set level = ?, points = ? where id = 0;',
+					[level, points],
+					() => {
+						resolve(getSettings())
+					},
+				)
 			},
 			(err) => reject(err),
 		)
