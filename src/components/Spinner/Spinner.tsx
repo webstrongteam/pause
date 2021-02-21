@@ -8,7 +8,7 @@ type Props = {
 	bgColor?: string
 }
 
-const Spinner = ({ size = 32, color = '#000', bgColor = '#fff' }: Props) => {
+const Spinner = ({ size = 32, color = '#FFFFFF', bgColor = '#1A6A73' }: Props) => {
 	const getSize = (): number | 'small' | 'large' => {
 		if (Platform.OS === 'ios') {
 			if (size > 32) {

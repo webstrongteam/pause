@@ -1,5 +1,8 @@
 import { NativeModules, Platform } from 'react-native'
-import { Exercise, Music, Pause, Theme } from '../types/pause'
+import { Exercise, Music, Pause } from '../types/pause'
+import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings'
+import { Theme } from '../types/theme'
+import { TextType, ViewType } from '../types/styles'
 import {
 	baseLevelPoints,
 	basePoints,
@@ -11,7 +14,6 @@ import {
 	progressMultiplier,
 	shortTimeMultiplier,
 } from './consts'
-import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings'
 
 import music from '../config/music.json'
 import exercises from '../config/exercises.json'
@@ -50,6 +52,22 @@ export const getNextLevelBenefits = (level: number): NextLevelBenefits => {
 		themes: nextLevelThemes.length,
 	}
 }
+
+export const getTheme = (level: number): Theme => {
+	const availableThemes = (themes as Theme[]).filter((m) => m.requiredLevel <= level)
+
+	return availableThemes.sort((a, b) => +(+a.requiredLevel > +b.requiredLevel))[0]
+}
+
+export const addBackgroundColor = (baseStyles: {}, backgroundColor: string): ViewType => ({
+	...baseStyles,
+	backgroundColor,
+})
+
+export const addTextColor = (baseStyles: {}, textColor: string): TextType => ({
+	...baseStyles,
+	color: textColor,
+})
 
 const getRandomIndex = (length: number): number => Math.floor(Math.random() * length)
 
