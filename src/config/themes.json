@@ -1,0 +1,12 @@
+[
+	{
+		"requiredLevel": 1,
+		"colors": {
+			"primary": "#1A6A73",
+			"secondary": "#FFFFFF",
+			"third": "#C5D1D9",
+			"optional": "#5A5A5A",
+			"progress": "#F2B077"
+		}
+	}
+]

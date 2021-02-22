@@ -1,27 +1,25 @@
-import React, { ReactNode } from 'react'
+import React, { PropsWithChildren } from 'react'
 import { Dimensions, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
+import styles from './WavyHeader.styles'
 
-type Props = {
+type Props = PropsWithChildren<{
 	outline?: boolean
 	bgColor?: string
-	size?: 'normal' | 'big'
-	children?: ReactNode
-}
+	variant?: 'header' | 'centered'
+}>
 
-const WavyHeader = ({ outline = false, bgColor = '#fff', size = 'normal', children }: Props) => {
-	let headerHeight = Dimensions.get('screen').height / 8
-	if (size === 'big') {
-		headerHeight = Dimensions.get('screen').height * 0.4
-	}
+const WavyHeader = ({ outline = false, bgColor = '#fff', variant = 'header', children }: Props) => {
+	const headerHeight =
+		variant === 'header'
+			? Dimensions.get('screen').height / 8
+			: Dimensions.get('screen').height * 0.4
 
 	return (
 		<>
 			<View style={{ height: headerHeight, backgroundColor: bgColor }}>{children}</View>
 			{outline ? (
-				<View
-					style={{ aspectRatio: 4.5, position: 'absolute', width: '100%', top: headerHeight + 1 }}
-				>
+				<View style={{ ...styles.aspectRatio, ...styles.outline, top: headerHeight + 1 }}>
 					<Svg height='100%' width='100%' viewBox='0 0 1440 320'>
 						<Path
 							fill='#fff'
@@ -29,8 +27,10 @@ const WavyHeader = ({ outline = false, bgColor = '#fff', size = 'normal', childr
 						/>
 					</Svg>
 				</View>
-			) : null}
-			<View style={{ aspectRatio: 4.5 }}>
+			) : (
+				<></>
+			)}
+			<View style={styles.aspectRatio}>
 				<Svg height='100%' width='100%' viewBox='0 0 1440 320'>
 					<Path
 						fill={bgColor}
