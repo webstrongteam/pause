@@ -18,7 +18,11 @@ export const changeLanguage = (lang: Lang): Promise<Settings> =>
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update settings set lang = ? where id = 0;', [lang], () => {
-					resolve(getSettings())
+					try {
+						resolve(getSettings())
+					} catch (e) {
+						reject(e)
+					}
 				})
 			},
 			(err) => reject(err),
@@ -33,7 +37,11 @@ export const changeLevelAndPoints = (level: number, points: number): Promise<Set
 					'update settings set level = ?, points = ? where id = 0;',
 					[level, points],
 					() => {
-						resolve(getSettings())
+						try {
+							resolve(getSettings())
+						} catch (e) {
+							reject(e)
+						}
 					},
 				)
 			},
@@ -46,7 +54,11 @@ export const changeDifficulty = (difficulty: Difficulty): Promise<Settings> =>
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update settings set difficulty = ? where id = 0;', [difficulty], () => {
-					resolve(getSettings())
+					try {
+						resolve(getSettings())
+					} catch (e) {
+						reject(e)
+					}
 				})
 			},
 			(err) => reject(err),
@@ -58,7 +70,11 @@ export const changeTime = (time: Time): Promise<Settings> =>
 		db.transaction(
 			(tx) => {
 				tx.executeSql('update settings set time = ? where id = 0;', [time], () => {
-					resolve(getSettings())
+					try {
+						resolve(getSettings())
+					} catch (e) {
+						reject(e)
+					}
 				})
 			},
 			(err) => reject(err),
@@ -70,10 +86,14 @@ export const restartSettings = (): Promise<Settings> =>
 		db.transaction(
 			(tx) => {
 				tx.executeSql(
-					'update settings set points = ?, difficulty = ?, time = ? where id = 0;',
-					[0, 'easy', 'medium'],
+					'update settings set level = ?, points = ?, difficulty = ?, time = ? where id = 0;',
+					[1, 0, 'easy', 'medium'],
 					() => {
-						resolve(getSettings())
+						try {
+							resolve(getSettings())
+						} catch (e) {
+							reject(e)
+						}
 					},
 				)
 			},
