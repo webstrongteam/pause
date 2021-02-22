@@ -6,7 +6,7 @@
 
 .container {
 	flex: 1;
-	background-color: #440000;
+	background-color: #000;
 }
 
 .headerContainer {
@@ -54,4 +54,23 @@
 
 .Modal {
 	margin-top: 20px;
+}
+.image {
+	opacity: 0.5;
+	position: absolute;
+	top: 0;
+}
+.exerciseInfo {
+	align-self: center;
+	align-items: center;
+	top: 10%;
+}
+.exerciseName {
+	@include Text();
+	font-size: 48px;
+	text-transform: uppercase;
+	text-decoration: underline;
+}
+.exerciseIcon {
+	height: 45%;
 }

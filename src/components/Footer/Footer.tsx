@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { View } from 'react-native'
 import { ViewType } from '../../types/styles'
-import ProgressBar from "../ProgressBar/ProgressBar"
+import ProgressBar from '../ProgressBar/ProgressBar'
 import styles from './Footer.scss'
 
 type Props = {

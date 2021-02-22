@@ -23,5 +23,5 @@ export const musicMap: Record<string, number> = {
 }
 
 export const exerciseMap: Record<string, number> = {
-	wall_sit: require('../../assets/pause/exercises/wall_sit.svg'),
+	wall_sit: require('../../assets/pause/exercises/wall_sit.png'),
 }
