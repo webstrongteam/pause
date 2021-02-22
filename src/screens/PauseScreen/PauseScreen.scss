@@ -1,23 +1,30 @@
 .container{
     background-color: #1a6a73;
+    height: 100%;
+}
+
+.bottomIcons{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .randomIcon{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border: 2px solid white;
-    border-radius: 50px;
-    position: absolute;
-    bottom: 0;
-    margin: 10px;
+    border-radius: 40px;
+    margin: 30px;
+    justify-content: center;
 }
 .playIcon{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border: 2px solid white;
-    border-radius: 50px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin: 10px;
+    border-radius: 40px;
+    margin: 30px;
+    justify-content: center;
 }

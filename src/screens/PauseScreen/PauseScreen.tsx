@@ -13,7 +13,7 @@ const PauseScreen = () => {
         <View style={styles.container as ViewType}>
             <WavyHeader/>
             <Text>
-                <Text style={{fontSize:'30px'}}>ćwiczenie</Text>
+                <Text>ćwiczenie</Text>
                 <Text>Wall Sit</Text>
             </Text>
             <Text>
@@ -26,12 +26,12 @@ const PauseScreen = () => {
                     <Text>Sea</Text>
                 </Text>                             
             </Text>
-            <View>
+            <View style={styles.bottomIcons as ViewType}>
                 <View style={styles.randomIcon as ViewType}>
-                    <Icon name='random' type='FontAwsome' color='#fff' size={80} />
+                    <Icon name='random' type='FontAwsome' color='#fff' size={50} />
                 </View>
                 <View style={styles.playIcon as ViewType}>
-                    <Icon name='play' type='Feather' color='#fff' size={80} />
+                    <Icon name='play' type='Feather' color='#fff' size={50} />
                 </View>                             
             </View>
         </View>
