@@ -3,6 +3,30 @@
     height: 100%;
 }
 
+.exerciseTitle{
+    position: absolute;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    top: 15%;
+    font-size:'20px'
+}
+
+.exerciseInfo{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.firstInfo{
+    color: #fff;
+    font-size: 15px;
+}
+
+.secondInfo{
+    font-size: 35px;
+}
+
 .bottomIcons{
     position: absolute;
     width: 100%;
@@ -12,15 +36,7 @@
     justify-content: space-between;
 }
 
-.randomIcon{
-    width: 80px;
-    height: 80px;
-    border: 2px solid white;
-    border-radius: 40px;
-    margin: 30px;
-    justify-content: center;
-}
-.playIcon{
+.Icon{
     width: 80px;
     height: 80px;
     border: 2px solid white;
