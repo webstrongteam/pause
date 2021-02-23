@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { View, Text, Image } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { Audio } from 'expo-av'
+
+import useAsyncEffect from 'use-async-effect'
 import { Sound } from 'expo-av/build/Audio'
 import styles from './Player.scss'
 import { imageMap, musicMap, exerciseMap } from '../../utils/consts'
@@ -25,24 +27,31 @@ type Props = {
 }
 
 const Player = ({ navigation }: Props) => {
-	//States
-	const [modalVisible, setModalVisible] = useState(false)
-	const [audio, setAudio] = useState<Sound>()
-	const [playing, setPlaying] = useState(true)
-
 	//Contexts
 	const settingsContext = useSettingsContext()
 	const pauseContext = usePauseContext()
 
 	//Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
+	const time = settingsContext.useSubscribe((t) => t.settings?.time)
 	const exercise = pauseContext.useSubscribe((e) => e.exercise)
 	const music = pauseContext.useSubscribe((m) => m.music)
 	// const points = pauseContext.useSubscribe((p) => p.points)
 
-	if (!music || !exercise) {
+	if (!music || !exercise || !time) {
 		return <></>
 	}
+
+	//States
+	const [modalVisible, setModalVisible] = useState(false)
+
+	const [audio, setAudio] = useState<Sound>()
+	const [playing, setPlaying] = useState(true)
+
+	const [fullTime, setFullTime] = useState(exercise.time[time].totalTime)
+	const [isExercising, setIsExercising] = useState(true)
+	const [series, setSeries] = useState(exercise.time[time].exerciseCount - 1)
+	const [progress, setProgress] = useState(0)
 
 	//Sound Functions
 	const loadSound = async () => {
@@ -59,16 +68,35 @@ const Player = ({ navigation }: Props) => {
 		await sound.pauseAsync()
 	}
 
-	useEffect(() => {
+	//Timer
+	setTimeout(() => {
+		if (fullTime > 0 && playing) {
+			setFullTime(fullTime - 1)
+			setProgress(progress + 1)
+			if (isExercising) {
+				if (exerciseTime <= 1) {
+					setIsExercising(false)
+				}
+			} else if (pauseTime <= 1) {
+				setSeries(series - 1)
+				setIsExercising(true)
+			}
+		}
+	}, 1000)
+
+	const exerciseTime =
+		fullTime - (series * exercise.time[time].exerciseTime + series * exercise.time[time].pauseTime)
+	const pauseTime =
+		fullTime -
+		(series * exercise.time[time].exerciseTime + (series - 1) * exercise.time[time].pauseTime)
+
+	useAsyncEffect(async () => {
 		if (!audio) {
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			loadSound()
+			await loadSound()
 		} else if (!playing) {
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			pauseSound(audio)
+			await pauseSound(audio)
 		} else {
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			playSound(audio)
+			await playSound(audio)
 		}
 	})
 
@@ -106,8 +134,12 @@ const Player = ({ navigation }: Props) => {
 					<View style={styles.header as ViewType}>
 						<CloseIcon color='#fff' onPress={() => setModalVisible(true)} />
 						<View style={styles.counter as ViewType}>
-							<Text style={styles.breakIn as TextType}>{translations.Player.breakIn}</Text>
-							<Text style={styles.counterText as TextType}>48s</Text>
+							<Text style={styles.breakIn as TextType}>
+								{isExercising ? translations.Player.breakIn : translations.Player.nextSeriesIn}
+							</Text>
+							<Text style={styles.counterText as TextType}>
+								{isExercising ? exerciseTime : pauseTime}s
+							</Text>
 						</View>
 					</View>
 				</View>
@@ -122,7 +154,7 @@ const Player = ({ navigation }: Props) => {
 				/>
 			</View>
 
-			<Footer currentValue={300} maxValue={1000} barColor='#F2B077'>
+			<Footer currentValue={progress} maxValue={exercise.time[time].totalTime} barColor='#F2B077'>
 				<View>
 					<Text style={styles.infoText as TextType}>{exercise.name}</Text>
 					<View style={styles.musicInfo as ViewType}>
@@ -130,10 +162,10 @@ const Player = ({ navigation }: Props) => {
 						<Icon name='music' type='material-community' color='#fff' size={15} />
 					</View>
 				</View>
-				<Text style={styles.playerCounter as TextType}>48s</Text>
+				<Text style={styles.playerCounter as TextType}>{fullTime}s</Text>
 				<Icon
-					name='pause'
-					type='antdesign'
+					name={playing ? 'pause-outline' : 'play-outline'}
+					type='ionicon'
 					color='#fff'
 					size={50}
 					onPress={() => setPlaying(!playing)}
