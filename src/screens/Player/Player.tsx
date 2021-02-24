@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, Image } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { Audio } from 'expo-av'
 
-import useAsyncEffect from 'use-async-effect'
+import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
 import { Sound } from 'expo-av/build/Audio'
 import styles from './Player.scss'
 import { imageMap, musicMap, exerciseMap } from '../../utils/consts'
@@ -21,6 +21,7 @@ import { NavigationScreenType } from '../../types/navigation'
 //Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { usePauseContext } from '../../utils/context/PauseContext'
+import { useThemeContext } from '../../utils/context/ThemeContext'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -30,12 +31,14 @@ const Player = ({ navigation }: Props) => {
 	//Contexts
 	const settingsContext = useSettingsContext()
 	const pauseContext = usePauseContext()
+	const themeContext = useThemeContext()
 
 	//Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const time = settingsContext.useSubscribe((t) => t.settings?.time)
 	const exercise = pauseContext.useSubscribe((e) => e.exercise)
 	const music = pauseContext.useSubscribe((m) => m.music)
+	const theme = themeContext.useSubscribe( (t) => t.colors)
 	// const points = pauseContext.useSubscribe((p) => p.points)
 
 	if (!music || !exercise || !time) {
@@ -68,27 +71,13 @@ const Player = ({ navigation }: Props) => {
 		await sound.pauseAsync()
 	}
 
-	//Timer
-	setTimeout(() => {
-		if (fullTime > 0 && playing) {
-			setFullTime(fullTime - 1)
-			setProgress(progress + 1)
-			if (isExercising) {
-				if (exerciseTime <= 1) {
-					setIsExercising(false)
-				}
-			} else if (pauseTime <= 1) {
-				setSeries(series - 1)
-				setIsExercising(true)
-			}
-		}
-	}, 1000)
-
+	//Timer Consts
 	const exerciseTime =
 		fullTime - (series * exercise.time[time].exerciseTime + series * exercise.time[time].pauseTime)
 	const pauseTime =
 		fullTime -
 		(series * exercise.time[time].exerciseTime + (series - 1) * exercise.time[time].pauseTime)
+	
 
 	useAsyncEffect(async () => {
 		if (!audio) {
@@ -99,6 +88,25 @@ const Player = ({ navigation }: Props) => {
 			await playSound(audio)
 		}
 	})
+
+	useEffect(() => {
+		//Timer
+		setTimeout(() => {
+			if (fullTime > 0 && playing) {
+				setFullTime(fullTime - 1)
+				setProgress(progress + 1)
+				if (isExercising) {
+					if (exerciseTime <= 1) {
+						setIsExercising(false)
+					}
+				} else if (pauseTime <= 1) {
+					setSeries(series - 1)
+					setIsExercising(true)
+				}
+			}
+		}, 1000)
+	})
+
 
 	return (
 		<View style={styles.container as ViewType}>
@@ -129,7 +137,7 @@ const Player = ({ navigation }: Props) => {
 				</View>
 			</Modal>
 
-			<WavyHeader bgColor='#1A6A73' outline>
+			<WavyHeader bgColor={theme.primary} outline>
 				<View style={styles.headerContainer as ViewType}>
 					<View style={styles.header as ViewType}>
 						<CloseIcon color='#fff' onPress={() => setModalVisible(true)} />
@@ -154,7 +162,7 @@ const Player = ({ navigation }: Props) => {
 				/>
 			</View>
 
-			<Footer currentValue={progress} maxValue={exercise.time[time].totalTime} barColor='#F2B077'>
+			<Footer currentValue={progress} maxValue={exercise.time[time].totalTime} barColor={theme.progress}>
 				<View>
 					<Text style={styles.infoText as TextType}>{exercise.name}</Text>
 					<View style={styles.musicInfo as ViewType}>
