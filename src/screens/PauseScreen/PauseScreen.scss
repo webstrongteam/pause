@@ -1,46 +1,46 @@
-.container{
-    background-color: #1a6a73;
-    height: 100%;
+.container {
+	background-color: #1a6a73;
+	height: 100%;
 }
 
-.exerciseTitle{
-    position: absolute;
-    width: 100%;
-    align-items: center;
-    display: flex;
-    top: 15%;
-    font-size:'20px'
+.exerciseTitle {
+	position: absolute;
+	width: 100%;
+	align-items: center;
+	display: flex;
+	top: 15%;
+	font-size: '20px';
 }
 
-.exerciseInfo{
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+.exerciseInfo {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
 }
 
-.firstInfo{
-    color: #fff;
-    font-size: 15px;
+.firstInfo {
+	color: #fff;
+	font-size: 15px;
 }
 
-.secondInfo{
-    font-size: 35px;
+.secondInfo {
+	font-size: 35px;
 }
 
-.bottomIcons{
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.bottomIcons {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
-.Icon{
-    width: 90px;
-    height: 90px;
-    border: 2px solid white;
-    border-radius: 45px;
-    margin: 30px;
-    justify-content: center;
+.Icon {
+	width: 90px;
+	height: 90px;
+	border: 2px solid white;
+	border-radius: 45px;
+	margin: 30px;
+	justify-content: center;
 }

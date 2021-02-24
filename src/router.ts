@@ -9,7 +9,7 @@ import Settings from './screens/Settings/Settings'
 const MainNavigator = createStackNavigator(
 	{
 		Home: { screen: Home },
-		PauseScreen: {screen: PauseScreen},
+		PauseScreen: { screen: PauseScreen },
 		Profile: { screen: Profile },
 		Settings: { screen: Settings },
 	},
