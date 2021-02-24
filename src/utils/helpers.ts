@@ -30,9 +30,9 @@ export const getLocale = () => {
 	return 'en'
 }
 
-export const getRandomPause = (settings: Settings): Pause => ({
-	music: getRandomMusic(settings.level),
-	exercise: getRandomExercises(settings.level, settings.difficulty),
+export const getRandomPause = (pause: Pause, settings: Settings): Pause => ({
+	music: getRandomMusic(pause.music, settings.level),
+	exercise: getRandomExercises(pause.exercise, settings.level, settings.difficulty),
 	points: +(basePoints * getPointsMultiplier(settings.time, settings.difficulty)).toFixed(0),
 })
 
@@ -71,19 +71,48 @@ export const addTextColor = (baseStyles: {}, textColor: string): TextType => ({
 
 const getRandomIndex = (length: number): number => Math.floor(Math.random() * length)
 
-const getRandomMusic = (level: number): Music => {
-	const availableMusic = (music as Music[]).filter((m) => +m.requiredLevel <= level)
-	const randomIndex = getRandomIndex(availableMusic.length)
+const getRandomMusic = (actualMusic: Music | undefined, level: number): Music => {
+	if (actualMusic && music.length === 1) {
+		return actualMusic
+	}
 
+	let availableMusic
+	if (!actualMusic) {
+		availableMusic = (music as Music[]).filter((m) => +m.requiredLevel <= level)
+	} else {
+		availableMusic = (music as Music[]).filter(
+			(m) => actualMusic.name !== m.name && +m.requiredLevel <= level,
+		)
+	}
+
+	const randomIndex = getRandomIndex(availableMusic.length)
 	return availableMusic[randomIndex]
 }
 
-const getRandomExercises = (level: number, difficulty: Difficulty): Exercise => {
-	const availableExercises = (exercises as Exercise[]).filter(
-		(exercise) => +exercise.requiredLevel <= level && exercise.difficulty === difficulty,
-	)
-	const randomIndex = getRandomIndex(availableExercises.length)
+const getRandomExercises = (
+	actualExercise: Exercise | undefined,
+	level: number,
+	difficulty: Difficulty,
+): Exercise => {
+	if (actualExercise && exercises.length === 1) {
+		return actualExercise
+	}
 
+	let availableExercises
+	if (!actualExercise) {
+		availableExercises = (exercises as Exercise[]).filter(
+			(exercise) => +exercise.requiredLevel <= level && exercise.difficulty === difficulty,
+		)
+	} else {
+		availableExercises = (exercises as Exercise[]).filter(
+			(exercise) =>
+				actualExercise.name !== exercise.name &&
+				+exercise.requiredLevel <= level &&
+				exercise.difficulty === difficulty,
+		)
+	}
+
+	const randomIndex = getRandomIndex(availableExercises.length)
 	return availableExercises[randomIndex]
 }
 
