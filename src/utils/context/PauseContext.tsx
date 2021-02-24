@@ -13,16 +13,17 @@ const PauseContext = createStateContext(settingsInitialState, (setStore) => ({
 }))
 
 const PauseHandler = () => {
-	const { setPause } = usePauseContext()
-	const { useSubscribe } = useSettingsContext()
-	const settings = useSubscribe((s) => s.settings)
+	const pauseContext = usePauseContext()
+	const settingsContext = useSettingsContext()
+	const pause = pauseContext.useSubscribe((s) => s)
+	const settings = settingsContext.useSubscribe((s) => s.settings)
 
 	useEffect(() => {
 		if (!settings) {
 			return
 		}
 
-		setPause(getRandomPause(settings))
+		pauseContext.setPause(getRandomPause(pause, settings))
 	}, [settings])
 
 	return <></>
