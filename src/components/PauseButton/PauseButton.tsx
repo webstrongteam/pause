@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, Dimensions } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { BoxShadow } from 'react-native-shadow'
 import { ViewType } from '../../types/styles'
@@ -18,8 +18,12 @@ const shadowOpt = {
 	style: { marginVertical: 0 },
 }
 
-const PauseButton = () => (
-	<TouchableOpacity style={styles.pauseButton as ViewType}>
+type Props={
+	onPress: () => void
+}
+
+const PauseButton = ({onPress}:Props) => (
+	<TouchableOpacity style={[styles.pauseButton, {top:Dimensions.get('screen').height*0.4-60}] as ViewType} onPress={onPress}>
 		<BoxShadow setting={shadowOpt}>
 			<View style={styles.box as ViewType}>
 				<Icon name='pause' type='antdesign' color='#fff' size={100} />
