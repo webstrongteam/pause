@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text,} from 'react-native'
 import { Icon } from 'react-native-elements'
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
@@ -19,10 +19,8 @@ const Home = ({ navigation }: Props) => (
 		<View style={{ position: 'absolute', top: 0, width: '100%' }}>
 			<WavyHeader variant='centered' />
 		</View>
-		<View style={{ height: '100%' }}>
-			<TouchableOpacity style={styles.pauseButton as ViewType}>
-				<PauseButton />
-			</TouchableOpacity>
+		<View style={{ height:'100%' }}>			
+			<PauseButton />
 		</View>
 
 		<Footer currentValue={300} maxValue={1000} barColor='#F2B077'>
