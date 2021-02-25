@@ -63,6 +63,7 @@
 	align-self: center;
 	align-items: center;
 	top: 10%;
+	transition: 2s ease-in-out;
 }
 .exerciseName {
 	@include Text();

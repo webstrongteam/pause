@@ -91,7 +91,7 @@ const Player = ({ navigation }: Props) => {
 		}
 	}
 
-	const quit = async () => {
+	const quitHandler = async () => {
 		if (audio) {
 			await pauseSound(audio)
 			await unloadSound(audio)
@@ -110,7 +110,7 @@ const Player = ({ navigation }: Props) => {
 	}, [playing])
 
 	useAsyncEffect(async () => {
-		await timeout(100)
+		await timeout(1000)
 		if (fullTime > 0 && playing) {
 			setFullTime(fullTime - 1)
 			if (isExercising) {
@@ -122,8 +122,7 @@ const Player = ({ navigation }: Props) => {
 				setIsExercising(true)
 			}
 		} else if (fullTime === 0 && audio) {
-			//eslint-disable-next-line @typescript-eslint/no-floating-promises
-			quit()
+			await quitHandler()
 		}
 	}, [fullTime, playing])
 
@@ -142,10 +141,9 @@ const Player = ({ navigation }: Props) => {
 					},
 					{
 						text: translations.common.yes,
-						onPress: () => {
+						onPress: async () => {
 							setModalVisible(false)
-							//eslint-disable-next-line @typescript-eslint/no-floating-promises
-							quit()
+							await quitHandler()
 						},
 					},
 				]}
