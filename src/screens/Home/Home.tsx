@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text,} from 'react-native'
+import { View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
@@ -19,7 +19,7 @@ const Home = ({ navigation }: Props) => (
 		<View style={{ position: 'absolute', top: 0, width: '100%' }}>
 			<WavyHeader variant='centered' />
 		</View>
-		<View style={{ height:'100%' }}>			
+		<View style={{ height: '100%' }}>
 			<PauseButton />
 		</View>
 
