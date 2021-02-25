@@ -1,11 +1,11 @@
-import React, { useEffect, ReactNode } from 'react'
+import React, { useEffect, PropsWithChildren } from 'react'
 import { BackHandler, Dimensions, Keyboard } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import ModalBase, { ModalButton, ModalContent, ModalFooter, ModalTitle } from 'react-native-modals'
 import { TextType } from '../../types/styles'
 import styles from './Modal.scss'
 
-type Props = {
+type Props = PropsWithChildren<{
 	toggleModal: () => void
 	visible: boolean
 	title: string
@@ -14,8 +14,7 @@ type Props = {
 		onPress: () => void
 	}[]
 	bgColor?: string
-	children: ReactNode
-}
+}>
 
 const Modal = ({
 	toggleModal,

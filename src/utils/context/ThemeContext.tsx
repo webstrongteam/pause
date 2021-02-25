@@ -3,11 +3,16 @@ import { createStateContext } from '../createStateContext'
 import { useSettingsContext } from './SettingsContext'
 import { getTheme } from '../helpers'
 import { Theme } from '../../types/theme'
-import themes from '../../config/themes.json'
 
 const themeInitialState: Theme = {
-	...themes[0],
 	requiredLevel: 0,
+	colors: {
+		primary: '#FFF',
+		secondary: '#FFF',
+		third: '#FFF',
+		optional: '#FFF',
+		progress: '#FFF',
+	},
 }
 
 const ThemeContext = createStateContext(themeInitialState, (setStore) => ({
