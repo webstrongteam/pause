@@ -18,12 +18,15 @@ const shadowOpt = {
 	style: { marginVertical: 0 },
 }
 
-type Props={
+type Props = {
 	onPress: () => void
 }
 
-const PauseButton = ({onPress}:Props) => (
-	<TouchableOpacity style={[styles.pauseButton, {top:Dimensions.get('screen').height*0.4-60}] as ViewType} onPress={onPress}>
+const PauseButton = ({ onPress }: Props) => (
+	<TouchableOpacity
+		style={[styles.pauseButton, { top: Dimensions.get('screen').height * 0.4 - 60 }] as ViewType}
+		onPress={onPress}
+	>
 		<BoxShadow setting={shadowOpt}>
 			<View style={styles.box as ViewType}>
 				<Icon name='pause' type='antdesign' color='#fff' size={100} />
