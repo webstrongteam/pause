@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { View, Text, Image } from 'react-native'
+import React, { useState, useRef, useEffect } from 'react'
+import { Animated, View, Text, Image, Easing } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { Audio } from 'expo-av'
 
@@ -48,6 +48,7 @@ const Player = ({ navigation }: Props) => {
 
 	//States
 	const [modalVisible, setModalVisible] = useState(false)
+	const [isAnimating, setIsAnimating] = useState(false)
 
 	const [audio, setAudio] = useState<Sound>()
 	const [playing, setPlaying] = useState(true)
@@ -72,6 +73,36 @@ const Player = ({ navigation }: Props) => {
 	}
 	const unloadSound = async (sound: Audio.Sound) => {
 		await sound.unloadAsync()
+	}
+
+	const pauseHandler = () => {
+		if (!isAnimating) {
+			setIsAnimating(true)
+			fadeOut()
+		}
+	}
+
+	const fadeAnim = useRef(new Animated.Value(0)).current
+
+	const fadeIn = () => {
+		Animated.timing(fadeAnim, {
+			toValue: 1,
+			duration: 250,
+			easing: Easing.bezier(0.0, 0.0, 0.2, 1),
+			useNativeDriver: true,
+		}).start(() => setIsAnimating(false))
+	}
+
+	const fadeOut = () => {
+		Animated.timing(fadeAnim, {
+			toValue: 0,
+			duration: 250,
+			easing: Easing.bezier(0.0, 0.0, 0.2, 1),
+			useNativeDriver: true,
+		}).start(() => {
+			setPlaying(!playing)
+			fadeIn()
+		})
 	}
 
 	//Timer Consts
@@ -126,6 +157,8 @@ const Player = ({ navigation }: Props) => {
 		}
 	}, [fullTime, playing])
 
+	useEffect(() => fadeIn())
+
 	return (
 		<View style={styles.container as ViewType}>
 			<Image style={styles.image as ImageType} source={imageMap[music.name]} />
@@ -171,7 +204,7 @@ const Player = ({ navigation }: Props) => {
 				</View>
 			</WavyHeader>
 
-			<View style={styles.exerciseInfo as ViewType}>
+			<Animated.View style={[styles.exerciseInfo, { opacity: fadeAnim }] as ViewType}>
 				{playing ? (
 					<>
 						<Text style={styles.exerciseName as TextType}>{exercise.name}</Text>
@@ -184,7 +217,7 @@ const Player = ({ navigation }: Props) => {
 				) : (
 					<Icon name='pause-outline' type='ionicon' color='#fff' size={250} />
 				)}
-			</View>
+			</Animated.View>
 
 			<Footer
 				currentValue={progress}
@@ -204,7 +237,7 @@ const Player = ({ navigation }: Props) => {
 					type='ionicon'
 					color='#fff'
 					size={50}
-					onPress={() => setPlaying(!playing)}
+					onPress={pauseHandler}
 				/>
 			</Footer>
 		</View>
