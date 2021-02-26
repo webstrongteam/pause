@@ -14,6 +14,7 @@ const ProgressBar = ({ maxValue, currentValue, barColor }: ProgressBarProps) => 
 		value={currentValue}
 		disabled
 		minimumTrackTintColor={barColor}
+		style={{ height: 1 }}
 		thumbStyle={{ width: 0, height: 0 }}
 	/>
 )

@@ -1,28 +1,14 @@
 .container {
 	background-color: #1a6a73;
 	flex: 1;
+	padding: 0;
+	margin: 0;
 }
 
-.wavyHeader {
-	height: 200px;
-	background-color: red;
-	z-index: 100;
-}
-
-.progressBar {
-	width: 100%;
+.header {
 	position: absolute;
-	bottom: 20px;
-	left: 0;
-	height: 100px;
-}
-
-.bottomInfo {
+	top: 0;
 	width: 100%;
-	margin-top: 10px;
-	flex-direction: row;
-	justify-content: space-around;
-	align-items: center;
 }
 
 .levelText {

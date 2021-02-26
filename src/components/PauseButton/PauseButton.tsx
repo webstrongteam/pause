@@ -25,11 +25,12 @@ type Props = {
 const PauseButton = ({ onPress }: Props) => (
 	<TouchableOpacity
 		style={[styles.pauseButton, { top: Dimensions.get('screen').height * 0.4 - 60 }] as ViewType}
+		/*We take the height of the screen, multiply it by the distance we want to set and subtract half the height of the element from it*/
 		onPress={onPress}
 	>
 		<BoxShadow setting={shadowOpt}>
 			<View style={styles.box as ViewType}>
-				<Icon name='pause' type='antdesign' color='#fff' size={100} />
+				<Icon name='pause' type='antdesign' color='#fff' size={112} />
 			</View>
 		</BoxShadow>
 	</TouchableOpacity>

@@ -18,16 +18,22 @@ type Props = {
 const Home = ({ navigation }: Props) => {
 	const { useSubscribe } = useSettingsContext()
 	const translations = useSubscribe((s) => s.translations)
+	const level = useSubscribe((s) => s.settings?.level)
+	let points = useSubscribe((s) => s.settings?.points)
+
+	if (!points) {
+		points = 0
+	}
+
 	return (
 		<View style={styles.container as ViewType}>
-			<View style={{ position: 'absolute', top: 0, width: '100%' }}>
+			<View style={styles.header as ViewType}>
 				<WavyHeader variant='centered' />
 			</View>
-			<View style={{ height: '100%' }}>
+			<View>
 				<PauseButton onPress={() => navigation.navigate('Profile')} />
 			</View>
-
-			<Footer currentValue={300} maxValue={1000} barColor='#F2B077'>
+			<Footer currentValue={points} maxValue={1000} barColor='#F2B077'>
 				<Icon
 					name='account'
 					onPress={() => navigation.navigate('Profile')}
@@ -35,7 +41,9 @@ const Home = ({ navigation }: Props) => {
 					color='#fff'
 					size={50}
 				/>
-				<Text style={styles.levelText as TextType}>{translations.common.level}&nbsp;3</Text>
+				<Text style={styles.levelText as TextType}>
+					{translations.common.level}&nbsp;{level}
+				</Text>
 				<Icon
 					name='cog-outline'
 					onPress={() => navigation.navigate('Settings')}
