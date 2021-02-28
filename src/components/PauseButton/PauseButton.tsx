@@ -24,8 +24,8 @@ type Props = {
 }
 
 const PauseButton = ({ onPress }: Props) => {
-	const themeContext = useThemeContext()
-	const color = themeContext.useSubscribe((c) => c.colors)
+	const {useSubscribe} = useThemeContext()
+	const color = useSubscribe((c) => c.colors)
 
 	return (
 		<TouchableOpacity
