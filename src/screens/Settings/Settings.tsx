@@ -15,6 +15,16 @@ type Props = {
 	navigation: NavigationScreenType
 }
 
+type ButtonGroupsType = Record<
+	string,
+	{
+		label: string
+		onPress: () => void
+		name: Lang | Difficulty | Time
+		key: keyof Settings
+	}[]
+>
+
 const SettingsScreen = ({ navigation }: Props) => {
 	const [modalVisible, setModalVisible] = useState(false)
 	const { useSubscribe, setSettings } = useSettingsContext()
@@ -22,16 +32,6 @@ const SettingsScreen = ({ navigation }: Props) => {
 	const translations = useSubscribe((s) => s.translations)
 
 	const buttonGroupStyles = [styles.languages, styles.difficulty, styles.breakTime]
-
-	type ButtonGroupsType = Record<
-		string,
-		{
-			label: string
-			onPress: () => void
-			name: Lang | Difficulty | Time
-			key: keyof Settings
-		}[]
-	>
 
 	const buttonGroups: ButtonGroupsType = {
 		[translations.Settings.language]: [

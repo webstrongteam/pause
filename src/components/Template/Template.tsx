@@ -4,11 +4,7 @@ import styles from './Template.styles'
 import Spinner from '../Spinner/Spinner'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
-type Props = {
-	children: PropsWithChildren<{}>
-}
-
-const Template = ({ children }: Props) => {
+const Template = ({ children }: PropsWithChildren<{}>) => {
 	const { useSubscribe } = useThemeContext()
 	const themeRequiredLevel = useSubscribe((s) => s.requiredLevel)
 

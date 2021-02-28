@@ -1,14 +1,13 @@
-import React, { ReactNode } from 'react'
+import React, { PropsWithChildren } from 'react'
 import { Dimensions, View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
 import styles from './WavyHeader.styles'
 
-type Props = {
+type Props = PropsWithChildren<{
 	outline?: boolean
 	bgColor?: string
 	variant?: 'header' | 'centered'
-	children?: ReactNode
-}
+}>
 
 const WavyHeader = ({ outline = false, bgColor = '#fff', variant = 'header', children }: Props) => {
 	const headerHeight =
