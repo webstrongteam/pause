@@ -1,6 +1,7 @@
 import React from 'react'
 import { Slider } from 'react-native-elements'
 import { concatStyles } from '../../utils/helpers'
+import { ViewType } from '../../types/styles'
 import styles from './ProgressBar.module.scss'
 
 type ProgressBarProps = {
@@ -18,7 +19,7 @@ const ProgressBar = ({ maxValue, currentValue, barColor, className = {} }: Progr
 		disabled
 		minimumTrackTintColor={barColor}
 		style={concatStyles(styles.progressBar, className)}
-		thumbStyle={{ width: 0, height: 0 }}
+		thumbStyle={styles.thumbStyle as ViewType}
 	/>
 )
 

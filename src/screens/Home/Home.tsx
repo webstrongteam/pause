@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
-import { getRequiredPointsToLevelUp } from '../../utils/helpers'
+import { addBackgroundColor, getPointsToLevelUp, getRandomPause } from '../../utils/helpers'
 
 import styles from './Home.scss'
 
@@ -13,6 +13,7 @@ import Footer from '../../components/Footer/Footer'
 
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
+import { usePauseContext } from '../../utils/context/PauseContext'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -20,25 +21,38 @@ type Props = {
 
 const Home = ({ navigation }: Props) => {
 	const settingsContext = useSettingsContext()
+	const pauseContext = usePauseContext()
 	const themeContext = useThemeContext()
 
 	const translations = settingsContext.useSubscribe((s) => s.translations)
-	const level = settingsContext.useSubscribe((l) => l.settings?.level ?? 0)
-	const points = settingsContext.useSubscribe((p) => p.settings?.points ?? 0)
+	const settings = settingsContext.useSubscribe((s) => s.settings)
 	const color = themeContext.useSubscribe((c) => c.colors)
+	const pause = pauseContext.useSubscribe((p) => p)
+
+	if (!settings) {
+		return <></>
+	}
+
+	const pauseHandler = () => {
+		pauseContext.setPause(getRandomPause(pause, settings))
+		navigation.navigate('Profile')
+	}
 
 	return (
-		<View style={[styles.container, { backgroundColor: color.primary }] as ViewType}>
+		<View style={addBackgroundColor(styles.container, color.primary)}>
 			<View style={styles.header as ViewType}>
 				<WavyHeader variant='centered' />
 			</View>
+
 			<View>
-				<PauseButton onPress={() => navigation.navigate('Profile')} />
+				<PauseButton onPress={pauseHandler} />
 			</View>
+
 			<Footer
-				currentValue={points}
-				maxValue={getRequiredPointsToLevelUp(level, points)}
+				currentValue={settings.points}
+				maxValue={getPointsToLevelUp(settings.level)}
 				barColor={color.progress}
+				backgroundColor={color.primary}
 			>
 				<Icon
 					name='account'
@@ -48,7 +62,7 @@ const Home = ({ navigation }: Props) => {
 					size={42}
 				/>
 				<Text style={styles.levelText as TextType}>
-					{translations.common.level}&nbsp;{level}
+					{translations.common.level}&nbsp;{settings.level}
 				</Text>
 				<Icon
 					name='cog-outline'

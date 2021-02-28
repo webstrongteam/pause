@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 import { BoxShadow } from 'react-native-shadow'
 import { ViewType } from '../../types/styles'
 import { useThemeContext } from '../../utils/context/ThemeContext'
-
+import { addBackgroundColor } from '../../utils/helpers'
 import styles from './PauseButton.scss'
 
 const shadowOpt = {
@@ -29,13 +29,13 @@ const PauseButton = ({ onPress }: Props) => {
 
 	return (
 		<TouchableOpacity
+			// We take the height of the screen, multiply it by the distance we want to set and subtract half the height of the element from it
 			style={[styles.pauseButton, { top: Dimensions.get('screen').height * 0.4 - 60 }] as ViewType}
-			/*We take the height of the screen, multiply it by the distance we want to set and subtract half the height of the element from it*/
 			onPress={onPress}
 		>
 			<BoxShadow setting={shadowOpt}>
-				<View style={[styles.box, { backgroundColor: color.primary }] as ViewType}>
-					<Icon name='pause' type='antdesign' color='#fff' size={112} />
+				<View style={addBackgroundColor(styles.box, color.primary)}>
+					<Icon name='pause' type='antdesign' color='#fff' size={128} />
 				</View>
 			</BoxShadow>
 		</TouchableOpacity>
