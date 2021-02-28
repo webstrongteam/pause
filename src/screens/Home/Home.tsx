@@ -9,37 +9,38 @@ import styles from './Home.scss'
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import PauseButton from '../../components/PauseButton/PauseButton'
 import Footer from '../../components/Footer/Footer'
+
 import { useSettingsContext } from '../../utils/context/SettingsContext'
+import { useThemeContext } from '../../utils/context/ThemeContext'
 
 type Props = {
 	navigation: NavigationScreenType
 }
 
 const Home = ({ navigation }: Props) => {
-	const { useSubscribe } = useSettingsContext()
-	const translations = useSubscribe((s) => s.translations)
-	const level = useSubscribe((s) => s.settings?.level)
-	let points = useSubscribe((s) => s.settings?.points)
+	const settingsContext = useSettingsContext()
+	const themeContext = useThemeContext()
 
-	if (!points) {
-		points = 0
-	}
+	const translations = settingsContext.useSubscribe((s) => s.translations)
+	const level = settingsContext.useSubscribe((l) => l.settings?.level)
+	let points = settingsContext.useSubscribe((p) => p.settings?.points)
+	const color = themeContext.useSubscribe((c) => c.colors)
 
 	return (
-		<View style={styles.container as ViewType}>
+		<View style={[styles.container, { backgroundColor: color.primary }] as ViewType}>
 			<View style={styles.header as ViewType}>
 				<WavyHeader variant='centered' />
 			</View>
 			<View>
 				<PauseButton onPress={() => navigation.navigate('Profile')} />
 			</View>
-			<Footer currentValue={points} maxValue={1000} barColor='#F2B077'>
+			<Footer currentValue={(!points ? points=0 : points)} maxValue={1000} barColor={color.progress}>
 				<Icon
 					name='account'
 					onPress={() => navigation.navigate('Profile')}
 					type='material-community'
 					color='#fff'
-					size={50}
+					size={42}
 				/>
 				<Text style={styles.levelText as TextType}>
 					{translations.common.level}&nbsp;{level}
@@ -49,7 +50,7 @@ const Home = ({ navigation }: Props) => {
 					onPress={() => navigation.navigate('Settings')}
 					type='material-community'
 					color='#fff'
-					size={50}
+					size={42}
 				/>
 			</Footer>
 		</View>
