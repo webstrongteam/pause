@@ -12,6 +12,7 @@ import Footer from '../../components/Footer/Footer'
 
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
+import { usePauseContext } from '../../utils/context/PauseContext'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -20,11 +21,13 @@ type Props = {
 const Home = ({ navigation }: Props) => {
 	const settingsContext = useSettingsContext()
 	const themeContext = useThemeContext()
+	const pauseContext = usePauseContext()
 
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const level = settingsContext.useSubscribe((l) => l.settings?.level)
 	let points = settingsContext.useSubscribe((p) => p.settings?.points)
 	const color = themeContext.useSubscribe((c) => c.colors)
+	let maxPoints = pauseContext.useSubscribe((m) => m.exercise?.requiredLevel)
 
 	return (
 		<View style={[styles.container, { backgroundColor: color.primary }] as ViewType}>
@@ -34,7 +37,11 @@ const Home = ({ navigation }: Props) => {
 			<View>
 				<PauseButton onPress={() => navigation.navigate('Profile')} />
 			</View>
-			<Footer currentValue={(!points ? points=0 : points)} maxValue={1000} barColor={color.progress}>
+			<Footer
+				currentValue={!points ? (points = 0) : points}
+				maxValue={!maxPoints ? (maxPoints = 0) : maxPoints}
+				barColor={color.progress}
+			>
 				<Icon
 					name='account'
 					onPress={() => navigation.navigate('Profile')}
