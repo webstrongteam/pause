@@ -37,8 +37,9 @@ const Home = ({ navigation }: Props) => {
 			</View>
 			<Footer
 				currentValue={points}
-				maxValue={getRequiredPointsToLevelUp(level, points)}
+				maxValue={getRequiredPointsToLevelUp(level)}
 				barColor={color.progress}
+				backgroundColor={color.primary}
 			>
 				<Icon
 					name='account'

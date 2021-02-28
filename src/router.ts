@@ -12,7 +12,11 @@ const MainNavigator = createStackNavigator(
 		Settings: { screen: Settings },
 	},
 	{
+<<<<<<< HEAD
 		initialRouteName: 'Home',
+=======
+		initialRouteName: 'Profile',
+>>>>>>> master
 		headerMode: 'none',
 	},
 )
