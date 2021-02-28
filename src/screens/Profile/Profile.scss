@@ -25,6 +25,9 @@
 	font-family: 'Lato-Light';
 	text-transform: uppercase;
 }
+.progressBar {
+	margin: 12px 0;
+}
 .levelText {
 	@include Text();
 }

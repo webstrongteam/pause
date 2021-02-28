@@ -36,8 +36,8 @@ export const getRandomPause = (pause: Pause, settings: Settings): Pause => ({
 	points: +(basePoints * getPointsMultiplier(settings.time, settings.difficulty)).toFixed(0),
 })
 
-export const getRequiredPointsToLevelUp = (level: number, points: number): number =>
-	+(baseLevelPoints * level + level * progressMultiplier - points).toFixed(0)
+export const getPointsToLevelUp = (level: number): number =>
+	+(baseLevelPoints * level + level * progressMultiplier).toFixed(0)
 
 export const getNextLevelBenefits = (level: number): NextLevelBenefits => {
 	const nextLevelMusic = (music as Music[]).filter((m) => m.requiredLevel === level + 1)
@@ -67,6 +67,11 @@ export const addBackgroundColor = (baseStyles: {}, backgroundColor: string): Vie
 export const addTextColor = (baseStyles: {}, textColor: string): TextType => ({
 	...baseStyles,
 	color: textColor,
+})
+
+export const concatStyles = (firstStyles = {}, secondStyles = {}): {} => ({
+	...firstStyles,
+	...secondStyles,
 })
 
 const getRandomIndex = (length: number): number => Math.floor(Math.random() * length)
