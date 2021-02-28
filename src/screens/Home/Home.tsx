@@ -3,6 +3,7 @@ import { View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
+import { getRequiredPointsToLevelUp } from '../../utils/helpers'
 
 import styles from './Home.scss'
 
@@ -22,7 +23,7 @@ const Home = ({ navigation }: Props) => {
 	const themeContext = useThemeContext()
 
 	const translations = settingsContext.useSubscribe((s) => s.translations)
-	const level = settingsContext.useSubscribe((l) => l.settings?.level)
+	const level = settingsContext.useSubscribe((l) => l.settings?.level ?? 0)
 	const points = settingsContext.useSubscribe((p) => p.settings?.points ?? 0)
 	const color = themeContext.useSubscribe((c) => c.colors)
 
@@ -36,7 +37,7 @@ const Home = ({ navigation }: Props) => {
 			</View>
 			<Footer
 				currentValue={points}
-				maxValue={1000}
+				maxValue={getRequiredPointsToLevelUp(level, points)}
 				barColor={color.progress}
 			>
 				<Icon

@@ -24,7 +24,7 @@ type Props = {
 }
 
 const PauseButton = ({ onPress }: Props) => {
-	const {useSubscribe} = useThemeContext()
+	const { useSubscribe } = useThemeContext()
 	const color = useSubscribe((c) => c.colors)
 
 	return (
