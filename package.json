@@ -38,6 +38,7 @@
 		"react-native-modals": "^0.22.3",
 		"react-native-reanimated": "~1.13.0",
 		"react-native-screens": "~2.15.2",
+		"react-native-shadow": "^1.2.2",
 		"react-native-svg": "12.1.0",
 		"react-navigation": "^4.4.3",
 		"react-navigation-stack": "^2.10.2"
