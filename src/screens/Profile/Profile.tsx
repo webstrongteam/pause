@@ -32,7 +32,12 @@ const Profile = ({ navigation }: Props) => {
 			<Icon name='account' type='material-community' color='#fff' size={140} />
 			<Text style={styles.levelText as TextType}>{translations.common.level}&nbsp;3</Text>
 
-			<ProgressBar maxValue={1000} currentValue={300} barColor='#F2B077' />
+			<ProgressBar
+				className={styles.progressBar}
+				maxValue={1000}
+				currentValue={300}
+				barColor='#F2B077'
+			/>
 
 			<Text style={styles.levelInfo as TextType}>
 				<Text style={styles.fontBold as TextType}>1280&nbsp;</Text>

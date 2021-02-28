@@ -17,7 +17,9 @@
 		"android": "expo start --android",
 		"ios": "expo start --ios",
 		"eject": "expo eject",
-		"cleanup": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|scss|md)\" && eslint --fix ."
+		"cleanup": "prettier --config .prettierrc --write \"**/*.+(js|jsx|ts|tsx|json|scss|md)\" && npm run eslint",
+		"lint-cleanup": "prettier --config .prettierrc --check \"**/*.+(js|jsx|ts|tsx|json|scss|md)\" && npm run eslint",
+		"eslint": "eslint --fix ."
 	},
 	"dependencies": {
 		"@expo/metro-config": "^0.1.54",
