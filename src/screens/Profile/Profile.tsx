@@ -6,7 +6,7 @@ import { TextType, ViewType } from '../../types/styles'
 import styles from './Profile.scss'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
-import NextLevelInfo from '../../components/NextLevelInfo/NextLevelInfo'
+import NextLevelBenefits from '../../components/NextLevelInfo/NextLevelInfo'
 import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 
@@ -32,7 +32,12 @@ const Profile = ({ navigation }: Props) => {
 			<Icon name='account' type='material-community' color='#fff' size={140} />
 			<Text style={styles.levelText as TextType}>{translations.common.level}&nbsp;3</Text>
 
-			<ProgressBar maxValue={1000} currentValue={300} barColor='#F2B077' />
+			<ProgressBar
+				className={styles.progressBar}
+				maxValue={1000}
+				currentValue={300}
+				barColor='#F2B077'
+			/>
 
 			<Text style={styles.levelInfo as TextType}>
 				<Text style={styles.fontBold as TextType}>1280&nbsp;</Text>
@@ -44,9 +49,9 @@ const Profile = ({ navigation }: Props) => {
 				<Text>{translations.Profile.pointsToNextLvl}</Text>
 			</Text>
 
-			<Text style={styles.nextLevelText as TextType}>{translations.Level.nextLevel}</Text>
-			<NextLevelInfo
-				levelBenefits={['Nowy utwór muzyczny', '2 nowe ćwiczenia', 'Nowy kolor aplikacji']}
+			<NextLevelBenefits
+				titleClassName={styles.nextLevelText}
+				title={translations.Level.nextLevel}
 			/>
 		</ScrollView>
 	)
