@@ -5,7 +5,19 @@
 		"no": "Nie",
 		"ok": "Ok",
 		"level": "Poziom",
-		"breakEnded": "Przerwa zakończona"
+		"breakEnded": "Przerwa zakończona",
+
+		"singularNewExercise": "nowe ćwieczenie",
+		"pluralNewExercises": "nowe ćwieczenia",
+		"genitiveNewExercises": "nowych ćwieczeń",
+
+		"singularNewMusic": "nowy utwór muzyczny",
+		"pluralNewMusic": "nowe utwory muzyczne",
+		"genitiveNewMusic": "nowych utowrów muzycznych",
+
+		"singularNewTheme": "nowy kolor aplikacji",
+		"pluralNewThemes": "nowe kolory aplikacji",
+		"genitiveNewThemes": "nowych kolorów aplikacji"
 	},
 	"Pause": {
 		"durationTime": "Czas trwania",

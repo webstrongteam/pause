@@ -6,7 +6,7 @@ import { TextType, ViewType } from '../../types/styles'
 import styles from './Profile.scss'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
-import NextLevelInfo from '../../components/NextLevelInfo/NextLevelInfo'
+import NextLevelBenefits from '../../components/NextLevelInfo/NextLevelInfo'
 import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 
@@ -49,9 +49,9 @@ const Profile = ({ navigation }: Props) => {
 				<Text>{translations.Profile.pointsToNextLvl}</Text>
 			</Text>
 
-			<Text style={styles.nextLevelText as TextType}>{translations.Level.nextLevel}</Text>
-			<NextLevelInfo
-				levelBenefits={['Nowy utwór muzyczny', '2 nowe ćwiczenia', 'Nowy kolor aplikacji']}
+			<NextLevelBenefits
+				titleClassName={styles.nextLevelText}
+				title={translations.Level.nextLevel}
 			/>
 		</ScrollView>
 	)
