@@ -36,18 +36,16 @@ const PauseScreen = ({ navigation }: Props) => {
 	const themeContext = useThemeContext()
 	const settingsContext = useSettingsContext()
 
-	const exercise = pauseContext.useSubscribe((p) => p.exercise)
-	const music = pauseContext.useSubscribe((p) => p.music)
+	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
 	const pause = pauseContext.useSubscribe((p) => p)
-	const time = settingsContext.useSubscribe((s) => s.settings?.time)
 	const colors = themeContext.useSubscribe((c) => c.colors)
 
-	if (!time || !settings) {
+	if (!pause || !settings) {
 		return <></>
 	}
 
-	const pauseHandler = () => {
+	const drawNewPauseHandler = () => {
 		pauseContext.setPause(getRandomPause(pause, settings))
 	}
 
@@ -60,9 +58,11 @@ const PauseScreen = ({ navigation }: Props) => {
 					</View>
 					<View style={styles.headerData as ViewType}>
 						<View style={styles.exerciseTitle as ViewType}>
-							<Text style={addTextColor(styles.text, colors.primary)}>ćwiczenie</Text>
+							<Text style={addTextColor(styles.text, colors.primary)}>
+								{translations.Pause.exercise}
+							</Text>
 							<Text style={addTextColor(styles.exerciseStyle, colors.primary)}>
-								{exercise?.name}
+								{pause.exercise?.name}
 							</Text>
 						</View>
 					</View>
@@ -71,23 +71,24 @@ const PauseScreen = ({ navigation }: Props) => {
 
 			<View style={styles.centreInfo as ViewType}>
 				<View style={styles.exerciseInfo as ViewType}>
-					<Text style={styles.info as TextType}>Czas trwania</Text>
-					<Text style={[styles.info, styles.secondInfo] as TextType}>
-						{exercise?.time[time].exerciseTime}s x{exercise?.time[time].exerciseCount}
+					<Text style={styles.firstInfo as TextType}>{translations.Pause.durationTime}</Text>
+					<Text style={styles.secondInfo as TextType}>
+						{pause.exercise?.time[settings.time].exerciseTime}s x
+						{pause.exercise?.time[settings.time].exerciseCount}
 					</Text>
 				</View>
 
 				<View style={styles.exerciseInfo as ViewType}>
-					<Text style={styles.info as TextType}>Muzyka</Text>
-					<Text style={[styles.info, styles.secondInfo] as TextType}>{music?.name}</Text>
+					<Text style={styles.firstInfo as TextType}>{translations.Pause.music}</Text>
+					<Text style={styles.secondInfo as TextType}>{pause.music?.name}</Text>
 				</View>
 			</View>
 
 			<View style={styles.bottomIcons as ViewType}>
 				<BoxShadow setting={shadowOpt}>
-					<TouchableOpacity onPress={pauseHandler}>
+					<TouchableOpacity onPress={drawNewPauseHandler}>
 						<View style={addBackgroundColor(styles.Icon, colors.primary)}>
-							<Icon name='random' type='font-awesome' color='#fff' size={40} />
+							<Icon name='random' type='font-awesome' color='#fff' size={35} />
 						</View>
 					</TouchableOpacity>
 				</BoxShadow>
@@ -95,7 +96,7 @@ const PauseScreen = ({ navigation }: Props) => {
 				<BoxShadow setting={shadowOpt}>
 					<TouchableOpacity>
 						<View style={addBackgroundColor(styles.Icon, colors.primary)}>
-							<Icon name='play' type='feather' color='#fff' size={40} />
+							<Icon name='play' type='feather' color='#fff' size={35} />
 						</View>
 					</TouchableOpacity>
 				</BoxShadow>
