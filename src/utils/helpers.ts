@@ -74,6 +74,26 @@ export const concatStyles = (firstStyles = {}, secondStyles = {}): {} => ({
 	...secondStyles,
 })
 
+export const getVariety = (value: number, singular: string, plural: string, genitive?: string) =>
+	`${value.toFixed(0)} ${getVarietyOption(value, singular, plural, genitive)}`
+
+const getVarietyOption = (
+	value: number,
+	singular: string,
+	plural: string,
+	genitive?: string,
+): string => {
+	if (value === 1) {
+		return singular
+	}
+
+	if ([2, 3, 4].includes(value % 10) && ![12, 13, 14].includes(value % 100)) {
+		return plural
+	}
+
+	return genitive || plural
+}
+
 const getRandomIndex = (length: number): number => Math.floor(Math.random() * length)
 
 const getRandomMusic = (actualMusic: Music | undefined, level: number): Music => {
