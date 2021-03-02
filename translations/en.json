@@ -5,6 +5,8 @@
 		"no": "No",
 		"ok": "Ok",
 		"level": "Level",
+		"errorTitle": "Error",
+		"errorDescription": "Try again",
 		"breakEnded": "The break is over"
 	},
 	"Pause": {
@@ -29,7 +31,8 @@
 		"short": "Short",
 		"long": "Long",
 		"clearData": "Clear data",
-		"clearDataDescription": "Are you sure you want to clear all data?"
+		"clearDataDescription": "Are you sure you want to clear all data?",
+		"settingsRestore": "Settings has been restored"
 	},
 	"Profile": {
 		"title": "Profile",
