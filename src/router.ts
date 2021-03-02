@@ -14,7 +14,7 @@ const MainNavigator = createStackNavigator(
 		Settings: { screen: Settings },
 	},
 	{
-		initialRouteName: 'PauseScreen',
+		initialRouteName: 'Home',
 		headerMode: 'none',
 	},
 )
