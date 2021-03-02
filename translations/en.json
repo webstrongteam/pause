@@ -49,6 +49,7 @@
 		"pointsToNextLvl": "points to next level"
 	},
 	"Player": {
+		"break": "Break",
 		"breakIn": "Break in:",
 		"nextSeriesIn": "Next series in:",
 		"leaveExercise": "Leave exercise",

@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Animated, View, Text, Image, Easing } from 'react-native'
+import React, { useState, useRef } from 'react'
+import { Animated, View, Text, Image } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { Audio } from 'expo-av'
 
@@ -82,13 +82,12 @@ const Player = ({ navigation }: Props) => {
 		}
 	}
 
-	const fadeAnim = useRef(new Animated.Value(0)).current
+	const fadeAnim = useRef(new Animated.Value(1)).current
 
 	const fadeIn = () => {
 		Animated.timing(fadeAnim, {
 			toValue: 1,
 			duration: 250,
-			easing: Easing.bezier(0.0, 0.0, 0.2, 1),
 			useNativeDriver: true,
 		}).start(() => setIsAnimating(false))
 	}
@@ -97,7 +96,6 @@ const Player = ({ navigation }: Props) => {
 		Animated.timing(fadeAnim, {
 			toValue: 0,
 			duration: 250,
-			easing: Easing.bezier(0.0, 0.0, 0.2, 1),
 			useNativeDriver: true,
 		}).start(() => {
 			setPlaying(!playing)
@@ -124,7 +122,6 @@ const Player = ({ navigation }: Props) => {
 
 	const quitHandler = async () => {
 		if (audio) {
-			await pauseSound(audio)
 			await unloadSound(audio)
 			navigation.navigate('Home')
 		}
@@ -141,7 +138,7 @@ const Player = ({ navigation }: Props) => {
 	}, [playing])
 
 	useAsyncEffect(async () => {
-		await timeout(1000)
+		await timeout(100)
 		if (fullTime > 0 && playing) {
 			setFullTime(fullTime - 1)
 			if (isExercising) {
@@ -156,8 +153,6 @@ const Player = ({ navigation }: Props) => {
 			await quitHandler()
 		}
 	}, [fullTime, playing])
-
-	useEffect(() => fadeIn())
 
 	return (
 		<View style={styles.container as ViewType}>
@@ -181,8 +176,8 @@ const Player = ({ navigation }: Props) => {
 					},
 				]}
 			>
-				<View style={styles.Modal as ViewType}>
-					<Text style={styles.ModalText as TextType}>
+				<View style={styles.modal as ViewType}>
+					<Text style={styles.modalText as TextType}>
 						{translations.Player.leaveExerciseDescription}
 					</Text>
 				</View>
@@ -205,7 +200,7 @@ const Player = ({ navigation }: Props) => {
 			</WavyHeader>
 
 			<Animated.View style={[styles.exerciseInfo, { opacity: fadeAnim }] as ViewType}>
-				{playing ? (
+				{playing && isExercising ? (
 					<>
 						<Text style={styles.exerciseName as TextType}>{exercise.name}</Text>
 						<Image
@@ -215,14 +210,21 @@ const Player = ({ navigation }: Props) => {
 						/>
 					</>
 				) : (
-					<Icon name='pause-outline' type='ionicon' color='#fff' size={250} />
+					<></>
 				)}
+				{playing && !isExercising ? (
+					<Text style={styles.breakText as TextType}>{translations.Player.break}</Text>
+				) : (
+					<></>
+				)}
+				{!playing ? <Icon name='pause-outline' type='ionicon' color='#fff' size={250} /> : <></>}
 			</Animated.View>
 
 			<Footer
 				currentValue={progress}
 				maxValue={exercise.time[time].totalTime}
 				barColor={theme.progress}
+				backgroundColor={theme.primary}
 			>
 				<View>
 					<Text style={styles.infoText as TextType}>{exercise.name}</Text>
@@ -236,7 +238,7 @@ const Player = ({ navigation }: Props) => {
 					name={playing ? 'pause-outline' : 'play-outline'}
 					type='ionicon'
 					color='#fff'
-					size={50}
+					size={42}
 					onPress={pauseHandler}
 				/>
 			</Footer>
