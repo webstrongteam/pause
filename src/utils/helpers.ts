@@ -75,7 +75,7 @@ export const concatStyles = (firstStyles = {}, secondStyles = {}): {} => ({
 })
 
 export const getVariety = (value: number, singular: string, plural: string, genitive?: string) =>
-	`${value.toFixed(0)} ${getVarietyOption(value, singular, plural, genitive)}`
+	`${getVarietyOption(value, singular, plural, genitive)}`
 
 const getVarietyOption = (
 	value: number,

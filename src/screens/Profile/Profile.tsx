@@ -70,6 +70,7 @@ const Profile = ({ navigation }: Props) => {
 			/>
 
 			<Text style={styles.levelInfo as TextType}>
+				<Text style={styles.fontBold as TextType}>{settings.points}&nbsp;</Text>
 				{getVariety(
 					settings.points,
 					translations.Profile.singularPoints,
@@ -79,6 +80,9 @@ const Profile = ({ navigation }: Props) => {
 			</Text>
 
 			<Text style={styles.levelInfo as TextType}>
+				<Text style={styles.fontBold as TextType}>
+					{getPointsToLevelUp(settings.level) - settings.points}&nbsp;
+				</Text>
 				{getVariety(
 					getPointsToLevelUp(settings.level) - settings.points,
 					translations.Profile.singularPointsToNextLvl,
