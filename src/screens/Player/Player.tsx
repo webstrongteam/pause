@@ -150,7 +150,7 @@ const Player = ({ navigation }: Props) => {
 	}, [playing])
 
 	useAsyncEffect(async () => {
-		await timeout(1000)
+		await timeout(100)
 		if (fullTime > 0 && playing) {
 			setFullTime(fullTime - 1)
 			if (isExercising) {
@@ -228,7 +228,10 @@ const Player = ({ navigation }: Props) => {
 					</>
 				)}
 				{playing && !isExercising && fullTime > 0 && (
-					<Text style={styles.breakText as TextType}>{translations.Player.break}</Text>
+					<>
+						<Text style={styles.breakText as TextType}>{translations.Player.break}</Text>
+						<Icon name='pause-outline' type='ionicon' color='#fff' size={200} />
+					</>
 				)}
 				{!playing && <Icon name='pause-outline' type='ionicon' color='#fff' size={250} />}
 			</Animated.View>
