@@ -14,7 +14,7 @@ const MainNavigator = createStackNavigator(
 		Player: { screen: Player },
 	},
 	{
-		initialRouteName: 'Player',
+		initialRouteName: 'Home',
 		headerMode: 'none',
 	},
 )

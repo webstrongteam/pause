@@ -127,7 +127,7 @@ const Player = ({ navigation }: Props) => {
 	const quitHandler = async () => {
 		if (audio && pauseEffect && finishEffect) {
 			await unloadSound(pauseEffect)
-			await unloadSound(finishEffect)
+			await playSound(finishEffect)
 			await unloadSound(audio)
 			navigation.navigate('Home')
 		}
@@ -150,21 +150,20 @@ const Player = ({ navigation }: Props) => {
 	}, [playing])
 
 	useAsyncEffect(async () => {
-		await timeout(100)
+		await timeout(1000)
 		if (fullTime > 0 && playing) {
 			setFullTime(fullTime - 1)
 			if (isExercising) {
-				if (exerciseTime <= 1) {
+				if (exerciseTime === 1) {
 					setIsExercising(false)
-					if (pauseEffect) await replaySound(pauseEffect)
+					if (pauseEffect && fullTime > 1) await replaySound(pauseEffect)
 				}
-			} else if (pauseTime <= 1) {
+			} else if (pauseTime === 1) {
 				setSeries(series - 1)
 				if (pauseEffect) await replaySound(pauseEffect)
 				setIsExercising(true)
 			}
-		} else if (fullTime === 0 && audio) {
-			if (finishEffect) await playSound(finishEffect)
+		} else if (fullTime === 0) {
 			await quitHandler()
 		}
 	}, [fullTime, playing])
@@ -218,7 +217,7 @@ const Player = ({ navigation }: Props) => {
 			</WavyHeader>
 
 			<Animated.View style={[styles.exerciseInfo, { opacity: fadeAnim }] as ViewType}>
-				{playing && isExercising && (
+				{((playing && isExercising) || fullTime === 0) && (
 					<>
 						<Text style={styles.exerciseName as TextType}>{exercise.name}</Text>
 						<Image
@@ -228,7 +227,7 @@ const Player = ({ navigation }: Props) => {
 						/>
 					</>
 				)}
-				{playing && !isExercising && (
+				{playing && !isExercising && fullTime > 0 && (
 					<Text style={styles.breakText as TextType}>{translations.Player.break}</Text>
 				)}
 				{!playing && <Icon name='pause-outline' type='ionicon' color='#fff' size={250} />}
