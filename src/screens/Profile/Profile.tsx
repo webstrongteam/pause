@@ -85,10 +85,12 @@ const Profile = ({ navigation }: Props) => {
 				</Text>
 				{getVariety(
 					getPointsToLevelUp(settings.level) - settings.points,
-					translations.Profile.singularPointsToNextLvl,
-					translations.Profile.plurarPointsToNextLvl,
-					translations.Profile.genitivePointsToNextLvl,
+					translations.Profile.singularPoints,
+					translations.Profile.plurarPoints,
+					translations.Profile.genitivePoints,
 				)}
+				<Text>&nbsp;</Text>
+				{translations.Profile.toNextLvl}
 			</Text>
 
 			<NextLevelBenefits

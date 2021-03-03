@@ -51,9 +51,7 @@
 		"singularPoints": "point",
 		"plurarPoints": "points",
 		"genitivePoints": "points",
-		"singularPointsToNextLvl": "point to next level",
-		"plurarPointsToNextLvl": "points to next level",
-		"genitivePointsToNextLvl": "points to next level"
+		"toNextLvl": "to next level"
 	},
 	"Player": {
 		"breakIn": "Break in:",
