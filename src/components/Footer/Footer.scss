@@ -2,9 +2,10 @@
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	background-color: #1a6a73;
+	height: 72px;
 }
 .footerInfo {
+	flex: 1;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;

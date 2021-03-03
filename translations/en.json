@@ -7,7 +7,19 @@
 		"level": "Level",
 		"errorTitle": "Error",
 		"errorDescription": "Try again",
-		"breakEnded": "The break is over"
+		"breakEnded": "The break is over",
+
+		"singularNewExercise": "new exercise",
+		"pluralNewExercises": "new exercises",
+		"genitiveNewExercises": "new exercises",
+
+		"singularNewMusic": "new music",
+		"pluralNewMusic": "new music",
+		"genitiveNewMusic": "new music",
+
+		"singularNewTheme": "new theme",
+		"pluralNewThemes": "new themes",
+		"genitiveNewThemes": "new themes"
 	},
 	"Pause": {
 		"durationTime": "Duration Time",
@@ -37,7 +49,7 @@
 	"Profile": {
 		"title": "Profile",
 		"points": "points",
-		"pointsToNextLvl": "points to the next level"
+		"pointsToNextLvl": "points to next level"
 	},
 	"Player": {
 		"breakIn": "Break in:",
