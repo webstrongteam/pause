@@ -40,7 +40,6 @@ const Player = ({ navigation }: Props) => {
 	const exercise = pauseContext.useSubscribe((e) => e.exercise)
 	const music = pauseContext.useSubscribe((m) => m.music)
 	const theme = themeContext.useSubscribe((t) => t.colors)
-	// const points = pauseContext.useSubscribe((p) => p.points)
 
 	if (!music || !exercise || !time) {
 		return <></>
@@ -51,6 +50,8 @@ const Player = ({ navigation }: Props) => {
 	const [isAnimating, setIsAnimating] = useState(false)
 
 	const [audio, setAudio] = useState<Sound>()
+	const [pauseEffect, setPauseEffect] = useState<Sound>()
+	const [finishEffect, setFinishEffect] = useState<Sound>()
 	const [playing, setPlaying] = useState(true)
 
 	const [fullTime, setFullTime] = useState(exercise.time[time].totalTime)
@@ -63,10 +64,19 @@ const Player = ({ navigation }: Props) => {
 			shouldPlay: true,
 			isLooping: true,
 		})
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		const pause = await Audio.Sound.createAsync(require('../../../assets/soundEffects/pause.mp3'))
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		const finish = await Audio.Sound.createAsync(require('../../../assets/soundEffects/finish.mp3'))
 		setAudio(sound)
+		setPauseEffect(pause.sound)
+		setFinishEffect(finish.sound)
 	}
 	const playSound = async (sound: Audio.Sound) => {
 		await sound.playAsync()
+	}
+	const replaySound = async (sound: Audio.Sound) => {
+		await sound.replayAsync()
 	}
 	const pauseSound = async (sound: Audio.Sound) => {
 		await sound.pauseAsync()
@@ -75,13 +85,7 @@ const Player = ({ navigation }: Props) => {
 		await sound.unloadAsync()
 	}
 
-	const pauseHandler = () => {
-		if (!isAnimating) {
-			setIsAnimating(true)
-			fadeOut()
-		}
-	}
-
+	//Amimation
 	const fadeAnim = useRef(new Animated.Value(1)).current
 
 	const fadeIn = () => {
@@ -111,7 +115,8 @@ const Player = ({ navigation }: Props) => {
 		(series * exercise.time[time].exerciseTime + (series - 1) * exercise.time[time].pauseTime)
 	const progress = exercise.time[time].totalTime - fullTime
 
-	const closeIconPress = async () => {
+	//Handlers
+	const closeIconPressHandler = async () => {
 		if (audio) {
 			setModalVisible(true)
 			await pauseSound(audio)
@@ -119,11 +124,18 @@ const Player = ({ navigation }: Props) => {
 			setIsExercising(false)
 		}
 	}
-
 	const quitHandler = async () => {
-		if (audio) {
+		if (audio && pauseEffect && finishEffect) {
+			await unloadSound(pauseEffect)
+			await unloadSound(finishEffect)
 			await unloadSound(audio)
 			navigation.navigate('Home')
+		}
+	}
+	const pauseHandler = () => {
+		if (!isAnimating) {
+			setIsAnimating(true)
+			fadeOut()
 		}
 	}
 
@@ -144,12 +156,15 @@ const Player = ({ navigation }: Props) => {
 			if (isExercising) {
 				if (exerciseTime <= 1) {
 					setIsExercising(false)
+					if (pauseEffect) await replaySound(pauseEffect)
 				}
 			} else if (pauseTime <= 1) {
 				setSeries(series - 1)
+				if (pauseEffect) await replaySound(pauseEffect)
 				setIsExercising(true)
 			}
 		} else if (fullTime === 0 && audio) {
+			if (finishEffect) await playSound(finishEffect)
 			await quitHandler()
 		}
 	}, [fullTime, playing])
@@ -186,21 +201,24 @@ const Player = ({ navigation }: Props) => {
 			<WavyHeader bgColor={theme.primary} outline>
 				<View style={styles.headerContainer as ViewType}>
 					<View style={styles.header as ViewType}>
-						<CloseIcon color='#fff' onPress={closeIconPress} />
-						<View style={styles.counter as ViewType}>
-							<Text style={styles.breakIn as TextType}>
-								{isExercising ? translations.Player.breakIn : translations.Player.nextSeriesIn}
-							</Text>
-							<Text style={styles.counterText as TextType}>
-								{isExercising ? exerciseTime : pauseTime}s
-							</Text>
-						</View>
+						<CloseIcon color='#fff' onPress={closeIconPressHandler} />
+
+						{fullTime > exercise.time[time].exerciseTime && (
+							<View style={styles.counter as ViewType}>
+								<Text style={styles.breakIn as TextType}>
+									{isExercising ? translations.Player.breakIn : translations.Player.nextSeriesIn}
+								</Text>
+								<Text style={styles.counterText as TextType}>
+									{isExercising ? exerciseTime : pauseTime}s
+								</Text>
+							</View>
+						)}
 					</View>
 				</View>
 			</WavyHeader>
 
 			<Animated.View style={[styles.exerciseInfo, { opacity: fadeAnim }] as ViewType}>
-				{playing && isExercising ? (
+				{playing && isExercising && (
 					<>
 						<Text style={styles.exerciseName as TextType}>{exercise.name}</Text>
 						<Image
@@ -209,15 +227,11 @@ const Player = ({ navigation }: Props) => {
 							resizeMode='contain'
 						/>
 					</>
-				) : (
-					<></>
 				)}
-				{playing && !isExercising ? (
+				{playing && !isExercising && (
 					<Text style={styles.breakText as TextType}>{translations.Player.break}</Text>
-				) : (
-					<></>
 				)}
-				{!playing ? <Icon name='pause-outline' type='ionicon' color='#fff' size={250} /> : <></>}
+				{!playing && <Icon name='pause-outline' type='ionicon' color='#fff' size={250} />}
 			</Animated.View>
 
 			<Footer
