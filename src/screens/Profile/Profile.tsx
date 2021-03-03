@@ -18,7 +18,12 @@ import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
 //Helpers
-import { addBackgroundColor, addTextColor, getPointsToLevelUp } from '../../utils/helpers'
+import {
+	addBackgroundColor,
+	addTextColor,
+	getPointsToLevelUp,
+	getVariety,
+} from '../../utils/helpers'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -33,19 +38,19 @@ const Profile = ({ navigation }: Props) => {
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
 
-	const color = themeContext.useSubscribe((c) => c.colors)
+	const theme = themeContext.useSubscribe((c) => c.colors)
 
 	if (!settings) {
 		return <></>
 	}
 
 	return (
-		<ScrollView bounces={false} style={addBackgroundColor(styles.container, color.primary)}>
+		<ScrollView bounces={false} style={addBackgroundColor(styles.container, theme.primary)}>
 			<WavyHeader>
 				<View style={styles.headerContainer as ViewType}>
 					<View style={styles.header as ViewType}>
 						<CloseIcon onPress={() => navigation.goBack()} />
-						<Text style={addTextColor(styles.title, color.primary)}>
+						<Text style={addTextColor(styles.title, theme.primary)}>
 							{translations.Profile.title}
 						</Text>
 					</View>
@@ -61,19 +66,25 @@ const Profile = ({ navigation }: Props) => {
 				className={styles.progressBar}
 				maxValue={getPointsToLevelUp(settings.level)}
 				currentValue={settings.points}
-				barColor={color.progress}
+				barColor={theme.progress}
 			/>
 
 			<Text style={styles.levelInfo as TextType}>
-				<Text style={styles.fontBold as TextType}>{settings.points}&nbsp;</Text>
-				<Text>{translations.Profile.points}</Text>
+				{getVariety(
+					settings.points,
+					translations.Profile.singularPoints,
+					translations.Profile.plurarPoints,
+					translations.Profile.genitivePoints,
+				)}
 			</Text>
 
 			<Text style={styles.levelInfo as TextType}>
-				<Text style={styles.fontBold as TextType}>
-					{getPointsToLevelUp(settings.level) - settings.points}&nbsp;
-				</Text>
-				<Text>{translations.Profile.pointsToNextLvl}</Text>
+				{getVariety(
+					getPointsToLevelUp(settings.level) - settings.points,
+					translations.Profile.singularPointsToNextLvl,
+					translations.Profile.plurarPointsToNextLvl,
+					translations.Profile.genitivePointsToNextLvl,
+				)}
 			</Text>
 
 			<NextLevelBenefits

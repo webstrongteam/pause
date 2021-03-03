@@ -48,8 +48,12 @@
 	},
 	"Profile": {
 		"title": "Profil",
-		"points": "puntków",
-		"pointsToNextLvl": "punkty do następnego poziomu"
+		"singularPoints": "punkt",
+		"plurarPoints": "punkty",
+		"genitivePoints": "punktów",
+		"singularPointsToNextLvl": "punkt do następnego poziomu",
+		"plurarPointsToNextLvl": "punkty do następnego poziomu",
+		"genitivePointsToNextLvl": "punktów do następnego poziomu"
 	},
 	"Player": {
 		"breakIn": "Przerwa za:",
