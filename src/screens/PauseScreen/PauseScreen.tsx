@@ -16,11 +16,11 @@ import { useThemeContext } from '../../utils/context/ThemeContext'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 
 const shadowOpt = {
-	width: 90,
-	height: 90,
+	width: 80,
+	height: 80,
 	color: '#000',
 	border: 10,
-	radius: 45,
+	radius: 40,
 	opacity: 0.2,
 	x: 0,
 	y: 0,
