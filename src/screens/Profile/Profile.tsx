@@ -1,51 +1,78 @@
 import React from 'react'
 import { ScrollView, View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
-import WavyHeader from '../../components/WavyHeader/WavyHeader'
-import { TextType, ViewType } from '../../types/styles'
 import styles from './Profile.scss'
+
+//Components
+import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 import NextLevelBenefits from '../../components/NextLevelInfo/NextLevelInfo'
+
+//Types
+import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
+
+//Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
+import { useThemeContext } from '../../utils/context/ThemeContext'
+
+//Helpers
+import { addBackgroundColor, addTextColor, getPointsToLevelUp } from '../../utils/helpers'
 
 type Props = {
 	navigation: NavigationScreenType
 }
 
 const Profile = ({ navigation }: Props) => {
-	const { useSubscribe } = useSettingsContext()
-	const translations = useSubscribe((s) => s.translations)
+	//Contexts
+	const settingsContext = useSettingsContext()
+	const themeContext = useThemeContext()
+
+	//Subscribes
+	const translations = settingsContext.useSubscribe((s) => s.translations)
+	const settings = settingsContext.useSubscribe((s) => s.settings)
+
+	const color = themeContext.useSubscribe((c) => c.colors)
+
+	if (!settings) {
+		return <></>
+	}
 
 	return (
-		<ScrollView bounces={false} style={styles.container as ViewType}>
+		<ScrollView bounces={false} style={addBackgroundColor(styles.container, color.primary)}>
 			<WavyHeader>
 				<View style={styles.headerContainer as ViewType}>
 					<View style={styles.header as ViewType}>
 						<CloseIcon onPress={() => navigation.goBack()} />
-						<Text style={styles.title as TextType}>{translations.Profile.title}</Text>
+						<Text style={addTextColor(styles.title, color.primary)}>
+							{translations.Profile.title}
+						</Text>
 					</View>
 				</View>
 			</WavyHeader>
 
 			<Icon name='account' type='material-community' color='#fff' size={140} />
-			<Text style={styles.levelText as TextType}>{translations.common.level}&nbsp;3</Text>
+			<Text style={styles.levelText as TextType}>
+				{translations.common.level}&nbsp;{settings.level}
+			</Text>
 
 			<ProgressBar
 				className={styles.progressBar}
-				maxValue={1000}
-				currentValue={300}
-				barColor='#F2B077'
+				maxValue={getPointsToLevelUp(settings.level)}
+				currentValue={settings.points}
+				barColor={color.progress}
 			/>
 
 			<Text style={styles.levelInfo as TextType}>
-				<Text style={styles.fontBold as TextType}>1280&nbsp;</Text>
+				<Text style={styles.fontBold as TextType}>{settings.points}&nbsp;</Text>
 				<Text>{translations.Profile.points}</Text>
 			</Text>
 
 			<Text style={styles.levelInfo as TextType}>
-				<Text style={styles.fontBold as TextType}>231&nbsp;</Text>
+				<Text style={styles.fontBold as TextType}>
+					{getPointsToLevelUp(settings.level) - settings.points}&nbsp;
+				</Text>
 				<Text>{translations.Profile.pointsToNextLvl}</Text>
 			</Text>
 
