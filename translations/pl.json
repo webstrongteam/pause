@@ -5,6 +5,8 @@
 		"no": "Nie",
 		"ok": "Ok",
 		"level": "Poziom",
+		"errorTitle": "Błąd",
+		"errorDescription": "Spróbuj ponownie",
 		"breakEnded": "Przerwa zakończona",
 
 		"singularNewExercise": "nowe ćwieczenie",
@@ -41,7 +43,8 @@
 		"short": "Krótki",
 		"long": "Długi",
 		"clearData": "Wyczyść dane",
-		"clearDataDescription": "Czy na pewno chcesz usunąć wszystkie dane?"
+		"clearDataDescription": "Czy na pewno chcesz usunąć wszystkie dane?",
+		"settingsRestore": "Ustawienia zostały przywrócone do domyślnych"
 	},
 	"Profile": {
 		"title": "Profil",

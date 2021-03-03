@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ScrollView, View, Text } from 'react-native'
 import { Icon, ButtonGroup, Button } from 'react-native-elements'
+import { showMessage } from 'react-native-flash-message'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import styles from './Settings.scss'
@@ -8,8 +9,14 @@ import { TextType, ViewType } from '../../types/styles'
 import { Difficulty, Lang, Time, Settings } from '../../types/settings'
 import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
-import { changeLanguage, changeDifficulty, changeTime } from '../../../database/actions/settings'
+import {
+	changeLanguage,
+	changeDifficulty,
+	changeTime,
+	restartSettings,
+} from '../../../database/actions/settings'
 import Modal from '../../components/Modal/Modal'
+import useShowFailureMessage from '../../utils/hooks/useShowFailureMessage'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -30,6 +37,10 @@ const SettingsScreen = ({ navigation }: Props) => {
 	const { useSubscribe, setSettings } = useSettingsContext()
 	const settings = useSubscribe((s) => s.settings)
 	const translations = useSubscribe((s) => s.translations)
+
+	if (!settings) return <></>
+
+	const useShowFailure = useShowFailureMessage()
 
 	const buttonGroupStyles = [styles.languages, styles.difficulty, styles.breakTime]
 
@@ -90,6 +101,21 @@ const SettingsScreen = ({ navigation }: Props) => {
 		],
 	}
 
+	const resetSettingsHandler = async () => {
+		try {
+			setSettings(await restartSettings())
+			showMessage({
+				message: translations.Settings.settingsRestore,
+				type: 'success',
+				icon: { icon: 'success', position: 'left' },
+				duration: 2500,
+			})
+		} catch (error) {
+			useShowFailure()
+		}
+		setModalVisible(false)
+	}
+
 	return (
 		<>
 			<ScrollView style={styles.container as ViewType}>
@@ -104,7 +130,7 @@ const SettingsScreen = ({ navigation }: Props) => {
 						},
 						{
 							text: translations.common.yes,
-							onPress: () => setModalVisible(false),
+							onPress: resetSettingsHandler,
 						},
 					]}
 				>
@@ -125,23 +151,22 @@ const SettingsScreen = ({ navigation }: Props) => {
 				</WavyHeader>
 
 				<View style={styles.settings as ViewType}>
-					{settings &&
-						Object.keys(buttonGroups).map((key, index) => (
-							<View key={index}>
-								<Text style={styles.label as TextType}>{key}</Text>
-								<ButtonGroup
-									onPress={(i) => buttonGroups[key][i].onPress()}
-									buttons={buttonGroups[key].map((button) => button.label)}
-									selectedIndex={buttonGroups[key].findIndex(
-										(button) => button.name === settings[button.key],
-									)}
-									containerStyle={buttonGroupStyles[index] as ViewType}
-									selectedButtonStyle={styles.selectedButton as ViewType}
-									selectedTextStyle={styles.buttonGroupSelectedText as TextType}
-									textStyle={styles.buttonGroupText as TextType}
-								/>
-							</View>
-						))}
+					{Object.keys(buttonGroups).map((key, index) => (
+						<View key={index}>
+							<Text style={styles.label as TextType}>{key}</Text>
+							<ButtonGroup
+								onPress={(i) => buttonGroups[key][i].onPress()}
+								buttons={buttonGroups[key].map((button) => button.label)}
+								selectedIndex={buttonGroups[key].findIndex(
+									(button) => button.name === settings[button.key],
+								)}
+								containerStyle={buttonGroupStyles[index] as ViewType}
+								selectedButtonStyle={styles.selectedButton as ViewType}
+								selectedTextStyle={styles.buttonGroupSelectedText as TextType}
+								textStyle={styles.buttonGroupText as TextType}
+							/>
+						</View>
+					))}
 				</View>
 			</ScrollView>
 
@@ -158,4 +183,5 @@ const SettingsScreen = ({ navigation }: Props) => {
 		</>
 	)
 }
+
 export default SettingsScreen
