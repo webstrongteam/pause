@@ -32,6 +32,8 @@ const NextLevelBenefits = ({ title, titleClassName }: Props) => {
 			{!!levelBenefits.exercises && (
 				<View style={styles.nextLevelInfo as ViewType}>
 					<Text style={styles.nextLevelInfoText as TextType}>
+						{levelBenefits.exercises}
+						<Text>&nbsp;</Text>
 						{getVariety(
 							levelBenefits.exercises,
 							translations.singularNewExercise,
@@ -45,6 +47,8 @@ const NextLevelBenefits = ({ title, titleClassName }: Props) => {
 			{!!levelBenefits.music && (
 				<View style={styles.nextLevelInfo as ViewType}>
 					<Text style={styles.nextLevelInfoText as TextType}>
+						{levelBenefits.music}
+						<Text>&nbsp;</Text>
 						{getVariety(
 							levelBenefits.music,
 							translations.singularNewMusic,
@@ -58,6 +62,8 @@ const NextLevelBenefits = ({ title, titleClassName }: Props) => {
 			{!!levelBenefits.themes && (
 				<View style={styles.nextLevelInfo as ViewType}>
 					<Text style={styles.nextLevelInfoText as TextType}>
+						{levelBenefits.themes}
+						<Text>&nbsp;</Text>
 						{getVariety(
 							levelBenefits.themes,
 							translations.singularNewTheme,
