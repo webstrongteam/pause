@@ -7,7 +7,6 @@
 
 .container {
 	flex: 1;
-	background-color: #1a6a73;
 }
 .headerContainer {
 	height: 185px;
@@ -20,7 +19,6 @@
 	align-items: center;
 }
 .title {
-	color: #1a6a73;
 	font-size: 26px;
 	font-family: 'Lato-Light';
 	text-transform: uppercase;
@@ -30,16 +28,17 @@
 }
 .levelText {
 	@include Text();
+	margin-bottom: 15px;
 }
 .levelInfo {
 	@include Text();
 	font-size: 16px;
+	margin-top: 15px;
 	margin-bottom: 10px;
 }
 .nextLevelText {
-	@include Text();
-	margin-top: 100px;
-	margin-bottom: 30px;
+	margin-top: 80px;
+	margin-bottom: 32px;
 }
 .fontBold {
 	font-family: 'Lato-Bold';

@@ -5,7 +5,21 @@
 		"no": "Nie",
 		"ok": "Ok",
 		"level": "Poziom",
-		"breakEnded": "Przerwa zakończona"
+		"errorTitle": "Błąd",
+		"errorDescription": "Spróbuj ponownie",
+		"breakEnded": "Przerwa zakończona",
+
+		"singularNewExercise": "nowe ćwieczenie",
+		"pluralNewExercises": "nowe ćwieczenia",
+		"genitiveNewExercises": "nowych ćwieczeń",
+
+		"singularNewMusic": "nowy utwór muzyczny",
+		"pluralNewMusic": "nowe utwory muzyczne",
+		"genitiveNewMusic": "nowych utowrów muzycznych",
+
+		"singularNewTheme": "nowy kolor aplikacji",
+		"pluralNewThemes": "nowe kolory aplikacji",
+		"genitiveNewThemes": "nowych kolorów aplikacji"
 	},
 	"Pause": {
 		"durationTime": "Czas trwania",
@@ -29,14 +43,18 @@
 		"short": "Krótki",
 		"long": "Długi",
 		"clearData": "Wyczyść dane",
-		"clearDataDescription": "Czy na pewno chcesz usunąć wszystkie dane?"
+		"clearDataDescription": "Czy na pewno chcesz usunąć wszystkie dane?",
+		"settingsRestore": "Ustawienia zostały przywrócone do domyślnych"
 	},
 	"Profile": {
 		"title": "Profil",
-		"points": "puntków",
-		"pointsToNextLvl": "punkty do następnego poziomu"
+		"singularPoints": "punkt",
+		"plurarPoints": "punkty",
+		"genitivePoints": "punktów",
+		"toNextLvl": "do następnego poziomu"
 	},
 	"Player": {
+		"break": "Przerwa",
 		"breakIn": "Przerwa za:",
 		"nextSeriesIn": "Następna seria za:",
 		"leaveExercise": "Opuść ćwiczenie",

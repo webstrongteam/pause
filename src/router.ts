@@ -5,6 +5,7 @@ import Home from './screens/Home/Home'
 import PauseScreen from './screens/PauseScreen/PauseScreen'
 import Profile from './screens/Profile/Profile'
 import Settings from './screens/Settings/Settings'
+import Player from './screens/Player/Player'
 
 const MainNavigator = createStackNavigator(
 	{
@@ -12,6 +13,7 @@ const MainNavigator = createStackNavigator(
 		PauseScreen: { screen: PauseScreen },
 		Profile: { screen: Profile },
 		Settings: { screen: Settings },
+		Player: { screen: Player },
 	},
 	{
 		initialRouteName: 'Home',

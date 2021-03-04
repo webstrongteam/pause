@@ -5,7 +5,21 @@
 		"no": "No",
 		"ok": "Ok",
 		"level": "Level",
-		"breakEnded": "The break is over"
+		"errorTitle": "Error",
+		"errorDescription": "Try again",
+		"breakEnded": "The break is over",
+
+		"singularNewExercise": "new exercise",
+		"pluralNewExercises": "new exercises",
+		"genitiveNewExercises": "new exercises",
+
+		"singularNewMusic": "new music",
+		"pluralNewMusic": "new music",
+		"genitiveNewMusic": "new music",
+
+		"singularNewTheme": "new theme",
+		"pluralNewThemes": "new themes",
+		"genitiveNewThemes": "new themes"
 	},
 	"Pause": {
 		"durationTime": "Duration Time",
@@ -29,14 +43,18 @@
 		"short": "Short",
 		"long": "Long",
 		"clearData": "Clear data",
-		"clearDataDescription": "Are you sure you want to clear all data?"
+		"clearDataDescription": "Are you sure you want to clear all data?",
+		"settingsRestore": "Settings has been restored"
 	},
 	"Profile": {
 		"title": "Profile",
-		"points": "points",
-		"pointsToNextLvl": "points to the next level"
+		"singularPoints": "point",
+		"plurarPoints": "points",
+		"genitivePoints": "points",
+		"toNextLvl": "to next level"
 	},
 	"Player": {
+		"break": "Break",
 		"breakIn": "Break in:",
 		"nextSeriesIn": "Next series in:",
 		"leaveExercise": "Leave exercise",
