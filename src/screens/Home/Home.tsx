@@ -35,7 +35,7 @@ const Home = ({ navigation }: Props) => {
 
 	const pauseHandler = () => {
 		pauseContext.setPause(getRandomPause(pause, settings))
-		navigation.navigate('Profile')
+		navigation.navigate('Player')
 	}
 
 	return (

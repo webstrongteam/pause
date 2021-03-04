@@ -140,7 +140,6 @@ const SettingsScreen = ({ navigation }: Props) => {
 						</Text>
 					</View>
 				</Modal>
-
 				<WavyHeader>
 					<View style={styles.headerContainer as ViewType}>
 						<View style={styles.header as ViewType}>
@@ -149,7 +148,6 @@ const SettingsScreen = ({ navigation }: Props) => {
 						</View>
 					</View>
 				</WavyHeader>
-
 				<View style={styles.settings as ViewType}>
 					{Object.keys(buttonGroups).map((key, index) => (
 						<View key={index}>

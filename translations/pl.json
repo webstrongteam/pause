@@ -54,6 +54,7 @@
 		"toNextLvl": "do następnego poziomu"
 	},
 	"Player": {
+		"break": "Przerwa",
 		"breakIn": "Przerwa za:",
 		"nextSeriesIn": "Następna seria za:",
 		"leaveExercise": "Opuść ćwiczenie",

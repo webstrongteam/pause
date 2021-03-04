@@ -69,6 +69,8 @@ export const addTextColor = (baseStyles: {}, textColor: string): TextType => ({
 	color: textColor,
 })
 
+export const timeout = async (time: number) => new Promise((resolve) => setTimeout(resolve, time))
+
 export const concatStyles = (firstStyles = {}, secondStyles = {}): {} => ({
 	...firstStyles,
 	...secondStyles,
