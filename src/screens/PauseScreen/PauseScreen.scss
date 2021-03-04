@@ -50,14 +50,13 @@
 .exerciseInfo {
 	align-items: center;
 	margin-bottom: 20px;
-	background-color: red
 }
 
 .firstInfo {
 	@include Info();
 }
 
-.secondInfo{
+.secondInfo {
 	@include Info();
 	font-size: 35px;
 }
@@ -86,11 +85,11 @@
 	justify-content: center;
 }
 
-.modalInfo{
+.modalInfo {
 	width: 100%;
 	align-items: center;
 }
 
-.fontWeight{
-	font-family: "Lato-Bold";
+.fontWeight {
+	font-family: 'Lato-Bold';
 }
