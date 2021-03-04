@@ -1,6 +1,7 @@
 @mixin Info() {
 	color: #fff;
 	font-size: 15px;
+	margin-bottom: 5px;
 }
 
 .container {
@@ -49,15 +50,22 @@
 .exerciseInfo {
 	align-items: center;
 	margin-bottom: 20px;
+	background-color: red
 }
 
 .firstInfo {
 	@include Info();
 }
 
-.secondInfo {
+.secondInfo{
 	@include Info();
 	font-size: 35px;
+}
+
+.secondInfoIcon {
+	@include Info();
+	font-size: 35px;
+	left: 12;
 }
 
 .bottomIcons {
@@ -76,4 +84,13 @@
 	border: 2px solid #fff;
 	border-radius: 40px;
 	justify-content: center;
+}
+
+.modalInfo{
+	width: 100%;
+	align-items: center;
+}
+
+.fontWeight{
+	font-family: "Lato-Bold";
 }
