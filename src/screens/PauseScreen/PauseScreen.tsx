@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-import { Icon } from 'react-native-elements'
+import { Icon, IconType } from 'react-native-elements'
 import { BoxShadow } from 'react-native-shadow'
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
-import { addBackgroundColor, getRandomPause, addTextColor } from '../../utils/helpers'
+import { addBackgroundColor, getRandomPause, addTextColor, addBorderBottomColor } from '../../utils/helpers'
 
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
@@ -46,11 +46,11 @@ const PauseScreen = ({ navigation }: Props) => {
 	const pause = pauseContext.useSubscribe((p) => p)
 	const colors = themeContext.useSubscribe((c) => c.colors)
 
-	if (!pause || !settings) {
+	if (!pause.music || !pause.exercise || !settings) {
 		return <></>
 	}
 
-	const maxTime = pause.exercise?.time[settings.time].totalTime
+	const maxTime = pause.exercise.time[settings.time].totalTime
 
 	const drawNewPauseHandler = () => {
 		pauseContext.setPause(getRandomPause(pause, settings))
@@ -67,7 +67,7 @@ const PauseScreen = ({ navigation }: Props) => {
 	return (
 		<View style={addBackgroundColor(styles.container, colors.primary)}>
 			<Modal
-				title={pause.exercise?.name}
+				title={pause.exercise.name}
 				visible={modalVisible}
 				toggleModal={() => setModalVisible(false)}
 				buttons={[
@@ -79,25 +79,25 @@ const PauseScreen = ({ navigation }: Props) => {
 			>
 				<View style={styles.modalInfo as ViewType}>
 					<Text>
-						{translations.Pause.seriesDurationTime}
+						{translations.Pause.seriesDurationTime}{"  "}
 						<Text style={styles.fontWeight as TextType}>
-							{pause.exercise?.time[settings.time].exerciseTime}s
+							{pause.exercise.time[settings.time].exerciseTime}s
 						</Text>
 					</Text>
 					<Text>
-						{translations.Pause.numberOfReps}
+						{translations.Pause.numberOfReps}{"  "}
 						<Text style={styles.fontWeight as TextType}>
-							{pause.exercise?.time[settings.time].exerciseCount}
+							{pause.exercise.time[settings.time].exerciseCount}
 						</Text>
 					</Text>
 					<Text>
-						{translations.Pause.breakDurationTime}
+						{translations.Pause.breakDurationTime}{"  "}
 						<Text style={styles.fontWeight as TextType}>
-							{pause.exercise?.time[settings.time].pauseTime}s
+							{pause.exercise.time[settings.time].pauseTime}s
 						</Text>
 					</Text>
 					<Text>
-						{translations.Pause.totalTime}
+						{translations.Pause.totalTime}{"  "}
 						<Text style={styles.fontWeight as TextType}>
 							{minetues} min {seconds}s
 						</Text>
@@ -125,16 +125,16 @@ const PauseScreen = ({ navigation }: Props) => {
 			<View style={styles.centreInfo as ViewType}>
 				<View style={styles.exerciseInfo as ViewType}>
 					<Text style={styles.firstInfo as TextType}>{translations.Pause.durationTime}</Text>
-					<Text style={styles.secondInfoIcon as TextType}>
-						<Text>{pause.exercise?.time[settings.time].exerciseTime}s </Text>
-						<Text> x{pause.exercise?.time[settings.time].exerciseCount}</Text>
-						<Icon name='info' type='feather' color='#fff' size={24} onPress={openModal} />
-					</Text>
+					<View style={styles.secondInfo as ViewType}>
+						<Text style={styles.secondInfoIcon as TextType}>{pause.exercise.time[settings.time].exerciseTime}s </Text>
+						<Text style={styles.secondInfoIcon as TextType}> x{pause.exercise.time[settings.time].exerciseCount}</Text>
+						<View><Icon name='info' type='feather' color='#fff' size={20} onPress={openModal} /></View>
+					</View>
 				</View>
 
 				<View style={styles.exerciseInfo as ViewType}>
 					<Text style={styles.firstInfo as TextType}>{translations.Pause.music}</Text>
-					<Text style={styles.secondInfo as TextType}>{pause.music?.name}</Text>
+					<Text style={styles.secondInfo as TextType}>{pause.music.name}</Text>
 				</View>
 			</View>
 

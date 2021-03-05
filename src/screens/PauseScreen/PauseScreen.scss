@@ -59,12 +59,13 @@
 .secondInfo {
 	@include Info();
 	font-size: 35px;
+	display: flex;
+	flex-direction: row;
 }
 
 .secondInfoIcon {
 	@include Info();
 	font-size: 35px;
-	left: 12;
 }
 
 .bottomIcons {
