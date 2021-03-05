@@ -91,6 +91,15 @@
 	align-items: center;
 }
 
+.modalElements {
+	display: flex;
+	flex-direction: row;
+}
+
+.marginModalInfo {
+	margin-right: 5px;
+}
+
 .fontWeight {
 	font-family: 'Lato-Bold';
 }

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-import { Icon, IconType } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
 import { BoxShadow } from 'react-native-shadow'
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
-import { addBackgroundColor, getRandomPause, addTextColor, addBorderBottomColor } from '../../utils/helpers'
+import { addBackgroundColor, getRandomPause, addTextColor } from '../../utils/helpers'
 
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
@@ -78,30 +78,46 @@ const PauseScreen = ({ navigation }: Props) => {
 				]}
 			>
 				<View style={styles.modalInfo as ViewType}>
-					<Text>
-						{translations.Pause.seriesDurationTime}{"  "}
-						<Text style={styles.fontWeight as TextType}>
-							{pause.exercise.time[settings.time].exerciseTime}s
-						</Text>
-					</Text>
-					<Text>
-						{translations.Pause.numberOfReps}{"  "}
-						<Text style={styles.fontWeight as TextType}>
-							{pause.exercise.time[settings.time].exerciseCount}
-						</Text>
-					</Text>
-					<Text>
-						{translations.Pause.breakDurationTime}{"  "}
-						<Text style={styles.fontWeight as TextType}>
-							{pause.exercise.time[settings.time].pauseTime}s
-						</Text>
-					</Text>
-					<Text>
-						{translations.Pause.totalTime}{"  "}
-						<Text style={styles.fontWeight as TextType}>
-							{minetues} min {seconds}s
-						</Text>
-					</Text>
+					<View style={styles.modalElements as ViewType}>
+						<View style={styles.marginModalInfo as ViewType}>
+							<Text>{translations.Pause.seriesDurationTime}</Text>
+						</View>
+						<View>
+							<Text style={styles.fontWeight as TextType}>
+								{pause.exercise.time[settings.time].exerciseTime}s
+							</Text>
+						</View>
+					</View>
+					<View style={styles.modalElements as ViewType}>
+						<View style={styles.marginModalInfo as ViewType}>
+							<Text>{translations.Pause.numberOfReps}</Text>
+						</View>
+						<View>
+							<Text style={styles.fontWeight as TextType}>
+								{pause.exercise.time[settings.time].exerciseCount}
+							</Text>
+						</View>
+					</View>
+					<View style={styles.modalElements as ViewType}>
+						<View style={styles.marginModalInfo as ViewType}>
+							<Text>{translations.Pause.breakDurationTime}</Text>
+						</View>
+						<View>
+							<Text style={styles.fontWeight as TextType}>
+								{pause.exercise.time[settings.time].pauseTime}s
+							</Text>
+						</View>
+					</View>
+					<View style={styles.modalElements as ViewType}>
+						<View style={styles.marginModalInfo as ViewType}>
+							<Text>{translations.Pause.totalTime}</Text>
+						</View>
+						<View>
+							<Text style={styles.fontWeight as TextType}>
+								{minetues} min {seconds}s
+							</Text>
+						</View>
+					</View>
 				</View>
 			</Modal>
 			<View style={styles.header as ViewType}>
@@ -126,9 +142,16 @@ const PauseScreen = ({ navigation }: Props) => {
 				<View style={styles.exerciseInfo as ViewType}>
 					<Text style={styles.firstInfo as TextType}>{translations.Pause.durationTime}</Text>
 					<View style={styles.secondInfo as ViewType}>
-						<Text style={styles.secondInfoIcon as TextType}>{pause.exercise.time[settings.time].exerciseTime}s </Text>
-						<Text style={styles.secondInfoIcon as TextType}> x{pause.exercise.time[settings.time].exerciseCount}</Text>
-						<View><Icon name='info' type='feather' color='#fff' size={20} onPress={openModal} /></View>
+						<Text style={styles.secondInfoIcon as TextType}>
+							{pause.exercise.time[settings.time].exerciseTime}s{' '}
+						</Text>
+						<Text style={styles.secondInfoIcon as TextType}>
+							{' '}
+							x{pause.exercise.time[settings.time].exerciseCount}
+						</Text>
+						<View>
+							<Icon name='info' type='feather' color='#fff' size={20} onPress={openModal} />
+						</View>
 					</View>
 				</View>
 
