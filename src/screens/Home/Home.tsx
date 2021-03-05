@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
+import { showMessage } from 'react-native-flash-message'
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
 import { addBackgroundColor, getPointsToLevelUp, getRandomPause } from '../../utils/helpers'
-import { showMessage } from 'react-native-flash-message'
+import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
 
 import styles from './Home.scss'
 
@@ -15,6 +16,7 @@ import Footer from '../../components/Footer/Footer'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 import { usePauseContext } from '../../utils/context/PauseContext'
+import { changeLevelAndPoints } from '../../../database/actions/settings'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -34,27 +36,57 @@ const Home = ({ navigation }: Props) => {
 		return <></>
 	}
 
+	const [animate, setAnimate] = useState(true)
+	const [currentValue, setCurrentValue] = useState(
+		settings.points - getPointsToLevelUp(settings.level - 1),
+	)
+	const [maxValue, setMaxValue] = useState(
+		getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1),
+	)
+	const [currentLevel, setCurrentLevel] = useState(settings.level)
 
 	const pauseHandler = () => {
 		pauseContext.setPause(getRandomPause(pause, settings))
 		navigation.navigate('Player')
 	}
 
-	const finishExercise = () => {
+	const finishExercise = async () => {
 		const finished = navigation.getParam('finished', false)
-		if(finished){
+		if (finished) {
 			showMessage({
-				message: "elo"+pause.points,
+				message: `${translations.common.breakEnded} +${pause.points}p`,
 				type: 'success',
 				backgroundColor: theme.primary,
-				icon: { icon: 'success', position: 'left' },
 				duration: 2500,
 			})
+			if (!pause.points) {
+				return <></>
+			}
+			const newPoints = settings.points + pause.points
+			if (getPointsToLevelUp(settings.level) < newPoints) {
+				setCurrentValue(maxValue)
+				setTimeout(() => {
+					setAnimate(false)
+					setCurrentValue(0)
+				}, 5000)
+				setTimeout(async () => {
+					setAnimate(true)
+					settingsContext.setSettings(await changeLevelAndPoints(settings.level + 1, newPoints))
+					setCurrentValue(newPoints - getPointsToLevelUp(settings.level))
+					setMaxValue(getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1))
+					setCurrentLevel(settings.level + 1)
+					navigation.setParams({ finished: false })
+				}, 5100)
+			} else {
+				settingsContext.setSettings(await changeLevelAndPoints(settings.level, newPoints))
+				setCurrentValue(newPoints - getPointsToLevelUp(settings.level - 1))
+				navigation.setParams({ finished: false })
+			}
 		}
 	}
 
-	useEffect( () => {
-		finishExercise()
+	useAsyncEffect(async () => {
+		await finishExercise()
 	}, [])
 
 	return (
@@ -67,10 +99,19 @@ const Home = ({ navigation }: Props) => {
 			</View>
 
 			<Footer
-				currentValue={settings.points}
-				maxValue={getPointsToLevelUp(settings.level)}
+				animate={animate}
+				currentValue={currentValue}
+				maxValue={maxValue}
 				barColor={theme.progress}
 				backgroundColor={theme.primary}
+				animateConfig={{
+					toValue:
+						settings.level > 1
+							? settings.points - getPointsToLevelUp(settings.level - 1)
+							: settings.points,
+					duration: 5000,
+					useNativeDriver: false,
+				}}
 			>
 				<Icon
 					name='account'
@@ -80,7 +121,7 @@ const Home = ({ navigation }: Props) => {
 					size={42}
 				/>
 				<Text style={styles.levelText as TextType}>
-					{translations.common.level}&nbsp;{settings.level}
+					{translations.common.level}&nbsp;{currentLevel}
 				</Text>
 				<Icon
 					name='cog-outline'

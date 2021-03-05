@@ -25,7 +25,7 @@ import { usePauseContext } from '../../utils/context/PauseContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
 type Props = {
-	navigation: NavigationScreenType
+	navigation: NavigationScreenType | any
 }
 
 const Player = ({ navigation }: Props) => {
@@ -129,7 +129,7 @@ const Player = ({ navigation }: Props) => {
 			await unloadSound(pauseEffect)
 			await playSound(finishEffect)
 			await unloadSound(audio)
-			navigation.navigate('Home', { finished: true})
+			navigation.replace('Home', { finished: true })
 		}
 	}
 	const pauseHandler = () => {
