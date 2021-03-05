@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
 import { addBackgroundColor, getPointsToLevelUp, getRandomPause } from '../../utils/helpers'
+import { showMessage } from 'react-native-flash-message'
 
 import styles from './Home.scss'
 
@@ -26,24 +27,41 @@ const Home = ({ navigation }: Props) => {
 
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
-	const color = themeContext.useSubscribe((c) => c.colors)
+	const theme = themeContext.useSubscribe((c) => c.colors)
 	const pause = pauseContext.useSubscribe((p) => p)
 
 	if (!settings) {
 		return <></>
 	}
 
+
 	const pauseHandler = () => {
 		pauseContext.setPause(getRandomPause(pause, settings))
 		navigation.navigate('Player')
 	}
 
+	const finishExercise = () => {
+		const finished = navigation.getParam('finished', false)
+		if(finished){
+			showMessage({
+				message: "elo"+pause.points,
+				type: 'success',
+				backgroundColor: theme.primary,
+				icon: { icon: 'success', position: 'left' },
+				duration: 2500,
+			})
+		}
+	}
+
+	useEffect( () => {
+		finishExercise()
+	}, [])
+
 	return (
-		<View style={addBackgroundColor(styles.container, color.primary)}>
+		<View style={addBackgroundColor(styles.container, theme.primary)}>
 			<View style={styles.header as ViewType}>
 				<WavyHeader variant='centered' />
 			</View>
-
 			<View>
 				<PauseButton onPress={pauseHandler} />
 			</View>
@@ -51,8 +69,8 @@ const Home = ({ navigation }: Props) => {
 			<Footer
 				currentValue={settings.points}
 				maxValue={getPointsToLevelUp(settings.level)}
-				barColor={color.progress}
-				backgroundColor={color.primary}
+				barColor={theme.progress}
+				backgroundColor={theme.primary}
 			>
 				<Icon
 					name='account'

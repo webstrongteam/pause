@@ -129,7 +129,7 @@ const Player = ({ navigation }: Props) => {
 			await unloadSound(pauseEffect)
 			await playSound(finishEffect)
 			await unloadSound(audio)
-			navigation.navigate('Home')
+			navigation.navigate('Home', { finished: true})
 		}
 	}
 	const pauseHandler = () => {
@@ -150,7 +150,7 @@ const Player = ({ navigation }: Props) => {
 	}, [playing])
 
 	useAsyncEffect(async () => {
-		await timeout(1000)
+		await timeout(10)
 		if (fullTime > 0 && playing) {
 			setFullTime(fullTime - 1)
 			if (isExercising) {
