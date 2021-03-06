@@ -80,7 +80,9 @@ const PauseScreen = ({ navigation }: Props) => {
 				<View style={styles.modalInfo as ViewType}>
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
-							<Text>{translations.Pause.seriesDurationTime}</Text>
+							<Text style={styles.fontLight as TextType}>
+								{translations.Pause.seriesDurationTime}
+							</Text>
 						</View>
 						<View>
 							<Text style={styles.fontWeight as TextType}>
@@ -90,7 +92,7 @@ const PauseScreen = ({ navigation }: Props) => {
 					</View>
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
-							<Text>{translations.Pause.numberOfReps}</Text>
+							<Text style={styles.fontLight as TextType}>{translations.Pause.numberOfReps}</Text>
 						</View>
 						<View>
 							<Text style={styles.fontWeight as TextType}>
@@ -100,7 +102,9 @@ const PauseScreen = ({ navigation }: Props) => {
 					</View>
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
-							<Text>{translations.Pause.breakDurationTime}</Text>
+							<Text style={styles.fontLight as TextType}>
+								{translations.Pause.breakDurationTime}
+							</Text>
 						</View>
 						<View>
 							<Text style={styles.fontWeight as TextType}>
@@ -110,7 +114,7 @@ const PauseScreen = ({ navigation }: Props) => {
 					</View>
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
-							<Text>{translations.Pause.totalTime}</Text>
+							<Text style={styles.fontLight as TextType}>{translations.Pause.totalTime}</Text>
 						</View>
 						<View>
 							<Text style={styles.fontWeight as TextType}>
@@ -120,33 +124,28 @@ const PauseScreen = ({ navigation }: Props) => {
 					</View>
 				</View>
 			</Modal>
-			<View style={styles.header as ViewType}>
-				<WavyHeader variant='centered'>
+			<WavyHeader variant='centered'>
+				<View style={styles.headerContainer as ViewType}>
 					<View style={styles.closeIcon as ViewType}>
 						<CloseIcon onPress={() => navigation.goBack()} />
 					</View>
-					<View style={styles.headerData as ViewType}>
-						<View style={styles.exerciseTitle as ViewType}>
-							<Text style={addTextColor(styles.text, colors.primary)}>
-								{translations.Pause.exercise}
-							</Text>
-							<Text style={addTextColor(styles.exerciseStyle, colors.primary)}>
-								{pause.exercise?.name}
-							</Text>
-						</View>
-					</View>
-				</WavyHeader>
-			</View>
+					<Text style={addTextColor(styles.text, colors.primary)}>
+						{translations.Pause.exercise}
+					</Text>
+					<Text style={addTextColor(styles.exerciseStyle, colors.primary)}>
+						{pause.exercise?.name}
+					</Text>
+				</View>
+			</WavyHeader>
 
 			<View style={styles.centreInfo as ViewType}>
 				<View style={styles.exerciseInfo as ViewType}>
 					<Text style={styles.firstInfo as TextType}>{translations.Pause.durationTime}</Text>
 					<View style={styles.secondInfo as ViewType}>
 						<Text style={styles.secondInfoIcon as TextType}>
-							{pause.exercise.time[settings.time].exerciseTime}s{' '}
+							{pause.exercise.time[settings.time].exerciseTime}s
 						</Text>
 						<Text style={styles.secondInfoIcon as TextType}>
-							{' '}
 							x{pause.exercise.time[settings.time].exerciseCount}
 						</Text>
 						<View>
@@ -171,7 +170,7 @@ const PauseScreen = ({ navigation }: Props) => {
 				</BoxShadow>
 
 				<BoxShadow setting={shadowOpt}>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={() => navigation.navigate('Player')}>
 						<View style={addBackgroundColor(styles.Icon, colors.primary)}>
 							<Icon name='play' type='feather' color='#fff' size={35} />
 						</View>

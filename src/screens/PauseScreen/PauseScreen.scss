@@ -1,50 +1,39 @@
 @mixin Info() {
 	color: #fff;
-	font-size: 15px;
-	margin-bottom: 5px;
+	font-family: 'Lato-Light';
+	font-size: 17px;
 }
 
 .container {
 	height: 100%;
 }
-
-.header {
-	top: -40;
+.headerContainer {
+	padding-top: 40px;
+	margin: 0 20px;
 }
-
-.headerData {
-	top: 40%;
-}
-
 .closeIcon {
-	width: 100%;
-	align-items: flex-start;
-	top: 60;
-	margin-left: 20px;
+	flex-direction: row;
+	padding-bottom: 15%;
 }
-
 .text {
-	font-size: 15;
+	font-size: 18;
 	text-transform: uppercase;
+	font-family: 'Lato-Light';
+	text-align: center;
 }
 
 .exerciseStyle {
+	font-family: 'Lato-Light';
 	font-size: 40;
 	text-transform: uppercase;
 	text-decoration: underline;
+	text-align: center;
 }
 
 .centreInfo {
 	position: absolute;
-	top: 50%;
+	top: 55%;
 	width: 100%;
-}
-
-.exerciseTitle {
-	position: absolute;
-	width: 100%;
-	align-items: center;
-	font-size: '20px';
 }
 
 .exerciseInfo {
@@ -66,6 +55,8 @@
 .secondInfoIcon {
 	@include Info();
 	font-size: 35px;
+	padding-top: 5px;
+	margin-left: 20px;
 }
 
 .bottomIcons {
@@ -89,11 +80,13 @@
 .modalInfo {
 	width: 100%;
 	align-items: center;
+	justify-content: space-around;
 }
 
 .modalElements {
 	display: flex;
 	flex-direction: row;
+	top: 15;
 }
 
 .marginModalInfo {
@@ -102,4 +95,10 @@
 
 .fontWeight {
 	font-family: 'Lato-Bold';
+	line-height: 25px;
+}
+
+.fontLight {
+	font-family: 'Lato-Light';
+	line-height: 25px;
 }
