@@ -44,7 +44,7 @@ const PauseScreen = ({ navigation }: Props) => {
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
 	const pause = pauseContext.useSubscribe((p) => p)
-	const colors = themeContext.useSubscribe((c) => c.colors)
+	const theme = themeContext.useSubscribe((t) => t.colors)
 
 	if (!pause.music || !pause.exercise || !settings) {
 		return <></>
@@ -58,14 +58,12 @@ const PauseScreen = ({ navigation }: Props) => {
 
 	const openModal = () => {
 		setModalVisible(true)
-		if (maxTime !== undefined) {
-			setMinetues(Math.floor(maxTime / 60))
-			setSeconds(Math.floor(maxTime % 60))
-		}
+		setMinetues(Math.floor(maxTime / 60))
+		setSeconds(Math.floor(maxTime % 60))
 	}
 
 	return (
-		<View style={addBackgroundColor(styles.container, colors.primary)}>
+		<View style={addBackgroundColor(styles.container, theme.primary)}>
 			<Modal
 				title={pause.exercise.name}
 				visible={modalVisible}
@@ -129,10 +127,10 @@ const PauseScreen = ({ navigation }: Props) => {
 					<View style={styles.closeIcon as ViewType}>
 						<CloseIcon onPress={() => navigation.goBack()} />
 					</View>
-					<Text style={addTextColor(styles.text, colors.primary)}>
+					<Text style={addTextColor(styles.text, theme.primary)}>
 						{translations.Pause.exercise}
 					</Text>
-					<Text style={addTextColor(styles.exerciseStyle, colors.primary)}>
+					<Text style={addTextColor(styles.exerciseStyle, theme.primary)}>
 						{pause.exercise?.name}
 					</Text>
 				</View>
@@ -163,7 +161,7 @@ const PauseScreen = ({ navigation }: Props) => {
 			<View style={styles.bottomIcons as ViewType}>
 				<BoxShadow setting={shadowOpt}>
 					<TouchableOpacity onPress={drawNewPauseHandler}>
-						<View style={addBackgroundColor(styles.Icon, colors.primary)}>
+						<View style={addBackgroundColor(styles.Icon, theme.primary)}>
 							<Icon name='random' type='font-awesome' color='#fff' size={35} />
 						</View>
 					</TouchableOpacity>
@@ -171,7 +169,7 @@ const PauseScreen = ({ navigation }: Props) => {
 
 				<BoxShadow setting={shadowOpt}>
 					<TouchableOpacity onPress={() => navigation.navigate('Player')}>
-						<View style={addBackgroundColor(styles.Icon, colors.primary)}>
+						<View style={addBackgroundColor(styles.Icon, theme.primary)}>
 							<Icon name='play' type='feather' color='#fff' size={35} />
 						</View>
 					</TouchableOpacity>
