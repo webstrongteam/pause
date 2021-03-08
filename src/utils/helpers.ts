@@ -54,9 +54,9 @@ export const getNextLevelBenefits = (level: number): NextLevelBenefits => {
 }
 
 export const getTheme = (level: number): Theme => {
-	const availableThemes = (themes as Theme[]).filter((m) => m.requiredLevel >= level)
+	const availableThemes = (themes as Theme[]).filter((m) => m.requiredLevel <= level)
 
-	return availableThemes.sort((a, b) => +(+a.requiredLevel > +b.requiredLevel))[0]
+	return availableThemes.sort((a, b) => +(+a.requiredLevel < +b.requiredLevel))[0]
 }
 
 export const addBackgroundColor = (baseStyles: {}, backgroundColor: string): ViewType => ({

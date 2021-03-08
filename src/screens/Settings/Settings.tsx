@@ -12,7 +12,7 @@ import Modal from '../../components/Modal/Modal'
 import styles from './Settings.scss'
 import { TextType, ViewType } from '../../types/styles'
 import { Difficulty, Lang, Time, Settings } from '../../types/settings'
-import { NavigationReplaceType } from '../../types/navigation'
+import { NavigationScreenType } from '../../types/navigation'
 
 //Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
@@ -27,7 +27,7 @@ import {
 import useShowFailureMessage from '../../utils/hooks/useShowFailureMessage'
 
 type Props = {
-	navigation: NavigationReplaceType
+	navigation: NavigationScreenType
 }
 
 type ButtonGroupsType = Record<

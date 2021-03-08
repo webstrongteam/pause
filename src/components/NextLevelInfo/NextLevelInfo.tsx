@@ -17,12 +17,7 @@ type Props = {
 	titleClassName?: {}
 }
 
-const NextLevelBenefits = ({
-	title,
-	color = '#c5d1d9',
-	textColor = '#000',
-	titleClassName,
-}: Props) => {
+const NextLevelBenefits = ({ title, color, textColor, titleClassName }: Props) => {
 	const { useSubscribe } = useSettingsContext()
 	const translations = useSubscribe((s) => s.translations.common)
 	const level = useSubscribe((s) => s.settings?.level)

@@ -96,7 +96,7 @@ const Profile = ({ navigation }: Props) => {
 			<NextLevelBenefits
 				titleClassName={styles.nextLevelText}
 				title={translations.Level.nextLevel}
-				color='#c5d1d9'
+				color={theme.third}
 				textColor='#000'
 			/>
 		</ScrollView>

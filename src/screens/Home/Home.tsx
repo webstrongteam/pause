@@ -72,9 +72,9 @@ const Home = ({ navigation }: Props) => {
 			})
 			const newPoints = settings.points + pause.points
 			if (getPointsToLevelUp(settings.level) < newPoints) {
-				setModalVisible(true)
 				setCurrentPoints(maxPoints)
 				settingsContext.setSettings(await changeLevelAndPoints(settings.level + 1, newPoints))
+				setModalVisible(true)
 				setTimeout(() => {
 					setAnimate(false)
 					setCurrentPoints(0)
@@ -103,7 +103,7 @@ const Home = ({ navigation }: Props) => {
 			<Modal
 				visible={modalVisible}
 				toggleModal={() => setModalVisible(false)}
-				title={`${translations.Level.newLevel} ${currentLevel}`}
+				title={`${translations.Level.newLevel} ${settings.level}`}
 				buttons={[
 					{
 						text: translations.common.ok,
@@ -112,7 +112,7 @@ const Home = ({ navigation }: Props) => {
 				]}
 			>
 				<View style={styles.modal as ViewType}>
-					<Text style={styles.youGetText as TextType}>{translations.Level.youGet}</Text>
+					<Text style={styles.getBenefitsTitle as TextType}>{translations.Level.youGet}</Text>
 					<NextLevelBenefits color={theme.primary} textColor='#fff' />
 				</View>
 			</Modal>

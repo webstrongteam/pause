@@ -17,7 +17,7 @@ import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 
 //Types
 import { TextType, ViewType, ImageType } from '../../types/styles'
-import { NavigationReplaceType } from '../../types/navigation'
+import { NavigationScreenType } from '../../types/navigation'
 
 //Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
@@ -25,7 +25,7 @@ import { usePauseContext } from '../../utils/context/PauseContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
 type Props = {
-	navigation: NavigationReplaceType
+	navigation: NavigationScreenType
 }
 
 const Player = ({ navigation }: Props) => {
@@ -148,7 +148,7 @@ const Player = ({ navigation }: Props) => {
 	}, [playing])
 
 	useAsyncEffect(async () => {
-		await timeout(1000)
+		await timeout(100)
 		if (fullTime > 0 && playing) {
 			setFullTime(fullTime - 1)
 			if (isExercising) {
