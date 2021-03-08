@@ -94,7 +94,7 @@ const Profile = ({ navigation }: Props) => {
 				titleClassName={styles.nextLevelText}
 				title={translations.Level.nextLevel}
 				color={theme.third}
-				textColor={theme.secondary}
+				textColor={theme.optional}
 			/>
 		</ScrollView>
 	)
