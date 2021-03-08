@@ -8,16 +8,17 @@
 		"errorTitle": "Error",
 		"errorDescription": "Try again",
 		"breakEnded": "The break is over",
+		"congratulations": "Congratulations!",
 
-		"singularNewExercise": "new exercise",
+		"singularNewExercise": "New exercise",
 		"pluralNewExercises": "new exercises",
 		"genitiveNewExercises": "new exercises",
 
-		"singularNewMusic": "new music",
+		"singularNewMusic": "New music",
 		"pluralNewMusic": "new music",
 		"genitiveNewMusic": "new music",
 
-		"singularNewTheme": "new theme",
+		"singularNewTheme": "New theme",
 		"pluralNewThemes": "new themes",
 		"genitiveNewThemes": "new themes"
 	},
@@ -44,12 +45,12 @@
 		"long": "Long",
 		"clearData": "Clear data",
 		"clearDataDescription": "Are you sure you want to clear all data?",
-		"settingsRestore": "Settings has been restored"
+		"settingsRestore": "User data has been restored"
 	},
 	"Profile": {
 		"title": "Profile",
 		"singularPoints": "point",
-		"plurarPoints": "points",
+		"pluralPoints": "points",
 		"genitivePoints": "points",
 		"toNextLvl": "to next level"
 	},
@@ -63,6 +64,6 @@
 	"Level": {
 		"nextLevel": "Next Level",
 		"newLevel": "New Level!",
-		"youGet": "You get:"
+		"benefitsTitle": "You get:"
 	}
 }

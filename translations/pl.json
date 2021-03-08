@@ -8,16 +8,17 @@
 		"errorTitle": "Błąd",
 		"errorDescription": "Spróbuj ponownie",
 		"breakEnded": "Przerwa zakończona",
+		"congratulations": "Gratulacje!",
 
-		"singularNewExercise": "nowe ćwieczenie",
+		"singularNewExercise": "Nowe ćwieczenie",
 		"pluralNewExercises": "nowe ćwieczenia",
 		"genitiveNewExercises": "nowych ćwieczeń",
 
-		"singularNewMusic": "nowy utwór muzyczny",
+		"singularNewMusic": "Nowy utwór muzyczny",
 		"pluralNewMusic": "nowe utwory muzyczne",
 		"genitiveNewMusic": "nowych utowrów muzycznych",
 
-		"singularNewTheme": "nowy kolor aplikacji",
+		"singularNewTheme": "Nowy kolor aplikacji",
 		"pluralNewThemes": "nowe kolory aplikacji",
 		"genitiveNewThemes": "nowych kolorów aplikacji"
 	},
@@ -44,12 +45,12 @@
 		"long": "Długi",
 		"clearData": "Wyczyść dane",
 		"clearDataDescription": "Czy na pewno chcesz usunąć wszystkie dane?",
-		"settingsRestore": "Ustawienia zostały przywrócone do domyślnych"
+		"settingsRestore": "Dane aplikacji zostały przywrócone do domyślnych"
 	},
 	"Profile": {
 		"title": "Profil",
 		"singularPoints": "punkt",
-		"plurarPoints": "punkty",
+		"pluralPoints": "punkty",
 		"genitivePoints": "punktów",
 		"toNextLvl": "do następnego poziomu"
 	},
@@ -63,6 +64,6 @@
 	"Level": {
 		"nextLevel": "Następny poziom",
 		"newLevel": "Nowy poziom!",
-		"youGet": "Otrzymujesz:"
+		"benefitsTitle": "Otrzymujesz:"
 	}
 }

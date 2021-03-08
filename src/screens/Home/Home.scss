@@ -1,3 +1,10 @@
+@mixin Text() {
+	font-family: 'Lato-Light';
+	color: #000;
+	font-size: 30px;
+	text-align: center;
+}
+
 .container {
 	flex: 1;
 	padding: 0;
@@ -11,8 +18,17 @@
 }
 
 .levelText {
-	text-align: center;
-	font-size: 30px;
-	font-family: 'Lato-Light';
+	@include Text();
 	color: #fff;
+}
+.newLevel {
+	@include Text();
+}
+.fontBold {
+	@include Text();
+	font-family: 'Lato-Bold';
+}
+.getBenefitsTitle {
+	@include Text();
+	font-size: 26px;
 }

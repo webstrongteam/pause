@@ -1,8 +1,9 @@
 import React, { PropsWithChildren } from 'react'
 import { StatusBar, View } from 'react-native'
-import styles from './Template.styles'
-import Spinner from '../Spinner/Spinner'
 import { useThemeContext } from '../../utils/context/ThemeContext'
+import Spinner from '../Spinner/Spinner'
+import { ViewType } from '../../types/styles'
+import styles from './Template.scss'
 
 const Template = ({ children }: PropsWithChildren<{}>) => {
 	const { useSubscribe } = useThemeContext()
@@ -14,10 +15,8 @@ const Template = ({ children }: PropsWithChildren<{}>) => {
 	}
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.statusBar}>
-				<StatusBar barStyle='dark-content' backgroundColor='rgba(0, 0, 0, 0.2)' translucent />
-			</View>
+		<View style={styles.container as ViewType}>
+			<StatusBar barStyle='dark-content' backgroundColor='rgba(0, 0, 0, 0.2)' translucent />
 			{children}
 		</View>
 	)

@@ -1,22 +1,30 @@
 import React, { useState } from 'react'
 import { ScrollView, View, Text } from 'react-native'
 import { Icon, ButtonGroup, Button } from 'react-native-elements'
-import { showMessage } from 'react-native-flash-message'
-import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
+
+//Components
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
+import Modal from '../../components/Modal/Modal'
+
+//Types and styles
 import styles from './Settings.scss'
 import { TextType, ViewType } from '../../types/styles'
 import { Difficulty, Lang, Time, Settings } from '../../types/settings'
 import { NavigationScreenType } from '../../types/navigation'
+
+//Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
+
 import {
 	changeLanguage,
 	changeDifficulty,
 	changeTime,
 	restartSettings,
 } from '../../../database/actions/settings'
-import Modal from '../../components/Modal/Modal'
 import useShowFailureMessage from '../../utils/hooks/useShowFailureMessage'
+import useShowMessage from '../../utils/hooks/useShowMessage'
+import Header from '../../components/Header/Header'
+import { defaultColor } from '../../utils/helpers'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -40,7 +48,11 @@ const SettingsScreen = ({ navigation }: Props) => {
 
 	if (!settings) return <></>
 
-	const useShowFailure = useShowFailureMessage()
+	const showFailureMessage = useShowFailureMessage()
+	const showMessage = useShowMessage({
+		message: translations.Settings.settingsRestore,
+		backgroundColor: defaultColor,
+	})
 
 	const buttonGroupStyles = [styles.languages, styles.difficulty, styles.breakTime]
 
@@ -104,14 +116,9 @@ const SettingsScreen = ({ navigation }: Props) => {
 	const resetSettingsHandler = async () => {
 		try {
 			setSettings(await restartSettings())
-			showMessage({
-				message: translations.Settings.settingsRestore,
-				type: 'success',
-				icon: { icon: 'success', position: 'left' },
-				duration: 2500,
-			})
+			showMessage()
 		} catch (error) {
-			useShowFailure()
+			showFailureMessage()
 		}
 		setModalVisible(false)
 	}
@@ -140,14 +147,13 @@ const SettingsScreen = ({ navigation }: Props) => {
 						</Text>
 					</View>
 				</Modal>
+
 				<WavyHeader>
-					<View style={styles.headerContainer as ViewType}>
-						<View style={styles.header as ViewType}>
-							<CloseIcon onPress={() => navigation.goBack()} />
-							<Text style={styles.title as TextType}>{translations.Settings.title}</Text>
-						</View>
-					</View>
+					<Header closeIconHandler={() => navigation.replace('Home')}>
+						<Text style={styles.title as TextType}>{translations.Settings.title}</Text>
+					</Header>
 				</WavyHeader>
+
 				<View style={styles.settings as ViewType}>
 					{Object.keys(buttonGroups).map((key, index) => (
 						<View key={index}>

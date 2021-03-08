@@ -13,7 +13,6 @@ import { timeout } from '../../utils/helpers'
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import Footer from '../../components/Footer/Footer'
 import Modal from '../../components/Modal/Modal'
-import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 
 //Types
 import { TextType, ViewType, ImageType } from '../../types/styles'
@@ -23,6 +22,7 @@ import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { usePauseContext } from '../../utils/context/PauseContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
+import Header from '../../components/Header/Header'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -121,15 +121,13 @@ const Player = ({ navigation }: Props) => {
 			setModalVisible(true)
 			await pauseSound(audio)
 			setPlaying(false)
-			setIsExercising(false)
 		}
 	}
-	const quitHandler = async () => {
+	const quitHandler = async (finished: boolean) => {
 		if (audio && pauseEffect && finishEffect) {
 			await unloadSound(pauseEffect)
-			await playSound(finishEffect)
 			await unloadSound(audio)
-			navigation.navigate('Home')
+			navigation.replace('Home', { finished })
 		}
 	}
 	const pauseHandler = () => {
@@ -151,6 +149,7 @@ const Player = ({ navigation }: Props) => {
 
 	useAsyncEffect(async () => {
 		await timeout(1000)
+
 		if (fullTime > 0 && playing) {
 			setFullTime(fullTime - 1)
 			if (isExercising) {
@@ -164,7 +163,8 @@ const Player = ({ navigation }: Props) => {
 				setIsExercising(true)
 			}
 		} else if (fullTime === 0) {
-			await quitHandler()
+			if (finishEffect) await playSound(finishEffect)
+			await quitHandler(true)
 		}
 	}, [fullTime, playing])
 
@@ -185,7 +185,7 @@ const Player = ({ navigation }: Props) => {
 						text: translations.common.yes,
 						onPress: async () => {
 							setModalVisible(false)
-							await quitHandler()
+							await quitHandler(false)
 						},
 					},
 				]}
@@ -198,34 +198,27 @@ const Player = ({ navigation }: Props) => {
 			</Modal>
 
 			<WavyHeader bgColor={theme.primary} outline>
-				<View style={styles.headerContainer as ViewType}>
-					<View style={styles.header as ViewType}>
-						<CloseIcon color='#fff' onPress={closeIconPressHandler} />
-
-						{fullTime > exercise.time[time].exerciseTime && (
-							<View style={styles.counter as ViewType}>
-								<Text style={styles.breakIn as TextType}>
-									{isExercising ? translations.Player.breakIn : translations.Player.nextSeriesIn}
-								</Text>
-								<Text style={styles.counterText as TextType}>
-									{isExercising ? exerciseTime : pauseTime}s
-								</Text>
-							</View>
-						)}
-					</View>
-				</View>
+				<Header closeIconColor='#fff' closeIconHandler={closeIconPressHandler}>
+					{fullTime > exercise.time[time].exerciseTime && (
+						<View style={styles.counter as ViewType}>
+							<Text style={styles.breakIn as TextType}>
+								{isExercising ? translations.Player.breakIn : translations.Player.nextSeriesIn}
+							</Text>
+							<Text style={styles.counterText as TextType}>
+								{isExercising ? exerciseTime : pauseTime}s
+							</Text>
+						</View>
+					)}
+				</Header>
 			</WavyHeader>
 
 			<Animated.View style={[styles.exerciseInfo, { opacity: fadeAnim }] as ViewType}>
 				{((playing && isExercising) || fullTime === 0) && (
-					<>
-						<Text style={styles.exerciseName as TextType}>{exercise.name}</Text>
-						<Image
-							style={styles.exerciseIcon as ImageType}
-							source={exerciseMap[exercise.iconName]}
-							resizeMode='contain'
-						/>
-					</>
+					<Image
+						style={styles.exerciseIcon as ImageType}
+						source={exerciseMap[exercise.iconName]}
+						resizeMode='contain'
+					/>
 				)}
 				{playing && !isExercising && fullTime > 0 && (
 					<>
@@ -233,7 +226,7 @@ const Player = ({ navigation }: Props) => {
 						<Icon name='pause-outline' type='ionicon' color='#fff' size={200} />
 					</>
 				)}
-				{!playing && <Icon name='pause-outline' type='ionicon' color='#fff' size={250} />}
+				{!playing && <Icon name='pause-outline' type='ionicon' color='#fff' size={236} />}
 			</Animated.View>
 
 			<Footer

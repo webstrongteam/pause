@@ -56,12 +56,7 @@ const Modal = ({
 				footer={
 					<ModalFooter>
 						{buttons.map((item, i) => (
-							<ModalButton
-								textStyle={styles.ModalButtonText as TextType}
-								key={i}
-								text={item.text}
-								onPress={item.onPress}
-							/>
+							<ModalButton key={i} text={item.text} onPress={item.onPress} />
 						))}
 					</ModalFooter>
 				}

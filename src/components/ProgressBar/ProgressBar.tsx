@@ -1,19 +1,30 @@
 import React from 'react'
 import { Slider } from 'react-native-elements'
+import { Animated } from 'react-native'
 import { concatStyles } from '../../utils/helpers'
 import { ViewType } from '../../types/styles'
-import styles from './ProgressBar.module.scss'
+import styles from './ProgressBar.scss'
 
-type ProgressBarProps = {
+export type ProgressBarProps = {
+	animate?: boolean
+	animateConfig?: Animated.TimingAnimationConfig | undefined
 	maxValue: number
 	currentValue: number
 	barColor: string
 	className?: {}
 }
 
-const ProgressBar = ({ maxValue, currentValue, barColor, className = {} }: ProgressBarProps) => (
+const ProgressBar = ({
+	animate = true,
+	animateConfig = undefined,
+	maxValue,
+	currentValue,
+	barColor,
+	className = {},
+}: ProgressBarProps) => (
 	<Slider
-		animateTransitions
+		animateTransitions={animate}
+		animationConfig={animateConfig}
 		maximumValue={maxValue}
 		value={currentValue}
 		disabled

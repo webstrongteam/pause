@@ -30,6 +30,8 @@ export const getLocale = () => {
 	return 'en'
 }
 
+export const defaultColor = (themes as Theme[])[0].colors.primary
+
 export const getRandomPause = (pause: Pause, settings: Settings): Pause => ({
 	music: getRandomMusic(pause.music, settings.level),
 	exercise: getRandomExercises(pause.exercise, settings.level, settings.difficulty),
@@ -54,9 +56,9 @@ export const getNextLevelBenefits = (level: number): NextLevelBenefits => {
 }
 
 export const getTheme = (level: number): Theme => {
-	const availableThemes = (themes as Theme[]).filter((m) => m.requiredLevel <= level)
+	const availableThemes = (themes as Theme[]).filter((t) => t.requiredLevel <= level)
 
-	return availableThemes.sort((a, b) => +(+a.requiredLevel > +b.requiredLevel))[0]
+	return availableThemes.sort((a, b) => b.requiredLevel - a.requiredLevel)[0]
 }
 
 export const addBackgroundColor = (baseStyles: {}, backgroundColor: string): ViewType => ({

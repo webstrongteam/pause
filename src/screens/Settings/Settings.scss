@@ -23,16 +23,6 @@
 	font-family: 'Lato-Light';
 	text-transform: uppercase;
 }
-.headerContainer {
-	height: 185px;
-	padding-top: 40px;
-	margin: 0 20px;
-}
-.header {
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-}
 .label {
 	@include Text();
 	color: #fff;

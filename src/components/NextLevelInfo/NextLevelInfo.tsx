@@ -1,16 +1,30 @@
 import React from 'react'
 import { View, Text } from 'react-native'
-import { TextType, ViewType } from '../../types/styles'
-import { concatStyles, getNextLevelBenefits, getVariety } from '../../utils/helpers'
+import {
+	addBackgroundColor,
+	addTextColor,
+	concatStyles,
+	getNextLevelBenefits,
+	getVariety,
+} from '../../utils/helpers'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import styles from './NextLevelInfo.scss'
 
 type Props = {
-	title: string
+	title?: string
+	emptyBenefitsText?: string
+	color: string
+	textColor: string
 	titleClassName?: {}
 }
 
-const NextLevelBenefits = ({ title, titleClassName }: Props) => {
+const NextLevelBenefits = ({
+	title,
+	color,
+	textColor,
+	emptyBenefitsText,
+	titleClassName,
+}: Props) => {
 	const { useSubscribe } = useSettingsContext()
 	const translations = useSubscribe((s) => s.translations.common)
 	const level = useSubscribe((s) => s.settings?.level)
@@ -22,6 +36,9 @@ const NextLevelBenefits = ({ title, titleClassName }: Props) => {
 	const levelBenefits = getNextLevelBenefits(level)
 
 	if (!levelBenefits.themes && !levelBenefits.music && !levelBenefits.exercises) {
+		if (emptyBenefitsText) {
+			return <Text style={concatStyles(styles.title, titleClassName)}>{emptyBenefitsText}</Text>
+		}
 		return <></>
 	}
 
@@ -30,8 +47,8 @@ const NextLevelBenefits = ({ title, titleClassName }: Props) => {
 			<Text style={concatStyles(styles.title, titleClassName)}>{title}</Text>
 
 			{!!levelBenefits.exercises && (
-				<View style={styles.nextLevelInfo as ViewType}>
-					<Text style={styles.nextLevelInfoText as TextType}>
+				<View style={addBackgroundColor(styles.nextLevelInfo, color)}>
+					<Text style={addTextColor(styles.nextLevelInfoText, textColor)}>
 						{levelBenefits.exercises > 1 && <Text>{levelBenefits.exercises}&nbsp;</Text>}
 						{getVariety(
 							levelBenefits.exercises,
@@ -44,8 +61,8 @@ const NextLevelBenefits = ({ title, titleClassName }: Props) => {
 			)}
 
 			{!!levelBenefits.music && (
-				<View style={styles.nextLevelInfo as ViewType}>
-					<Text style={styles.nextLevelInfoText as TextType}>
+				<View style={addBackgroundColor(styles.nextLevelInfo, color)}>
+					<Text style={addTextColor(styles.nextLevelInfoText, textColor)}>
 						{levelBenefits.music > 1 && <Text>{levelBenefits.music}&nbsp;</Text>}
 						{getVariety(
 							levelBenefits.music,
@@ -58,8 +75,8 @@ const NextLevelBenefits = ({ title, titleClassName }: Props) => {
 			)}
 
 			{!!levelBenefits.themes && (
-				<View style={styles.nextLevelInfo as ViewType}>
-					<Text style={styles.nextLevelInfoText as TextType}>
+				<View style={addBackgroundColor(styles.nextLevelInfo, color)}>
+					<Text style={addTextColor(styles.nextLevelInfoText, textColor)}>
 						{levelBenefits.themes > 1 && <Text>{levelBenefits.themes}&nbsp;</Text>}
 						{getVariety(
 							levelBenefits.themes,
