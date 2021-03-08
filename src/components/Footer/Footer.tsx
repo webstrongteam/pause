@@ -1,22 +1,18 @@
 import React, { PropsWithChildren } from 'react'
-import { View, Animated } from 'react-native'
+import { View } from 'react-native'
 import { ViewType } from '../../types/styles'
-import ProgressBar from '../ProgressBar/ProgressBar'
+import ProgressBar, { ProgressBarProps } from '../ProgressBar/ProgressBar'
 import { addBackgroundColor } from '../../utils/helpers'
 import styles from './Footer.scss'
 
 type Props = PropsWithChildren<{
-	animate?: boolean
-	animateConfig?: Animated.TimingAnimationConfig | undefined
-	maxValue: number
-	currentValue: number
-	barColor: string
 	backgroundColor: string
-}>
+}> &
+	Omit<ProgressBarProps, 'className'>
 
 const Footer = ({
 	animate = true,
-	animateConfig = undefined,
+	animateConfig,
 	children,
 	maxValue,
 	currentValue,

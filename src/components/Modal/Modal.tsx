@@ -8,7 +8,7 @@ import styles from './Modal.scss'
 type Props = PropsWithChildren<{
 	toggleModal: () => void
 	visible: boolean
-	title?: string
+	title: string
 	buttons?: {
 		text: string
 		onPress: () => void
@@ -49,11 +49,9 @@ const Modal = ({
 				onTouchOutside={toggleModal}
 				modalStyle={{ backgroundColor: bgColor }}
 				modalTitle={
-					title ? (
-						<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-							<ModalTitle textStyle={styles.ModalTitleText as TextType} title={title} />
-						</TouchableWithoutFeedback>
-					) : undefined
+					<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+						<ModalTitle textStyle={styles.ModalTitleText as TextType} title={title} />
+					</TouchableWithoutFeedback>
 				}
 				footer={
 					<ModalFooter>

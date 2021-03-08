@@ -17,7 +17,7 @@ import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 
 //Types
 import { TextType, ViewType, ImageType } from '../../types/styles'
-import { NavigationScreenType } from '../../types/navigation'
+import { NavigationReplaceType } from '../../types/navigation'
 
 //Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
@@ -25,7 +25,7 @@ import { usePauseContext } from '../../utils/context/PauseContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
 type Props = {
-	navigation: NavigationScreenType | any
+	navigation: NavigationReplaceType
 }
 
 const Player = ({ navigation }: Props) => {
@@ -123,15 +123,11 @@ const Player = ({ navigation }: Props) => {
 			setPlaying(false)
 		}
 	}
-	const quitHandler = async (byIcon: boolean) => {
+	const quitHandler = async (finished: boolean) => {
 		if (audio && pauseEffect && finishEffect) {
 			await unloadSound(pauseEffect)
 			await unloadSound(audio)
-			if (byIcon) {
-				navigation.replace('Home', { finished: false })
-			} else {
-				navigation.replace('Home', { finished: true })
-			}
+			navigation.replace('Home', { finished })
 		}
 	}
 	const pauseHandler = () => {
@@ -152,7 +148,7 @@ const Player = ({ navigation }: Props) => {
 	}, [playing])
 
 	useAsyncEffect(async () => {
-		await timeout(10)
+		await timeout(1000)
 		if (fullTime > 0 && playing) {
 			setFullTime(fullTime - 1)
 			if (isExercising) {
@@ -167,7 +163,7 @@ const Player = ({ navigation }: Props) => {
 			}
 		} else if (fullTime === 0) {
 			if (finishEffect) await playSound(finishEffect)
-			await quitHandler(false)
+			await quitHandler(true)
 		}
 	}, [fullTime, playing])
 
@@ -188,7 +184,7 @@ const Player = ({ navigation }: Props) => {
 						text: translations.common.yes,
 						onPress: async () => {
 							setModalVisible(false)
-							await quitHandler(true)
+							await quitHandler(false)
 						},
 					},
 				]}

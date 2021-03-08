@@ -2,24 +2,32 @@ import React, { useState } from 'react'
 import { ScrollView, View, Text } from 'react-native'
 import { Icon, ButtonGroup, Button } from 'react-native-elements'
 import { showMessage } from 'react-native-flash-message'
+
+//Components
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
+import Modal from '../../components/Modal/Modal'
+
+//Types and styles
 import styles from './Settings.scss'
 import { TextType, ViewType } from '../../types/styles'
 import { Difficulty, Lang, Time, Settings } from '../../types/settings'
-import { NavigationScreenType } from '../../types/navigation'
+import { NavigationReplaceType } from '../../types/navigation'
+
+//Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
+
 import {
 	changeLanguage,
 	changeDifficulty,
 	changeTime,
 	restartSettings,
 } from '../../../database/actions/settings'
-import Modal from '../../components/Modal/Modal'
+
 import useShowFailureMessage from '../../utils/hooks/useShowFailureMessage'
 
 type Props = {
-	navigation: NavigationScreenType | any
+	navigation: NavigationReplaceType
 }
 
 type ButtonGroupsType = Record<

@@ -38,7 +38,7 @@ const Home = ({ navigation }: Props) => {
 	//Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
-	const theme = themeContext.useSubscribe((c) => c.colors)
+	const theme = themeContext.useSubscribe((t) => t.colors)
 	const pause = pauseContext.useSubscribe((p) => p)
 
 	if (!settings) {
@@ -47,10 +47,10 @@ const Home = ({ navigation }: Props) => {
 
 	//States
 	const [animate, setAnimate] = useState(true)
-	const [currentValue, setCurrentValue] = useState(
+	const [currentPoints, setCurrentPoints] = useState(
 		settings.points - getPointsToLevelUp(settings.level - 1),
 	)
-	const [maxValue, setMaxValue] = useState(
+	const [maxPoints, setMaxPoints] = useState(
 		getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1),
 	)
 	const [currentLevel, setCurrentLevel] = useState(settings.level)
@@ -63,35 +63,32 @@ const Home = ({ navigation }: Props) => {
 	}
 	const finishExercise = async () => {
 		const finished = navigation.getParam('finished', false)
-		if (finished) {
+		if (finished && pause.points) {
 			showMessage({
 				message: `${translations.common.breakEnded} +${pause.points}p`,
 				type: 'success',
 				backgroundColor: theme.primary,
 				duration: 2500,
 			})
-			if (!pause.points) {
-				return <></>
-			}
 			const newPoints = settings.points + pause.points
 			if (getPointsToLevelUp(settings.level) < newPoints) {
-				setCurrentValue(maxValue)
+				setModalVisible(true)
+				setCurrentPoints(maxPoints)
+				settingsContext.setSettings(await changeLevelAndPoints(settings.level + 1, newPoints))
 				setTimeout(() => {
 					setAnimate(false)
-					setCurrentValue(0)
+					setCurrentPoints(0)
 				}, 5000)
-				setTimeout(async () => {
-					setModalVisible(true)
+				setTimeout(() => {
 					setAnimate(true)
-					settingsContext.setSettings(await changeLevelAndPoints(settings.level + 1, newPoints))
-					setCurrentValue(newPoints - getPointsToLevelUp(settings.level))
-					setMaxValue(getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1))
+					setCurrentPoints(newPoints - getPointsToLevelUp(settings.level))
+					setMaxPoints(getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1))
 					setCurrentLevel(settings.level + 1)
 					navigation.setParams({ finished: false })
 				}, 5100)
 			} else {
 				settingsContext.setSettings(await changeLevelAndPoints(settings.level, newPoints))
-				setCurrentValue(newPoints - getPointsToLevelUp(settings.level - 1))
+				setCurrentPoints(newPoints - getPointsToLevelUp(settings.level - 1))
 				navigation.setParams({ finished: false })
 			}
 		}
@@ -106,6 +103,7 @@ const Home = ({ navigation }: Props) => {
 			<Modal
 				visible={modalVisible}
 				toggleModal={() => setModalVisible(false)}
+				title={`${translations.Level.newLevel} ${currentLevel}`}
 				buttons={[
 					{
 						text: translations.common.ok,
@@ -114,9 +112,7 @@ const Home = ({ navigation }: Props) => {
 				]}
 			>
 				<View style={styles.modal as ViewType}>
-					<Text style={styles.newLevel as TextType}>{translations.Level.newLevel}</Text>
-					<Text style={styles.fontBold as TextType}>{currentLevel}</Text>
-					<Text style={styles.youGet as TextType}>{translations.Level.youGet}</Text>
+					<Text style={styles.youGetText as TextType}>{translations.Level.youGet}</Text>
 					<NextLevelBenefits color={theme.primary} textColor='#fff' />
 				</View>
 			</Modal>
@@ -131,8 +127,8 @@ const Home = ({ navigation }: Props) => {
 
 			<Footer
 				animate={animate}
-				currentValue={currentValue}
-				maxValue={maxValue}
+				currentValue={currentPoints}
+				maxValue={maxPoints}
 				barColor={theme.progress}
 				backgroundColor={theme.primary}
 				animateConfig={{

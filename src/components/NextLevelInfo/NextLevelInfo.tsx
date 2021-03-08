@@ -12,8 +12,8 @@ import styles from './NextLevelInfo.scss'
 
 type Props = {
 	title?: string
-	color?: string
-	textColor?: string
+	color: string
+	textColor: string
 	titleClassName?: {}
 }
 

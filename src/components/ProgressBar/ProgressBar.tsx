@@ -5,7 +5,7 @@ import { concatStyles } from '../../utils/helpers'
 import { ViewType } from '../../types/styles'
 import styles from './ProgressBar.module.scss'
 
-type ProgressBarProps = {
+export type ProgressBarProps = {
 	animate?: boolean
 	animateConfig?: Animated.TimingAnimationConfig | undefined
 	maxValue: number
