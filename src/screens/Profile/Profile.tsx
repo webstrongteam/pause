@@ -64,8 +64,8 @@ const Profile = ({ navigation }: Props) => {
 
 			<ProgressBar
 				className={styles.progressBar}
-				maxValue={getPointsToLevelUp(settings.level)}
-				currentValue={settings.points}
+				maxValue={getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1)}
+				currentValue={settings.points - getPointsToLevelUp(settings.level - 1)}
 				barColor={theme.progress}
 			/>
 

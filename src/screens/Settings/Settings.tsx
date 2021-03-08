@@ -19,7 +19,7 @@ import Modal from '../../components/Modal/Modal'
 import useShowFailureMessage from '../../utils/hooks/useShowFailureMessage'
 
 type Props = {
-	navigation: NavigationScreenType
+	navigation: NavigationScreenType | any
 }
 
 type ButtonGroupsType = Record<
@@ -143,7 +143,7 @@ const SettingsScreen = ({ navigation }: Props) => {
 				<WavyHeader>
 					<View style={styles.headerContainer as ViewType}>
 						<View style={styles.header as ViewType}>
-							<CloseIcon onPress={() => navigation.goBack()} />
+							<CloseIcon onPress={() => navigation.replace('Home')} />
 							<Text style={styles.title as TextType}>{translations.Settings.title}</Text>
 						</View>
 					</View>

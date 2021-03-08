@@ -121,15 +121,17 @@ const Player = ({ navigation }: Props) => {
 			setModalVisible(true)
 			await pauseSound(audio)
 			setPlaying(false)
-			setIsExercising(false)
 		}
 	}
-	const quitHandler = async () => {
+	const quitHandler = async (byIcon: boolean) => {
 		if (audio && pauseEffect && finishEffect) {
 			await unloadSound(pauseEffect)
-			await playSound(finishEffect)
 			await unloadSound(audio)
-			navigation.replace('Home', { finished: true })
+			if (byIcon) {
+				navigation.replace('Home', { finished: false })
+			} else {
+				navigation.replace('Home', { finished: true })
+			}
 		}
 	}
 	const pauseHandler = () => {
@@ -164,7 +166,8 @@ const Player = ({ navigation }: Props) => {
 				setIsExercising(true)
 			}
 		} else if (fullTime === 0) {
-			await quitHandler()
+			if (finishEffect) await playSound(finishEffect)
+			await quitHandler(false)
 		}
 	}, [fullTime, playing])
 
@@ -185,7 +188,7 @@ const Player = ({ navigation }: Props) => {
 						text: translations.common.yes,
 						onPress: async () => {
 							setModalVisible(false)
-							await quitHandler()
+							await quitHandler(true)
 						},
 					},
 				]}

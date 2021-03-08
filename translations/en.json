@@ -9,15 +9,15 @@
 		"errorDescription": "Try again",
 		"breakEnded": "The break is over",
 
-		"singularNewExercise": "new exercise",
+		"singularNewExercise": "New exercise",
 		"pluralNewExercises": "new exercises",
 		"genitiveNewExercises": "new exercises",
 
-		"singularNewMusic": "new music",
+		"singularNewMusic": "New music",
 		"pluralNewMusic": "new music",
 		"genitiveNewMusic": "new music",
 
-		"singularNewTheme": "new theme",
+		"singularNewTheme": "New theme",
 		"pluralNewThemes": "new themes",
 		"genitiveNewThemes": "new themes"
 	},
