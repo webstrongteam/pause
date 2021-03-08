@@ -15,7 +15,7 @@ const PauseContext = createStateContext(settingsInitialState, (setStore) => ({
 const PauseHandler = () => {
 	const pauseContext = usePauseContext()
 	const settingsContext = useSettingsContext()
-	const pause = pauseContext.useSubscribe((s) => s)
+	const pause = pauseContext.useSubscribe((p) => p)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
 
 	useEffect(() => {

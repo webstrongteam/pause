@@ -3,7 +3,7 @@ import { Slider } from 'react-native-elements'
 import { Animated } from 'react-native'
 import { concatStyles } from '../../utils/helpers'
 import { ViewType } from '../../types/styles'
-import styles from './ProgressBar.module.scss'
+import styles from './ProgressBar.scss'
 
 export type ProgressBarProps = {
 	animate?: boolean

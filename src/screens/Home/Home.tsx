@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
-import { showMessage } from 'react-native-flash-message'
 
 //Styles and types
 import styles from './Home.scss'
@@ -22,8 +21,16 @@ import { usePauseContext } from '../../utils/context/PauseContext'
 
 //Functions
 import { changeLevelAndPoints } from '../../../database/actions/settings'
-import { addBackgroundColor, getPointsToLevelUp, getRandomPause } from '../../utils/helpers'
+import {
+	addBackgroundColor,
+	getPointsToLevelUp,
+	getRandomPause,
+	getTheme,
+} from '../../utils/helpers'
+
+// Hooks
 import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
+import useShowMessage from '../../utils/hooks/useShowMessage'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -41,7 +48,7 @@ const Home = ({ navigation }: Props) => {
 	const theme = themeContext.useSubscribe((t) => t.colors)
 	const pause = pauseContext.useSubscribe((p) => p)
 
-	if (!settings) {
+	if (!settings || !pause.points) {
 		return <></>
 	}
 
@@ -56,39 +63,49 @@ const Home = ({ navigation }: Props) => {
 	const [currentLevel, setCurrentLevel] = useState(settings.level)
 	const [modalVisible, setModalVisible] = useState(false)
 
+	const pointsAfterFinishExercise = settings.points + pause.points
+	const levelUpAfterFinishExercise = pointsAfterFinishExercise > getPointsToLevelUp(settings.level)
+
+	const showMessage = useShowMessage({
+		message: `${translations.common.breakEnded} +${pause.points}p`,
+		backgroundColor: getTheme(levelUpAfterFinishExercise ? settings.level + 1 : settings.level)
+			.colors.primary,
+	})
+
 	//Handlers and functions
 	const pauseHandler = () => {
 		pauseContext.setPause(getRandomPause(pause, settings))
 		navigation.navigate('Player')
 	}
+
 	const finishExercise = async () => {
 		const finished = navigation.getParam('finished', false)
-		if (finished && pause.points) {
-			showMessage({
-				message: `${translations.common.breakEnded} +${pause.points}p`,
-				type: 'success',
-				backgroundColor: theme.primary,
-				duration: 2500,
-			})
-			const newPoints = settings.points + pause.points
-			if (getPointsToLevelUp(settings.level) < newPoints) {
+		if (finished) {
+			showMessage()
+			if (levelUpAfterFinishExercise) {
 				setCurrentPoints(maxPoints)
-				settingsContext.setSettings(await changeLevelAndPoints(settings.level + 1, newPoints))
+				settingsContext.setSettings(
+					await changeLevelAndPoints(settings.level + 1, pointsAfterFinishExercise),
+				)
 				setModalVisible(true)
+
 				setTimeout(() => {
 					setAnimate(false)
 					setCurrentPoints(0)
 				}, 5000)
+
 				setTimeout(() => {
 					setAnimate(true)
-					setCurrentPoints(newPoints - getPointsToLevelUp(settings.level))
+					setCurrentPoints(pointsAfterFinishExercise - getPointsToLevelUp(settings.level))
 					setMaxPoints(getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1))
 					setCurrentLevel(settings.level + 1)
 					navigation.setParams({ finished: false })
 				}, 5100)
 			} else {
-				settingsContext.setSettings(await changeLevelAndPoints(settings.level, newPoints))
-				setCurrentPoints(newPoints - getPointsToLevelUp(settings.level - 1))
+				settingsContext.setSettings(
+					await changeLevelAndPoints(settings.level, pointsAfterFinishExercise),
+				)
+				setCurrentPoints(pointsAfterFinishExercise - getPointsToLevelUp(settings.level - 1))
 				navigation.setParams({ finished: false })
 			}
 		}
@@ -111,19 +128,20 @@ const Home = ({ navigation }: Props) => {
 					},
 				]}
 			>
-				<View style={styles.modal as ViewType}>
-					<Text style={styles.getBenefitsTitle as TextType}>{translations.Level.youGet}</Text>
-					<NextLevelBenefits color={theme.primary} textColor='#fff' />
-				</View>
+				<NextLevelBenefits
+					color={theme.primary}
+					emptyBenefitsText={translations.common.congratulations}
+					titleClassName={styles.getBenefitsTitle}
+					title={translations.Level.benefitsTitle}
+					textColor='#fff'
+				/>
 			</Modal>
 
 			<View style={styles.header as ViewType}>
 				<WavyHeader variant='centered' />
 			</View>
 
-			<View>
-				<PauseButton onPress={pauseHandler} />
-			</View>
+			<PauseButton onPress={pauseHandler} />
 
 			<Footer
 				animate={animate}

@@ -1,16 +1,15 @@
 import React from 'react'
-import { ScrollView, View, Text } from 'react-native'
+import { ScrollView, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
 import styles from './Profile.scss'
 
 //Components
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
-import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 import NextLevelBenefits from '../../components/NextLevelInfo/NextLevelInfo'
 
 //Types
-import { TextType, ViewType } from '../../types/styles'
+import { TextType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
 
 //Contexts
@@ -24,6 +23,7 @@ import {
 	getPointsToLevelUp,
 	getVariety,
 } from '../../utils/helpers'
+import Header from '../../components/Header/Header'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -47,14 +47,11 @@ const Profile = ({ navigation }: Props) => {
 	return (
 		<ScrollView bounces={false} style={addBackgroundColor(styles.container, theme.primary)}>
 			<WavyHeader>
-				<View style={styles.headerContainer as ViewType}>
-					<View style={styles.header as ViewType}>
-						<CloseIcon onPress={() => navigation.goBack()} />
-						<Text style={addTextColor(styles.title, theme.primary)}>
-							{translations.Profile.title}
-						</Text>
-					</View>
-				</View>
+				<Header closeIconHandler={() => navigation.goBack()}>
+					<Text style={addTextColor(styles.title, theme.primary)}>
+						{translations.Profile.title}
+					</Text>
+				</Header>
 			</WavyHeader>
 
 			<Icon name='account' type='material-community' color='#fff' size={140} />
@@ -74,7 +71,7 @@ const Profile = ({ navigation }: Props) => {
 				{getVariety(
 					settings.points,
 					translations.Profile.singularPoints,
-					translations.Profile.plurarPoints,
+					translations.Profile.pluralPoints,
 					translations.Profile.genitivePoints,
 				)}
 			</Text>
@@ -86,7 +83,7 @@ const Profile = ({ navigation }: Props) => {
 				{getVariety(
 					getPointsToLevelUp(settings.level) - settings.points,
 					translations.Profile.singularPoints,
-					translations.Profile.plurarPoints,
+					translations.Profile.pluralPoints,
 					translations.Profile.genitivePoints,
 				)}
 				<Text>&nbsp;</Text>
@@ -97,7 +94,7 @@ const Profile = ({ navigation }: Props) => {
 				titleClassName={styles.nextLevelText}
 				title={translations.Level.nextLevel}
 				color={theme.third}
-				textColor='#000'
+				textColor={theme.secondary}
 			/>
 		</ScrollView>
 	)

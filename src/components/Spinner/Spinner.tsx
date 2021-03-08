@@ -1,6 +1,7 @@
 import React from 'react'
 import { ActivityIndicator, Platform, View } from 'react-native'
-import styles from './Spinner.styles'
+import { addBackgroundColor } from '../../utils/helpers'
+import styles from './Spinner.scss'
 
 type Props = {
 	size?: number | 'small' | 'large'
@@ -20,12 +21,7 @@ const Spinner = ({ size = 32, color = '#FFFFFF', bgColor = '#1A6A73' }: Props) =
 	}
 
 	return (
-		<View
-			style={{
-				...styles.spinner,
-				backgroundColor: bgColor,
-			}}
-		>
+		<View style={addBackgroundColor(styles.spinner, bgColor)}>
 			<ActivityIndicator size={getSize()} color={color} />
 		</View>
 	)

@@ -8,6 +8,7 @@
 		"errorTitle": "Błąd",
 		"errorDescription": "Spróbuj ponownie",
 		"breakEnded": "Przerwa zakończona",
+		"congratulations": "Gratulacje!",
 
 		"singularNewExercise": "Nowe ćwieczenie",
 		"pluralNewExercises": "nowe ćwieczenia",
@@ -44,12 +45,12 @@
 		"long": "Długi",
 		"clearData": "Wyczyść dane",
 		"clearDataDescription": "Czy na pewno chcesz usunąć wszystkie dane?",
-		"settingsRestore": "Ustawienia zostały przywrócone do domyślnych"
+		"settingsRestore": "Dane aplikacji zostały przywrócone do domyślnych"
 	},
 	"Profile": {
 		"title": "Profil",
 		"singularPoints": "punkt",
-		"plurarPoints": "punkty",
+		"pluralPoints": "punkty",
 		"genitivePoints": "punktów",
 		"toNextLvl": "do następnego poziomu"
 	},
@@ -63,6 +64,6 @@
 	"Level": {
 		"nextLevel": "Następny poziom",
 		"newLevel": "Nowy poziom!",
-		"youGet": "Otrzymujesz:"
+		"benefitsTitle": "Otrzymujesz:"
 	}
 }

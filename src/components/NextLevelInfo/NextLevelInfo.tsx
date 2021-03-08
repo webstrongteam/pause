@@ -12,12 +12,19 @@ import styles from './NextLevelInfo.scss'
 
 type Props = {
 	title?: string
+	emptyBenefitsText?: string
 	color: string
 	textColor: string
 	titleClassName?: {}
 }
 
-const NextLevelBenefits = ({ title, color, textColor, titleClassName }: Props) => {
+const NextLevelBenefits = ({
+	title,
+	color,
+	textColor,
+	emptyBenefitsText,
+	titleClassName,
+}: Props) => {
 	const { useSubscribe } = useSettingsContext()
 	const translations = useSubscribe((s) => s.translations.common)
 	const level = useSubscribe((s) => s.settings?.level)
@@ -29,6 +36,9 @@ const NextLevelBenefits = ({ title, color, textColor, titleClassName }: Props) =
 	const levelBenefits = getNextLevelBenefits(level)
 
 	if (!levelBenefits.themes && !levelBenefits.music && !levelBenefits.exercises) {
+		if (emptyBenefitsText) {
+			return <Text style={concatStyles(styles.title, titleClassName)}>{emptyBenefitsText}</Text>
+		}
 		return <></>
 	}
 

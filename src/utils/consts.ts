@@ -1,3 +1,8 @@
+import { Dimensions } from 'react-native'
+
+export const headerHeight = Dimensions.get('screen').height / 7
+export const centerHeight = Dimensions.get('screen').height * 0.4
+
 // Levels
 export const basePoints = 75
 export const baseLevelPoints = 220
