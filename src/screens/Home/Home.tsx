@@ -75,7 +75,7 @@ const Home = ({ navigation }: Props) => {
 	//Handlers and functions
 	const pauseHandler = () => {
 		pauseContext.setPause(getRandomPause(pause, settings))
-		navigation.navigate('Player')
+		navigation.navigate('PauseScreen')
 	}
 
 	const finishExercise = async () => {
