@@ -148,7 +148,8 @@ const Player = ({ navigation }: Props) => {
 	}, [playing])
 
 	useAsyncEffect(async () => {
-		await timeout(100)
+		await timeout(1000)
+
 		if (fullTime > 0 && playing) {
 			setFullTime(fullTime - 1)
 			if (isExercising) {
