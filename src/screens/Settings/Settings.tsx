@@ -14,6 +14,7 @@ import { NavigationScreenType } from '../../types/navigation'
 
 //Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
+import { useThemeContext } from '../../utils/context/ThemeContext'
 
 import {
 	changeLanguage,
@@ -24,7 +25,7 @@ import {
 import useShowFailureMessage from '../../utils/hooks/useShowFailureMessage'
 import useShowMessage from '../../utils/hooks/useShowMessage'
 import Header from '../../components/Header/Header'
-import { defaultColor } from '../../utils/helpers'
+import { defaultColor, addBackgroundColor, addTextColor } from '../../utils/helpers'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -43,8 +44,11 @@ type ButtonGroupsType = Record<
 const SettingsScreen = ({ navigation }: Props) => {
 	const [modalVisible, setModalVisible] = useState(false)
 	const { useSubscribe, setSettings } = useSettingsContext()
+	const themeContext = useThemeContext()
+
 	const settings = useSubscribe((s) => s.settings)
 	const translations = useSubscribe((s) => s.translations)
+	const theme = themeContext.useSubscribe((t) => t.colors)
 
 	if (!settings) return <></>
 
@@ -54,7 +58,11 @@ const SettingsScreen = ({ navigation }: Props) => {
 		backgroundColor: defaultColor,
 	})
 
-	const buttonGroupStyles = [styles.languages, styles.difficulty, styles.breakTime]
+	const buttonGroupStyles = [
+		addBackgroundColor(styles.languages, theme.third),
+		addBackgroundColor(styles.difficulty, theme.third),
+		addBackgroundColor(styles.breakTime, theme.third),
+	]
 
 	const buttonGroups: ButtonGroupsType = {
 		[translations.Settings.language]: [
@@ -125,7 +133,7 @@ const SettingsScreen = ({ navigation }: Props) => {
 
 	return (
 		<>
-			<ScrollView style={styles.container as ViewType}>
+			<ScrollView style={addBackgroundColor(styles.container, theme.primary)}>
 				<Modal
 					visible={modalVisible}
 					title={translations.Settings.clearData}
@@ -150,23 +158,25 @@ const SettingsScreen = ({ navigation }: Props) => {
 
 				<WavyHeader>
 					<Header closeIconHandler={() => navigation.replace('Home')}>
-						<Text style={styles.title as TextType}>{translations.Settings.title}</Text>
+						<Text style={addTextColor(styles.title, theme.primary)}>
+							{translations.Settings.title}
+						</Text>
 					</Header>
 				</WavyHeader>
 
 				<View style={styles.settings as ViewType}>
 					{Object.keys(buttonGroups).map((key, index) => (
 						<View key={index}>
-							<Text style={styles.label as TextType}>{key}</Text>
+							<Text style={addTextColor(styles.label, theme.secondary)}>{key}</Text>
 							<ButtonGroup
 								onPress={(i) => buttonGroups[key][i].onPress()}
 								buttons={buttonGroups[key].map((button) => button.label)}
 								selectedIndex={buttonGroups[key].findIndex(
 									(button) => button.name === settings[button.key],
 								)}
-								containerStyle={buttonGroupStyles[index] as ViewType}
-								selectedButtonStyle={styles.selectedButton as ViewType}
-								selectedTextStyle={styles.buttonGroupSelectedText as TextType}
+								containerStyle={buttonGroupStyles[index]}
+								selectedButtonStyle={addBackgroundColor(styles.selectedButton, theme.secondary)}
+								selectedTextStyle={{ color: theme.primary }}
 								textStyle={styles.buttonGroupText as TextType}
 							/>
 						</View>
@@ -180,8 +190,8 @@ const SettingsScreen = ({ navigation }: Props) => {
 					iconRight
 					onPress={() => setModalVisible(true)}
 					title={translations.Settings.clearData}
-					buttonStyle={styles.buttonStyles as ViewType}
-					titleStyle={styles.buttonTitle as TextType}
+					buttonStyle={addBackgroundColor(styles.buttonStyles, theme.third)}
+					titleStyle={addTextColor(styles.buttonTitle, theme.optional)}
 				/>
 			</View>
 		</>
