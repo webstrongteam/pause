@@ -15,9 +15,9 @@ import {
 	shortTimeMultiplier,
 } from './consts'
 
-import music from '../config/music.json'
-import exercises from '../config/exercises.json'
-import themes from '../config/themes.json'
+const music = require('../config/music.json')
+const exercises = require('../config/exercises.json')
+const themes = require('../config/themes.json')
 
 export const getLocale = () => {
 	const locale =
@@ -29,8 +29,6 @@ export const getLocale = () => {
 	}
 	return 'en'
 }
-
-export const defaultColor = (themes as Theme[])[0].colors.primary
 
 export const getRandomPause = (pause: Pause, settings: Settings): Pause => ({
 	music: getRandomMusic(pause.music, settings.level),

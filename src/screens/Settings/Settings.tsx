@@ -25,7 +25,8 @@ import {
 import useShowFailureMessage from '../../utils/hooks/useShowFailureMessage'
 import useShowMessage from '../../utils/hooks/useShowMessage'
 import Header from '../../components/Header/Header'
-import { defaultColor, addBackgroundColor, addTextColor } from '../../utils/helpers'
+import { addBackgroundColor, addTextColor } from '../../utils/helpers'
+import { defaultColor } from '../../utils/consts'
 
 type Props = {
 	navigation: NavigationScreenType

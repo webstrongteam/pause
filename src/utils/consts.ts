@@ -1,4 +1,7 @@
 import { Dimensions } from 'react-native'
+import { expo } from '../../app.json'
+
+export const defaultColor = expo.primaryColor
 
 export const headerHeight = Dimensions.get('screen').height / 7
 export const centerHeight = Dimensions.get('screen').height * 0.4

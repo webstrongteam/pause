@@ -9,3 +9,4 @@ package-lock.json
 *.key
 *.mobileprovision
 *scss.d.ts
+**/reports/*
