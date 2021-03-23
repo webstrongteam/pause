@@ -169,10 +169,10 @@ const Player = ({ navigation }: Props) => {
 			if (finishEffect) await playSound(finishEffect)
 			await quitHandler(true)
 		} else if (startCounter === 1) {
-				setIsStarted(true)
-			} else if (playing) {
-					setStartCounter(startCounter - 1)
-				}
+			setIsStarted(true)
+		} else if (playing) {
+			setStartCounter(startCounter - 1)
+		}
 	}, [fullTime, playing, startCounter, isStarted])
 
 	return (
