@@ -55,6 +55,7 @@ const Player = ({ navigation }: Props) => {
 	const [pauseEffect, setPauseEffect] = useState<Sound>()
 	const [finishEffect, setFinishEffect] = useState<Sound>()
 	const [playing, setPlaying] = useState(true)
+	const [showPauseIcon, setShowPauseIcone] = useState(false)
 
 	const [fullTime, setFullTime] = useState(exercise.time[time].totalTime)
 	const [isExercising, setIsExercising] = useState(true)
@@ -99,7 +100,7 @@ const Player = ({ navigation }: Props) => {
 	const fadeIn = () => {
 		Animated.timing(fadeAnim, {
 			toValue: 1,
-			duration: 250,
+			duration: 300,
 			useNativeDriver: true,
 		}).start(() => setIsAnimating(false))
 	}
@@ -107,10 +108,10 @@ const Player = ({ navigation }: Props) => {
 	const fadeOut = () => {
 		Animated.timing(fadeAnim, {
 			toValue: 0,
-			duration: 250,
+			duration: 300,
 			useNativeDriver: true,
 		}).start(() => {
-			setPlaying(!playing)
+			setShowPauseIcone(!showPauseIcon)
 			fadeIn()
 		})
 	}
@@ -128,17 +129,19 @@ const Player = ({ navigation }: Props) => {
 		setModalVisible(true)
 		if (audio) await pauseSound(audio)
 		setPlaying(false)
+		setShowPauseIcone(true)
 	}
 	const quitHandler = async (finished: boolean) => {
-		if(pauseEffect) await unloadSound(pauseEffect)
-		if(finishEffect) await unloadSound(finishEffect)
-		if(audio) await unloadSound(audio)
+		if (pauseEffect) await unloadSound(pauseEffect)
+		if (finishEffect) await unloadSound(finishEffect)
+		if (audio) await unloadSound(audio)
 		navigation.replace('Home', { finished })
 	}
 	const pauseHandler = () => {
 		if (!isAnimating) {
 			setIsAnimating(true)
 			setShouldIncrementTime(false)
+			setPlaying(!playing)
 			fadeOut()
 		}
 	}
@@ -152,7 +155,8 @@ const Player = ({ navigation }: Props) => {
 	}
 
 	const shouldCounting = fullTime > 0 && playing && startCounter === 0
-	const shouldShowExerciseImage = (playing && isExercising && startCounter === 0) || fullTime === 0
+	const shouldShowExerciseImage =
+		(!showPauseIcon && isExercising && startCounter === 0) || fullTime === 0
 
 	//Loading sound effects
 	useAsyncEffect(async () => {
@@ -198,9 +202,8 @@ const Player = ({ navigation }: Props) => {
 				await quitHandler(true)
 			}
 			return
-		} 
+		}
 		setShouldIncrementTime(true)
-
 	}, [fullTime, playing, startCounter, pauseEffect, finishEffect, shouldIncrementTime])
 
 	return (
@@ -248,7 +251,7 @@ const Player = ({ navigation }: Props) => {
 			</WavyHeader>
 
 			<Animated.View style={[styles.exerciseInfo, { opacity: fadeAnim }] as ViewType}>
-				{startCounter !== 0 && playing && (
+				{startCounter !== 0 && !showPauseIcon && (
 					<Text style={styles.startCounter as TextType}>{startCounter}</Text>
 				)}
 
@@ -259,13 +262,13 @@ const Player = ({ navigation }: Props) => {
 						resizeMode='contain'
 					/>
 				)}
-				{playing && !isExercising && fullTime > 0 && (
+				{!showPauseIcon && !isExercising && fullTime > 0 && (
 					<>
 						<Text style={styles.breakText as TextType}>{translations.Player.break}</Text>
 						<Icon name='pause-outline' type='ionicon' color='#fff' size={200} />
 					</>
 				)}
-				{!playing && <Icon name='pause-outline' type='ionicon' color='#fff' size={236} />}
+				{showPauseIcon && <Icon name='pause-outline' type='ionicon' color='#fff' size={236} />}
 			</Animated.View>
 
 			<Footer
