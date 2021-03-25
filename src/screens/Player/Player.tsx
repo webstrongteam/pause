@@ -59,6 +59,7 @@ const Player = ({ navigation }: Props) => {
 	const [fullTime, setFullTime] = useState(exercise.time[time].totalTime)
 	const [isExercising, setIsExercising] = useState(true)
 	const [series, setSeries] = useState(exercise.time[time].exerciseCount - 1)
+	const [shouldIncrementTime, setShouldIncrementTime] = useState(false)
 
 	//Sound Functions
 	const loadMusic = async () => {
@@ -71,7 +72,9 @@ const Player = ({ navigation }: Props) => {
 	}
 	const loadSoundEffects = async () => {
 		// eslint-disable-next-line @typescript-eslint/no-var-requires
-		const pause = await Audio.Sound.createAsync(require('../../../assets/soundEffects/pause.mp3'))
+		const pause = await Audio.Sound.createAsync(require('../../../assets/soundEffects/pause.mp3'), {
+			shouldPlay: true,
+		})
 		// eslint-disable-next-line @typescript-eslint/no-var-requires
 		const finish = await Audio.Sound.createAsync(require('../../../assets/soundEffects/finish.mp3'))
 		setPauseEffect(pause.sound)
@@ -138,13 +141,9 @@ const Player = ({ navigation }: Props) => {
 	const pauseHandler = () => {
 		if (!isAnimating) {
 			setIsAnimating(true)
+			setShouldIncrementTime(false)
 			fadeOut()
 		}
-	}
-	const shouldCountFunction = () => {
-		let shouldCount = false
-		if (fullTime > 0 && playing && startCounter === 0) shouldCount = true
-		return shouldCount
 	}
 
 	const startCounterFunction = async () => {
@@ -155,6 +154,9 @@ const Player = ({ navigation }: Props) => {
 		}
 	}
 
+	const shouldCounting = fullTime > 0 && playing && startCounter === 0
+	const shouldExerciseImage = (playing && isExercising && startCounter === 0) || fullTime === 0
+
 	//Loading sound effects
 	useAsyncEffect(async () => {
 		await loadSoundEffects()
@@ -164,36 +166,44 @@ const Player = ({ navigation }: Props) => {
 	useAsyncEffect(async () => {
 		if (!audio && startCounter === 0) {
 			await loadMusic()
-		} else if (!playing && audio) {
+			return
+		}
+		if (!playing && audio) {
 			await pauseSound(audio)
-		} else if (audio) {
+			return
+		}
+		if (audio) {
 			await playSound(audio)
 		}
 	}, [playing, startCounter])
 
 	//Counters
 	useAsyncEffect(async () => {
-		await timeout(1000)
+		await timeout(500)
 
-		await startCounterFunction()
-
-		if (shouldCountFunction()) {
-			setFullTime(fullTime - 1)
-			if (isExercising) {
-				if (exerciseTime === 1) {
-					setIsExercising(false)
-					if (pauseEffect && fullTime > 1) await replaySound(pauseEffect)
+		if (shouldIncrementTime) {
+			setShouldIncrementTime(false)
+			await startCounterFunction()
+			if (shouldCounting) {
+				setFullTime(fullTime - 1)
+				if (isExercising) {
+					if (exerciseTime === 1) {
+						setIsExercising(false)
+						if (pauseEffect && fullTime > 1) await replaySound(pauseEffect)
+					}
+				} else if (pauseTime === 1) {
+					setSeries(series - 1)
+					if (pauseEffect) await replaySound(pauseEffect)
+					setIsExercising(true)
 				}
-			} else if (pauseTime === 1) {
-				setSeries(series - 1)
-				if (pauseEffect) await replaySound(pauseEffect)
-				setIsExercising(true)
+			} else if (fullTime === 0) {
+				if (finishEffect) await playSound(finishEffect)
+				await quitHandler(true)
 			}
-		} else if (fullTime === 0) {
-			if (finishEffect) await playSound(finishEffect)
-			await quitHandler(true)
+		} else {
+			setShouldIncrementTime(true)
 		}
-	}, [fullTime, playing, startCounter, pauseEffect, finishEffect])
+	}, [fullTime, playing, startCounter, pauseEffect, finishEffect, shouldIncrementTime])
 
 	return (
 		<View style={styles.container as ViewType}>
@@ -244,7 +254,7 @@ const Player = ({ navigation }: Props) => {
 					<Text style={styles.startCounter as TextType}>{startCounter}</Text>
 				)}
 
-				{((playing && isExercising && startCounter === 0) || fullTime === 0) && (
+				{shouldExerciseImage && (
 					<Image
 						style={styles.exerciseIcon as ImageType}
 						source={exerciseMap[exercise.iconName]}
