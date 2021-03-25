@@ -125,18 +125,15 @@ const Player = ({ navigation }: Props) => {
 
 	//Handlers and functions
 	const closeIconPressHandler = async () => {
-		if (audio) {
-			setModalVisible(true)
-			await pauseSound(audio)
-			setPlaying(false)
-		}
+		setModalVisible(true)
+		if (audio) await pauseSound(audio)
+		setPlaying(false)
 	}
 	const quitHandler = async (finished: boolean) => {
-		if (audio && pauseEffect && finishEffect) {
-			await unloadSound(pauseEffect)
-			await unloadSound(audio)
-			navigation.replace('Home', { finished })
-		}
+		if(pauseEffect) await unloadSound(pauseEffect)
+		if(finishEffect) await unloadSound(finishEffect)
+		if(audio) await unloadSound(audio)
+		navigation.replace('Home', { finished })
 	}
 	const pauseHandler = () => {
 		if (!isAnimating) {
@@ -155,7 +152,7 @@ const Player = ({ navigation }: Props) => {
 	}
 
 	const shouldCounting = fullTime > 0 && playing && startCounter === 0
-	const shouldExerciseImage = (playing && isExercising && startCounter === 0) || fullTime === 0
+	const shouldShowExerciseImage = (playing && isExercising && startCounter === 0) || fullTime === 0
 
 	//Loading sound effects
 	useAsyncEffect(async () => {
@@ -200,9 +197,10 @@ const Player = ({ navigation }: Props) => {
 				if (finishEffect) await playSound(finishEffect)
 				await quitHandler(true)
 			}
-		} else {
-			setShouldIncrementTime(true)
-		}
+			return
+		} 
+		setShouldIncrementTime(true)
+
 	}, [fullTime, playing, startCounter, pauseEffect, finishEffect, shouldIncrementTime])
 
 	return (
@@ -254,7 +252,7 @@ const Player = ({ navigation }: Props) => {
 					<Text style={styles.startCounter as TextType}>{startCounter}</Text>
 				)}
 
-				{shouldExerciseImage && (
+				{shouldShowExerciseImage && (
 					<Image
 						style={styles.exerciseIcon as ImageType}
 						source={exerciseMap[exercise.iconName]}
