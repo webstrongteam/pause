@@ -55,7 +55,7 @@ const Player = ({ navigation }: Props) => {
 	const [pauseEffect, setPauseEffect] = useState<Sound>()
 	const [finishEffect, setFinishEffect] = useState<Sound>()
 	const [playing, setPlaying] = useState(true)
-	const [showPauseIcon, setShowPauseIcone] = useState(false)
+	const [showPauseIcon, setShowPauseIcon] = useState(false)
 
 	const [fullTime, setFullTime] = useState(exercise.time[time].totalTime)
 	const [isExercising, setIsExercising] = useState(true)
@@ -81,19 +81,24 @@ const Player = ({ navigation }: Props) => {
 		setPauseEffect(pause.sound)
 		setFinishEffect(finish.sound)
 	}
-	const playSound = async (sound: Audio.Sound) => {
-		await sound.playAsync()
+	const soundControl = async (type: string, sound: Audio.Sound) => {
+		switch (type) {
+			case 'play':
+				await sound.playAsync()
+				break
+			case 'replay':
+				await sound.replayAsync()
+				break
+			case 'pause':
+				await sound.pauseAsync()
+				break
+			case 'unload':
+				await sound.unloadAsync()
+				break
+			default:
+				return sound
+		}
 	}
-	const replaySound = async (sound: Audio.Sound) => {
-		await sound.replayAsync()
-	}
-	const pauseSound = async (sound: Audio.Sound) => {
-		await sound.pauseAsync()
-	}
-	const unloadSound = async (sound: Audio.Sound) => {
-		await sound.unloadAsync()
-	}
-
 	//Amimation
 	const fadeAnim = useRef(new Animated.Value(1)).current
 
@@ -111,7 +116,7 @@ const Player = ({ navigation }: Props) => {
 			duration: 300,
 			useNativeDriver: true,
 		}).start(() => {
-			setShowPauseIcone(!showPauseIcon)
+			setShowPauseIcon(!showPauseIcon)
 			fadeIn()
 		})
 	}
@@ -127,14 +132,14 @@ const Player = ({ navigation }: Props) => {
 	//Handlers and functions
 	const closeIconPressHandler = async () => {
 		setModalVisible(true)
-		if (audio) await pauseSound(audio)
+		if (audio) await soundControl('pause', audio)
 		setPlaying(false)
-		setShowPauseIcone(true)
+		setShowPauseIcon(true)
 	}
 	const quitHandler = async (finished: boolean) => {
-		if (pauseEffect) await unloadSound(pauseEffect)
-		if (finishEffect) await unloadSound(finishEffect)
-		if (audio) await unloadSound(audio)
+		if (pauseEffect) await soundControl('unload', pauseEffect)
+		if (finishEffect) await soundControl('unload', finishEffect)
+		if (audio) await soundControl('unload', audio)
 		navigation.replace('Home', { finished })
 	}
 	const pauseHandler = () => {
@@ -149,8 +154,8 @@ const Player = ({ navigation }: Props) => {
 	const startCounterFunction = async () => {
 		if (playing && startCounter >= 1 && pauseEffect && finishEffect) {
 			setStartCounter(startCounter - 1)
-			if (startCounter > 1) await replaySound(pauseEffect)
-			else await replaySound(finishEffect)
+			if (startCounter > 1) await soundControl('replay', pauseEffect)
+			else await soundControl('replay', finishEffect)
 		}
 	}
 
@@ -170,11 +175,11 @@ const Player = ({ navigation }: Props) => {
 			return
 		}
 		if (!playing && audio) {
-			await pauseSound(audio)
+			await soundControl('pause', audio)
 			return
 		}
 		if (audio) {
-			await playSound(audio)
+			await soundControl('play', audio)
 		}
 	}, [playing, startCounter])
 
@@ -190,15 +195,15 @@ const Player = ({ navigation }: Props) => {
 				if (isExercising) {
 					if (exerciseTime === 1) {
 						setIsExercising(false)
-						if (pauseEffect && fullTime > 1) await replaySound(pauseEffect)
+						if (pauseEffect && fullTime > 1) await soundControl('replay', pauseEffect)
 					}
 				} else if (pauseTime === 1) {
 					setSeries(series - 1)
-					if (pauseEffect) await replaySound(pauseEffect)
+					if (pauseEffect) await soundControl('replay', pauseEffect)
 					setIsExercising(true)
 				}
 			} else if (fullTime === 0) {
-				if (finishEffect) await playSound(finishEffect)
+				if (finishEffect) await soundControl('replay', finishEffect)
 				await quitHandler(true)
 			}
 			return
