@@ -156,7 +156,7 @@ const Player = ({ navigation }: Props) => {
 
 	//Loading and playing music
 	useAsyncEffect(async () => {
-		if (!audio && startCounter === 0) {
+		if (!audio && startCounter === 0 && playing) {
 			await loadMusic()
 			return
 		}
