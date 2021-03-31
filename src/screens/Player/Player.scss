@@ -77,3 +77,8 @@
 	font-size: 48px;
 	text-transform: uppercase;
 }
+.startCounter {
+	@include Text();
+	font-family: 'Lato-Bold';
+	font-size: 150px;
+}
