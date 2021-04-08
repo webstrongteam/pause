@@ -55,6 +55,7 @@ const Player = ({ navigation }: Props) => {
 	const [audio, setAudio] = useState<Sound>()
 	const [pauseEffect, setPauseEffect] = useState<Sound>()
 	const [finishEffect, setFinishEffect] = useState<Sound>()
+	const [isMuted, setIsMuted] = useState(false)
 	const [playing, setPlaying] = useState(true)
 	const [showPauseIcon, setShowPauseIcon] = useState(false)
 
@@ -142,6 +143,13 @@ const Player = ({ navigation }: Props) => {
 			setStartCounter(startCounter - 1)
 			if (startCounter > 1) await soundControl('replayAsync', pauseEffect)
 			else await soundControl('replayAsync', finishEffect)
+		}
+	}
+
+	const muteSoundHandler = async () => {
+		if (audio) {
+			await audio.setIsMutedAsync(!isMuted)
+			setIsMuted(!isMuted)
 		}
 	}
 
@@ -272,7 +280,13 @@ const Player = ({ navigation }: Props) => {
 					<Text style={styles.infoText as TextType}>{exercise.name}</Text>
 					<View style={styles.musicInfo as ViewType}>
 						<Text style={styles.infoText as TextType}>{music.name}</Text>
-						<Icon name='music' type='material-community' color='#fff' size={15} />
+						<Icon
+							name={isMuted ? 'volume-x' : 'volume-2'}
+							type='feather'
+							color='#fff'
+							size={20}
+							onPress={muteSoundHandler}
+						/>
 					</View>
 				</View>
 				<Text style={styles.playerCounter as TextType}>{fullTime}s</Text>
