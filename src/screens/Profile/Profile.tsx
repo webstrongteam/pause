@@ -1,5 +1,5 @@
-import React from 'react'
-import { ScrollView, Text } from 'react-native'
+import React, { useState } from 'react'
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
 import styles from './Profile.scss'
 
@@ -7,9 +7,11 @@ import styles from './Profile.scss'
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import NextLevelBenefits from '../../components/NextLevelInfo/NextLevelInfo'
+import Modal from '../../components/Modal/Modal'
+import ColorButton from '../../components/ColorButton/ColorButton'
 
 //Types
-import { TextType } from '../../types/styles'
+import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
 
 //Contexts
@@ -30,6 +32,9 @@ type Props = {
 }
 
 const Profile = ({ navigation }: Props) => {
+	//States
+	const [modalVisible, setModalVisible] = useState(false)
+
 	//Contexts
 	const settingsContext = useSettingsContext()
 	const themeContext = useThemeContext()
@@ -37,7 +42,6 @@ const Profile = ({ navigation }: Props) => {
 	//Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
-
 	const theme = themeContext.useSubscribe((c) => c.colors)
 
 	if (!settings) {
@@ -45,58 +49,86 @@ const Profile = ({ navigation }: Props) => {
 	}
 
 	return (
-		<ScrollView bounces={false} style={addBackgroundColor(styles.container, theme.primary)}>
-			<WavyHeader>
-				<Header closeIconHandler={() => navigation.goBack()}>
-					<Text style={addTextColor(styles.title, theme.primary)}>
-						{translations.Profile.title}
-					</Text>
-				</Header>
-			</WavyHeader>
+		<>
+			<ScrollView bounces={false} style={addBackgroundColor(styles.container, theme.primary)}>
+				<Modal
+					visible={modalVisible}
+					title='Wybierz kolor'
+					toggleModal={() => setModalVisible(false)}
+					buttons={[
+						{
+							text: 'OK',
+							onPress: () => setModalVisible(false),
+						},
+					]}
+				>
+					<View style={styles.colorConfig as ViewType}>
+						<ColorButton name='primary' />
+						<ColorButton name='secondary' />
+						<ColorButton name='third' />
+						<ColorButton name='progress' />
+					</View>
+				</Modal>
 
-			<Icon name='account' type='material-community' color='#fff' size={140} />
-			<Text style={styles.levelText as TextType}>
-				{translations.common.level}&nbsp;{settings.level}
-			</Text>
+				<WavyHeader>
+					<Header closeIconHandler={() => navigation.goBack()}>
+						<Text style={addTextColor(styles.title, theme.primary)}>
+							{translations.Profile.title}
+						</Text>
+					</Header>
+				</WavyHeader>
 
-			<ProgressBar
-				className={styles.progressBar}
-				maxValue={getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1)}
-				currentValue={settings.points - getPointsToLevelUp(settings.level - 1)}
-				barColor={theme.progress}
-			/>
-
-			<Text style={styles.levelInfo as TextType}>
-				<Text style={styles.fontBold as TextType}>{settings.points}&nbsp;</Text>
-				{getVariety(
-					settings.points,
-					translations.Profile.singularPoints,
-					translations.Profile.pluralPoints,
-					translations.Profile.genitivePoints,
-				)}
-			</Text>
-
-			<Text style={styles.levelInfo as TextType}>
-				<Text style={styles.fontBold as TextType}>
-					{getPointsToLevelUp(settings.level) - settings.points}&nbsp;
+				<Icon name='account' type='material-community' color='#fff' size={140} />
+				<Text style={styles.levelText as TextType}>
+					{translations.common.level}&nbsp;{settings.level}
 				</Text>
-				{getVariety(
-					getPointsToLevelUp(settings.level) - settings.points,
-					translations.Profile.singularPoints,
-					translations.Profile.pluralPoints,
-					translations.Profile.genitivePoints,
-				)}
-				<Text>&nbsp;</Text>
-				{translations.Profile.toNextLvl}
-			</Text>
 
-			<NextLevelBenefits
-				titleClassName={styles.nextLevelText}
-				title={translations.Level.nextLevel}
-				color={theme.third}
-				textColor={theme.optional}
-			/>
-		</ScrollView>
+				<ProgressBar
+					className={styles.progressBar}
+					maxValue={getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1)}
+					currentValue={settings.points - getPointsToLevelUp(settings.level - 1)}
+					barColor={theme.progress}
+				/>
+
+				<Text style={styles.levelInfo as TextType}>
+					<Text style={styles.fontBold as TextType}>{settings.points}&nbsp;</Text>
+					{getVariety(
+						settings.points,
+						translations.Profile.singularPoints,
+						translations.Profile.pluralPoints,
+						translations.Profile.genitivePoints,
+					)}
+				</Text>
+
+				<Text style={styles.levelInfo as TextType}>
+					<Text style={styles.fontBold as TextType}>
+						{getPointsToLevelUp(settings.level) - settings.points}&nbsp;
+					</Text>
+					{getVariety(
+						getPointsToLevelUp(settings.level) - settings.points,
+						translations.Profile.singularPoints,
+						translations.Profile.pluralPoints,
+						translations.Profile.genitivePoints,
+					)}
+					<Text>&nbsp;</Text>
+					{translations.Profile.toNextLvl}
+				</Text>
+
+				<NextLevelBenefits
+					titleClassName={styles.nextLevelText}
+					title={translations.Level.nextLevel}
+					color={theme.third}
+					textColor={theme.optional}
+				/>
+			</ScrollView>
+			<View style={styles.colorConfigButtonPosition as ViewType}>
+				<TouchableOpacity onPress={() => setModalVisible(true)}>
+					<View style={addBackgroundColor(styles.colorConfigButton, theme.third)}>
+						<Icon name='color-palette-outline' type='ionicon' color={theme.optional} size={30} />
+					</View>
+				</TouchableOpacity>
+			</View>
+		</>
 	)
 }
 

@@ -32,3 +32,21 @@
 .fontBold {
 	font-family: 'Lato-Bold';
 }
+.colorConfigButton {
+	justify-content: center;
+	border-radius: 60px;
+	width: 60px;
+	height: 60px;
+	background-color: #fff;
+}
+.colorConfigButtonPosition {
+	position: absolute;
+	bottom: 15;
+	right: 15;
+}
+.colorConfig {
+	margin: 25px 0 20px 10px;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: baseline;
+}

@@ -52,7 +52,11 @@
 		"singularPoints": "punkt",
 		"pluralPoints": "punkty",
 		"genitivePoints": "punktów",
-		"toNextLvl": "do następnego poziomu"
+		"toNextLvl": "do następnego poziomu",
+		"primary": "Podstawowy",
+		"secondary": "Drugi",
+		"third": "Trzeci",
+		"progress": "Pasek \n postępu"
 	},
 	"Player": {
 		"break": "Przerwa",
