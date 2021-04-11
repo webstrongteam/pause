@@ -9,6 +9,7 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import NextLevelBenefits from '../../components/NextLevelInfo/NextLevelInfo'
 import Modal from '../../components/Modal/Modal'
 import ColorButton from '../../components/ColorButton/ColorButton'
+import ColorOptions from '../../components/ColorOptions/ColorOptions'
 
 //Types
 import { TextType, ViewType } from '../../types/styles'
@@ -31,9 +32,13 @@ type Props = {
 	navigation: NavigationScreenType
 }
 
+type ColorTypes = 'primary' | 'secondary' | 'third' | 'progress'
+
 const Profile = ({ navigation }: Props) => {
 	//States
 	const [modalVisible, setModalVisible] = useState(false)
+	const [isColorPicked, setIsColorPicked] = useState(false)
+	const [selectedColor, setSelectedColor] = useState<ColorTypes>()
 
 	//Contexts
 	const settingsContext = useSettingsContext()
@@ -43,6 +48,16 @@ const Profile = ({ navigation }: Props) => {
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
 	const theme = themeContext.useSubscribe((c) => c.colors)
+
+	const colorPickHandler = (color: ColorTypes) => {
+		setIsColorPicked(true)
+		setSelectedColor(color)
+	}
+
+	const closeModal = () => {
+		setModalVisible(false)
+		setIsColorPicked(false)
+	}
 
 	if (!settings) {
 		return <></>
@@ -54,20 +69,29 @@ const Profile = ({ navigation }: Props) => {
 				<Modal
 					visible={modalVisible}
 					title='Wybierz kolor'
-					toggleModal={() => setModalVisible(false)}
+					toggleModal={closeModal}
 					buttons={[
 						{
 							text: 'OK',
-							onPress: () => setModalVisible(false),
+							onPress: closeModal,
 						},
 					]}
 				>
-					<View style={styles.colorConfig as ViewType}>
-						<ColorButton name='primary' />
-						<ColorButton name='secondary' />
-						<ColorButton name='third' />
-						<ColorButton name='progress' />
-					</View>
+					{isColorPicked && selectedColor ? (
+						<View style={styles.colorPicker as ViewType}>
+							<Text style={styles.colorName as TextType}>
+								{translations.Profile[selectedColor]}
+							</Text>
+							<ColorOptions color={theme[selectedColor]} />
+						</View>
+					) : (
+						<View style={styles.colorConfig as ViewType}>
+							<ColorButton name='primary' onPress={() => colorPickHandler('primary')} />
+							<ColorButton name='secondary' onPress={() => colorPickHandler('secondary')} />
+							<ColorButton name='third' onPress={() => colorPickHandler('third')} />
+							<ColorButton name='progress' onPress={() => colorPickHandler('progress')} />
+						</View>
+					)}
 				</Modal>
 
 				<WavyHeader>

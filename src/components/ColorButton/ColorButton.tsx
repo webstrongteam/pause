@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import styles from './ColorButton.scss'
 
 //Contexts
@@ -12,9 +12,10 @@ import { TextType, ViewType } from '../../types/styles'
 
 type Props = {
 	name: 'primary' | 'secondary' | 'third' | 'progress'
+	onPress: () => void
 }
 
-const ColorButton = ({ name }: Props) => {
+const ColorButton = ({ name, onPress }: Props) => {
 	//Contexts
 	const settingsContext = useSettingsContext()
 	const themeContext = useThemeContext()
@@ -26,7 +27,9 @@ const ColorButton = ({ name }: Props) => {
 	return (
 		<View style={styles.container as ViewType}>
 			<Text style={styles.name as TextType}>{translations.Profile[name]}</Text>
-			<View style={addBackgroundColor(styles.colorButton, theme[name])} />
+			<TouchableOpacity onPress={onPress}>
+				<View style={addBackgroundColor(styles.colorButton, theme[name])} />
+			</TouchableOpacity>
 		</View>
 	)
 }
