@@ -1,8 +1,8 @@
 import { openDatabase } from 'expo-sqlite'
-import app from '../app.json'
+import { expo } from '../app.json'
 import { getLocale } from '../src/utils/helpers'
 
-export const VERSION = app.expo.version
+export const VERSION = expo.version
 export const db = openDatabase('pause.db', VERSION)
 
 export const initDatabase = (callback: () => void) => {

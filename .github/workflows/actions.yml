@@ -27,6 +27,9 @@ jobs:
       - name: Test prettier and eslint
         run: npm run lint-cleanup
 
+      - name: Run tests
+        run: npm run test
+
       - uses: expo/expo-github-action@v5
         with:
           expo-packager: npm
