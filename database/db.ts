@@ -41,7 +41,12 @@ export const setupDatabase = (callback: () => void) => {
 		(tx) => {
 			// TODO: REMOVE ME
 			// @ts-ignore
-			tx.executeSql('select * from theme', [], () => {}, () => initDatabase(callback))
+			tx.executeSql(
+				'select * from theme',
+				[],
+				() => {},
+				() => initDatabase(callback),
+			)
 
 			// CHECK CORRECTION APP VERSION AND UPDATE DB
 			tx.executeSql('select * from settings', [], (_, { rows }) => {
