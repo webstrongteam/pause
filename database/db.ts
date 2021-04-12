@@ -39,6 +39,10 @@ export const setupDatabase = (callback: () => void) => {
 	// initDatabase(callback)
 	db.transaction(
 		(tx) => {
+			// TODO: REMOVE ME
+			// @ts-ignore
+			tx.executeSql('select * from theme', [], () => {}, () => initDatabase(callback))
+
 			// CHECK CORRECTION APP VERSION AND UPDATE DB
 			tx.executeSql('select * from settings', [], (_, { rows }) => {
 				const { version } = rows.item(0)
