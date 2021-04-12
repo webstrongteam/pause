@@ -40,6 +40,10 @@ const Modal = ({
 		}
 	}, [visible])
 
+	if (!visible) {
+		return <></>
+	}
+
 	return (
 		<>
 			<ModalBase

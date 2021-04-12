@@ -1,18 +1,15 @@
-import React, { PropsWithChildren, useEffect } from 'react'
+import React, { PropsWithChildren } from 'react'
 import { createStateContext } from '../createStateContext'
-import { useSettingsContext } from './SettingsContext'
-import { getTheme } from '../helpers'
 import { Theme } from '../../types/theme'
+import colors from '../../config/colors.json'
+import { getTheme } from '../../../database/actions/theme'
+import useAsyncEffect from '../hooks/useAsyncEffect'
 
-const themeInitialState: Theme = {
-	requiredLevel: 0,
-	colors: {
-		primary: '#FFF',
-		secondary: '#FFF',
-		third: '#FFF',
-		optional: '#FFF',
-		progress: '#FFF',
-	},
+export const themeInitialState: Theme = {
+	primary: '',
+	secondary: colors[1].color,
+	third: colors[2].color,
+	progress: colors[3].color,
 }
 
 const ThemeContext = createStateContext(themeInitialState, (setStore) => ({
@@ -23,16 +20,10 @@ const ThemeContext = createStateContext(themeInitialState, (setStore) => ({
 
 const ThemeHandler = () => {
 	const { setTheme } = useThemeContext()
-	const { useSubscribe } = useSettingsContext()
-	const settings = useSubscribe((s) => s.settings)
 
-	useEffect(() => {
-		if (!settings) {
-			return
-		}
-
-		setTheme(getTheme(settings.level))
-	}, [settings?.level])
+	useAsyncEffect(async () => {
+		setTheme(await getTheme())
+	}, [])
 
 	return <></>
 }

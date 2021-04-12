@@ -7,10 +7,10 @@ import styles from './Template.scss'
 
 const Template = ({ children }: PropsWithChildren<{}>) => {
 	const { useSubscribe } = useThemeContext()
-	const themeRequiredLevel = useSubscribe((s) => s.requiredLevel)
+	const primaryColor = useSubscribe((t) => t.primary)
 
-	// If theme required level is not 0, it means that the settings and themes have been loaded.
-	if (!themeRequiredLevel) {
+	// If primary color is not '', it means that the settings and themes have been loaded.
+	if (primaryColor === '') {
 		return <Spinner size={64} />
 	}
 

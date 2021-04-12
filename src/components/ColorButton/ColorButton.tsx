@@ -22,7 +22,7 @@ const ColorButton = ({ name, onPress }: Props) => {
 
 	//Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
-	const theme = themeContext.useSubscribe((c) => c.colors)
+	const theme = themeContext.useSubscribe((t) => t)
 
 	return (
 		<View style={styles.container as ViewType}>

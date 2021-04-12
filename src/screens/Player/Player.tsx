@@ -40,7 +40,7 @@ const Player = ({ navigation }: Props) => {
 	const time = settingsContext.useSubscribe((t) => t.settings?.time)
 	const exercise = pauseContext.useSubscribe((e) => e.exercise)
 	const music = pauseContext.useSubscribe((m) => m.music)
-	const theme = themeContext.useSubscribe((t) => t.colors)
+	const theme = themeContext.useSubscribe((t) => t)
 
 	if (!music || !exercise || !time) {
 		return <></>

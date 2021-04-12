@@ -26,7 +26,7 @@ type Props = {
 
 const PauseButton = ({ onPress }: Props) => {
 	const { useSubscribe } = useThemeContext()
-	const color = useSubscribe((c) => c.colors)
+	const primaryColor = useSubscribe((t) => t.primary)
 
 	return (
 		<TouchableOpacity
@@ -35,7 +35,7 @@ const PauseButton = ({ onPress }: Props) => {
 			onPress={onPress}
 		>
 			<BoxShadow setting={shadowOpt}>
-				<View style={addBackgroundColor(styles.box, color.primary)}>
+				<View style={addBackgroundColor(styles.box, primaryColor)}>
 					<Icon name='pause' type='antdesign' color='#fff' size={128} />
 				</View>
 			</BoxShadow>

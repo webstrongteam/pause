@@ -1,7 +1,7 @@
 import { NativeModules, Platform } from 'react-native'
 import { Exercise, Music, Pause } from '../types/pause'
 import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings'
-import { Theme } from '../types/theme'
+import { Color } from '../types/theme'
 import { TextType, ViewType } from '../types/styles'
 import {
 	baseLevelPoints,
@@ -17,7 +17,7 @@ import {
 
 import music from '../config/music.json'
 import exercises from '../config/exercises.json'
-import themes from '../config/themes.json'
+import colors from '../config/colors.json'
 
 export const getLocale = () => {
 	const locale =
@@ -29,8 +29,6 @@ export const getLocale = () => {
 	}
 	return 'en'
 }
-
-export const defaultColor = (themes as Theme[])[0].colors.primary
 
 export const getRandomPause = (pause: Pause, settings: Settings): Pause => ({
 	music: getRandomMusic(pause.music, settings.level),
@@ -46,19 +44,13 @@ export const getNextLevelBenefits = (level: number): NextLevelBenefits => {
 	const nextLevelExercises = (exercises as Exercise[]).filter(
 		(exercise) => exercise.requiredLevel === level + 1,
 	)
-	const nextLevelThemes = (themes as Theme[]).filter((theme) => theme.requiredLevel === level + 1)
+	const nextLevelThemes = (colors as Color[]).filter((color) => color.requiredLevel === level + 1)
 
 	return {
 		music: nextLevelMusic.length,
 		exercises: nextLevelExercises.length,
 		themes: nextLevelThemes.length,
 	}
-}
-
-export const getTheme = (level: number): Theme => {
-	const availableThemes = (themes as Theme[]).filter((t) => t.requiredLevel <= level)
-
-	return availableThemes.sort((a, b) => b.requiredLevel - a.requiredLevel)[0]
 }
 
 export const addBackgroundColor = (baseStyles: {}, backgroundColor: string): ViewType => ({

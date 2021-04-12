@@ -1,21 +1,29 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { ViewType } from '../../types/styles'
 import styles from './ColorOptions.scss'
 import { addBackgroundColor } from '../../utils/helpers'
+import { useThemeContext } from '../../utils/context/ThemeContext'
+import { changeColor } from '../../../database/actions/theme'
+import { ColorType } from '../../types/theme'
 
 type Props = {
-	color: string
+	type: ColorType
 }
 
-const ColorOptions = ({ color }: Props) => {
-	const [selectedColor, setSelectedColor] = useState(color)
+const ColorOptions = ({ type }: Props) => {
+	const { setTheme, useSubscribe } = useThemeContext()
+	const theme = useSubscribe((t) => t)
 
-	const colors = (colorArr: string[]) => (
+	const changeColorHandler = async (color: string) => {
+		setTheme(await changeColor(color, type))
+	}
+
+	const renderColors = (colorArr: string[]) => (
 		<View style={styles.colorsContainer as ViewType}>
-			{colorArr.map((val, index) => (
-				<TouchableOpacity key={index} onPress={() => setSelectedColor(val)}>
-					<View style={addBackgroundColor(styles.colors, val)} />
+			{colorArr.map((color) => (
+				<TouchableOpacity key={color} onPress={() => changeColorHandler(color)}>
+					<View style={addBackgroundColor(styles.colors, color)} />
 				</TouchableOpacity>
 			))}
 		</View>
@@ -23,8 +31,8 @@ const ColorOptions = ({ color }: Props) => {
 
 	return (
 		<View style={styles.container as ViewType}>
-			<View style={addBackgroundColor(styles.changingColor, selectedColor)} />
-			{colors([
+			<View style={addBackgroundColor(styles.changingColor, theme[type])} />
+			{renderColors([
 				'#1A6A73',
 				'#FFFFFF',
 				'#C5D1D9',

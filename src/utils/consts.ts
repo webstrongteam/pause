@@ -1,5 +1,7 @@
 import { Dimensions } from 'react-native'
 
+export const optionalColor = '#5A5A5A'
+
 export const headerHeight = Dimensions.get('screen').height / 7
 export const centerHeight = Dimensions.get('screen').height * 0.4
 

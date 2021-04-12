@@ -27,18 +27,18 @@ import {
 	getVariety,
 } from '../../utils/helpers'
 import Header from '../../components/Header/Header'
+import { optionalColor } from '../../utils/consts'
+import { ColorType } from '../../types/theme'
 
 type Props = {
 	navigation: NavigationScreenType
 }
 
-type ColorTypes = 'primary' | 'secondary' | 'third' | 'progress'
-
 const Profile = ({ navigation }: Props) => {
 	//States
 	const [modalVisible, setModalVisible] = useState(false)
 	const [isColorPicked, setIsColorPicked] = useState(false)
-	const [selectedColor, setSelectedColor] = useState<ColorTypes>()
+	const [selectedColorType, setSelectedColorType] = useState<ColorType>('primary')
 
 	//Contexts
 	const settingsContext = useSettingsContext()
@@ -47,11 +47,11 @@ const Profile = ({ navigation }: Props) => {
 	//Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
-	const theme = themeContext.useSubscribe((c) => c.colors)
+	const theme = themeContext.useSubscribe((t) => t)
 
-	const colorPickHandler = (color: ColorTypes) => {
+	const colorPickHandler = (colorType: ColorType) => {
+		setSelectedColorType(colorType)
 		setIsColorPicked(true)
-		setSelectedColor(color)
 	}
 
 	const closeModal = () => {
@@ -77,12 +77,12 @@ const Profile = ({ navigation }: Props) => {
 						},
 					]}
 				>
-					{isColorPicked && selectedColor ? (
+					{isColorPicked ? (
 						<View style={styles.colorPicker as ViewType}>
 							<Text style={styles.colorName as TextType}>
-								{translations.Profile[selectedColor]}
+								{translations.Profile[selectedColorType]}
 							</Text>
-							<ColorOptions color={theme[selectedColor]} />
+							<ColorOptions type={selectedColorType} />
 						</View>
 					) : (
 						<View style={styles.colorConfig as ViewType}>
@@ -142,13 +142,13 @@ const Profile = ({ navigation }: Props) => {
 					titleClassName={styles.nextLevelText}
 					title={translations.Level.nextLevel}
 					color={theme.third}
-					textColor={theme.optional}
+					textColor={optionalColor}
 				/>
 			</ScrollView>
 			<View style={styles.colorConfigButtonPosition as ViewType}>
 				<TouchableOpacity onPress={() => setModalVisible(true)}>
 					<View style={addBackgroundColor(styles.colorConfigButton, theme.third)}>
-						<Icon name='color-palette-outline' type='ionicon' color={theme.optional} size={30} />
+						<Icon name='color-palette-outline' type='ionicon' color={optionalColor} size={30} />
 					</View>
 				</TouchableOpacity>
 			</View>

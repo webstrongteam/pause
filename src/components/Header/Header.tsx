@@ -15,7 +15,7 @@ type Props = PropsWithChildren<{
 
 const Header = ({ closeIconHandler, children, closeIconColor, hideCloseIcon }: Props) => {
 	const themeContext = useThemeContext()
-	const theme = themeContext.useSubscribe((t) => t.colors)
+	const theme = themeContext.useSubscribe((t) => t)
 
 	return (
 		<View style={concatStyles(styles.headerContainer, { height: headerHeight })}>

@@ -4,7 +4,7 @@ import { useThemeContext } from '../context/ThemeContext'
 
 const useShowMessage = (options: MessageOptions) => {
 	const { useSubscribe } = useThemeContext()
-	const primaryColor = useSubscribe((t) => t.colors.primary)
+	const primaryColor = useSubscribe((t) => t.primary)
 
 	return useCallback(() => {
 		showMessage({

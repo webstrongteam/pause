@@ -44,7 +44,7 @@ const PauseScreen = ({ navigation }: Props) => {
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
 	const pause = pauseContext.useSubscribe((p) => p)
-	const theme = themeContext.useSubscribe((t) => t.colors)
+	const theme = themeContext.useSubscribe((t) => t)
 
 	if (!pause.music || !pause.exercise || !settings) {
 		return <></>

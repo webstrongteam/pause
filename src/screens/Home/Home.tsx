@@ -21,12 +21,7 @@ import { usePauseContext } from '../../utils/context/PauseContext'
 
 //Functions
 import { changeLevelAndPoints } from '../../../database/actions/settings'
-import {
-	addBackgroundColor,
-	getPointsToLevelUp,
-	getRandomPause,
-	getTheme,
-} from '../../utils/helpers'
+import { addBackgroundColor, getPointsToLevelUp, getRandomPause } from '../../utils/helpers'
 
 // Hooks
 import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
@@ -45,7 +40,7 @@ const Home = ({ navigation }: Props) => {
 	//Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
-	const theme = themeContext.useSubscribe((t) => t.colors)
+	const theme = themeContext.useSubscribe((t) => t)
 	const pause = pauseContext.useSubscribe((p) => p)
 
 	if (!settings || !pause.points) {
@@ -68,8 +63,7 @@ const Home = ({ navigation }: Props) => {
 
 	const showMessage = useShowMessage({
 		message: `${translations.common.breakEnded} +${pause.points}p`,
-		backgroundColor: getTheme(levelUpAfterFinishExercise ? settings.level + 1 : settings.level)
-			.colors.primary,
+		backgroundColor: theme.primary,
 	})
 
 	//Handlers and functions
@@ -82,6 +76,7 @@ const Home = ({ navigation }: Props) => {
 		const finished = navigation.getParam('finished', false)
 		if (finished) {
 			showMessage()
+
 			if (levelUpAfterFinishExercise) {
 				setCurrentPoints(maxPoints)
 				settingsContext.setSettings(
