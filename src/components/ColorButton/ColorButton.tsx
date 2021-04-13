@@ -6,12 +6,15 @@ import styles from './ColorButton.scss'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
+//Types
+import { TextType, ViewType } from '../../types/styles'
+import { ColorType } from '../../types/theme'
+
+//Utils
 import { addBackgroundColor } from '../../utils/helpers'
 
-import { TextType, ViewType } from '../../types/styles'
-
 type Props = {
-	name: 'primary' | 'secondary' | 'third' | 'progress'
+	name: ColorType
 	onPress: () => void
 }
 

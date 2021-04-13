@@ -17,19 +17,19 @@
 	},
 	{
 		"color": "#723147",
-		"requiredLevel": 1
+		"requiredLevel": 2
 	},
 	{
 		"color": "#8653C9",
-		"requiredLevel": 1
+		"requiredLevel": 3
 	},
 	{
 		"color": "#1D2326",
-		"requiredLevel": 1
+		"requiredLevel": 4
 	},
 	{
 		"color": "#A72929",
-		"requiredLevel": 1
+		"requiredLevel": 5
 	},
 	{
 		"color": "#63CCCA",
@@ -37,28 +37,28 @@
 	},
 	{
 		"color": "#BA0B0B",
-		"requiredLevel": 1
+		"requiredLevel": 7
 	},
 
 	{
 		"color": "#1CA63A",
-		"requierdLevel": 1
+		"requiredLevel": 8
 	},
 
 	{
 		"color": "#D87316",
-		"requierdLevel": 1
+		"requiredLevel": 9
 	},
 	{
 		"color": "#F35BC9",
-		"requierdLevel": 1
+		"requiredLevel": 10
 	},
 	{
 		"color": "#1774C9",
-		"requierdLevel": 1
+		"requiredLevel": 11
 	},
 	{
 		"color": "#84FF4A",
-		"requierdLevel": 1
+		"requiredLevel": 12
 	}
 ]

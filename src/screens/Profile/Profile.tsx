@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements'
 import styles from './Profile.scss'
 
 //Components
+import Header from '../../components/Header/Header'
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import NextLevelBenefits from '../../components/NextLevelInfo/NextLevelInfo'
@@ -14,21 +15,20 @@ import ColorOptions from '../../components/ColorOptions/ColorOptions'
 //Types
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
+import { ColorType } from '../../types/theme'
 
 //Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
-//Helpers
+//Utils
 import {
 	addBackgroundColor,
 	addTextColor,
 	getPointsToLevelUp,
 	getVariety,
 } from '../../utils/helpers'
-import Header from '../../components/Header/Header'
 import { optionalColor } from '../../utils/consts'
-import { ColorType } from '../../types/theme'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -49,16 +49,29 @@ const Profile = ({ navigation }: Props) => {
 	const settings = settingsContext.useSubscribe((s) => s.settings)
 	const theme = themeContext.useSubscribe((t) => t)
 
+	//Functions
 	const colorPickHandler = (colorType: ColorType) => {
 		setSelectedColorType(colorType)
 		setIsColorPicked(true)
 	}
-
 	const closeModal = () => {
 		setModalVisible(false)
 		setIsColorPicked(false)
 	}
 
+	//Consts
+	const shadowOpt = {
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 6,
+		},
+		shadowOpacity: 0.39,
+		shadowRadius: 8.3,
+		elevation: 13,
+	}
+
+	//Some shit but it's important for TS
 	if (!settings) {
 		return <></>
 	}
@@ -70,12 +83,21 @@ const Profile = ({ navigation }: Props) => {
 					visible={modalVisible}
 					title='Wybierz kolor'
 					toggleModal={closeModal}
-					buttons={[
-						{
-							text: 'OK',
-							onPress: closeModal,
-						},
-					]}
+					buttons={
+						isColorPicked
+							? [
+									{
+										text: 'SAVE',
+										onPress: () => setIsColorPicked(false),
+									},
+							  ]
+							: [
+									{
+										text: 'OK',
+										onPress: closeModal,
+									},
+							  ]
+					}
 				>
 					{isColorPicked ? (
 						<View style={styles.colorPicker as ViewType}>
@@ -147,7 +169,7 @@ const Profile = ({ navigation }: Props) => {
 			</ScrollView>
 			<View style={styles.colorConfigButtonPosition as ViewType}>
 				<TouchableOpacity onPress={() => setModalVisible(true)}>
-					<View style={addBackgroundColor(styles.colorConfigButton, theme.third)}>
+					<View style={[addBackgroundColor(styles.colorConfigButton, theme.third), shadowOpt]}>
 						<Icon name='color-palette-outline' type='ionicon' color={optionalColor} size={30} />
 					</View>
 				</TouchableOpacity>
