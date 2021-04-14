@@ -46,7 +46,7 @@ const Profile = ({ navigation }: Props) => {
 
 	//Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
-	const settings = settingsContext.useSubscribe((s) => s.settings)
+	const settings = settingsContext.useSubscribe((s) => s.settings)!
 	const theme = themeContext.useSubscribe((t) => t)
 
 	//Functions
@@ -71,11 +71,6 @@ const Profile = ({ navigation }: Props) => {
 		elevation: 13,
 	}
 
-	//Some shit but it's important for TS
-	if (!settings) {
-		return <></>
-	}
-
 	return (
 		<>
 			<ScrollView bounces={false} style={addBackgroundColor(styles.container, theme.primary)}>
@@ -83,21 +78,12 @@ const Profile = ({ navigation }: Props) => {
 					visible={modalVisible}
 					title='Wybierz kolor'
 					toggleModal={closeModal}
-					buttons={
-						isColorPicked
-							? [
-									{
-										text: 'SAVE',
-										onPress: () => setIsColorPicked(false),
-									},
-							  ]
-							: [
-									{
-										text: 'OK',
-										onPress: closeModal,
-									},
-							  ]
-					}
+					buttons={[
+						{
+							text: translations.common.ok,
+							onPress: isColorPicked ? () => setIsColorPicked(false) : closeModal,
+						},
+					]}
 				>
 					{isColorPicked ? (
 						<View style={styles.colorPicker as ViewType}>
@@ -116,7 +102,7 @@ const Profile = ({ navigation }: Props) => {
 					)}
 				</Modal>
 
-				<WavyHeader>
+				<WavyHeader bgColor={theme.secondary}>
 					<Header closeIconHandler={() => navigation.goBack()}>
 						<Text style={addTextColor(styles.title, theme.primary)}>
 							{translations.Profile.title}

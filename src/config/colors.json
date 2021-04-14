@@ -17,11 +17,11 @@
 	},
 	{
 		"color": "#723147",
-		"requiredLevel": 2
+		"requiredLevel": 1
 	},
 	{
 		"color": "#8653C9",
-		"requiredLevel": 3
+		"requiredLevel": 2
 	},
 	{
 		"color": "#1D2326",
@@ -33,7 +33,7 @@
 	},
 	{
 		"color": "#63CCCA",
-		"requiredLevel": 1
+		"requiredLevel": 7
 	},
 	{
 		"color": "#BA0B0B",
@@ -47,7 +47,7 @@
 
 	{
 		"color": "#D87316",
-		"requiredLevel": 9
+		"requiredLevel": 8
 	},
 	{
 		"color": "#F35BC9",
@@ -55,10 +55,10 @@
 	},
 	{
 		"color": "#1774C9",
-		"requiredLevel": 11
+		"requiredLevel": 13
 	},
 	{
 		"color": "#84FF4A",
-		"requiredLevel": 12
+		"requiredLevel": 15
 	}
 ]

@@ -1,7 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import { View } from 'react-native'
 import CloseIcon from '../UI/CloseIcon/CloseIcon'
-import { useThemeContext } from '../../utils/context/ThemeContext'
 import { ViewType } from '../../types/styles'
 import { concatStyles } from '../../utils/helpers'
 import { headerHeight } from '../../utils/consts'
@@ -13,23 +12,14 @@ type Props = PropsWithChildren<{
 	closeIconHandler: () => void
 }>
 
-const Header = ({ closeIconHandler, children, closeIconColor, hideCloseIcon }: Props) => {
-	const themeContext = useThemeContext()
-	const theme = themeContext.useSubscribe((t) => t)
+const Header = ({ closeIconHandler, children, closeIconColor, hideCloseIcon }: Props) => (
+	<View style={concatStyles(styles.headerContainer, { height: headerHeight })}>
+		<View style={styles.header as ViewType}>
+			{!hideCloseIcon ? <CloseIcon color={closeIconColor} onPress={closeIconHandler} /> : <View />}
 
-	return (
-		<View style={concatStyles(styles.headerContainer, { height: headerHeight })}>
-			<View style={styles.header as ViewType}>
-				{!hideCloseIcon ? (
-					<CloseIcon color={closeIconColor ?? theme.primary} onPress={closeIconHandler} />
-				) : (
-					<View />
-				)}
-
-				{children}
-			</View>
+			{children}
 		</View>
-	)
-}
+	</View>
+)
 
 export default Header

@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 import styles from './ColorOptions.scss'
 
 //Types
-import { ColorType } from '../../types/theme'
+import { Color, ColorType } from '../../types/theme'
 import { ViewType } from '../../types/styles'
 
 //Contexts
@@ -12,7 +12,7 @@ import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
 //Helpers and actions
-import { addBackgroundColor } from '../../utils/helpers'
+import { addBackgroundColor, addTextColor } from '../../utils/helpers'
 import { changeColor } from '../../../database/actions/theme'
 
 //Config
@@ -28,12 +28,8 @@ const ColorOptions = ({ type }: Props) => {
 	const themeContext = useThemeContext()
 
 	//Subscribes
-	const currentLevel = settingsContext.useSubscribe((s) => s.settings?.level)
+	const currentLevel = settingsContext.useSubscribe((s) => s.settings?.level)!
 	const theme = themeContext.useSubscribe((t) => t)
-
-	if (!currentLevel) {
-		return <></>
-	}
 
 	//Functions
 	const changeColorHandler = async (color: string) => {
@@ -41,16 +37,18 @@ const ColorOptions = ({ type }: Props) => {
 	}
 
 	const pickTextColor = (bgColor: string) => {
-		const color = bgColor.charAt(0) === '#' ? bgColor.substring(1, 7) : bgColor
-		const r = parseInt(color.substring(0, 2), 16)
-		const g = parseInt(color.substring(2, 4), 16)
-		const b = parseInt(color.substring(4, 6), 16)
+		const color = bgColor.substring(1, 7)
+		const r = parseInt(color.substring(0, 2), 16) // Red intensity
+		const g = parseInt(color.substring(2, 4), 16) // Green intensity
+		const b = parseInt(color.substring(4, 6), 16) // Blue intensity
+
+		//Convert RGB to greyscale and check overall intensity
 		return r * 0.299 + g * 0.587 + b * 0.114 > 120 ? '#383838' : '#efefef'
 	}
 
-	const renderColors = (colorArr: object[]) => (
+	const renderColors = (colorArr: Color[]) => (
 		<View style={styles.colorsContainer as ViewType}>
-			{colorArr.map((colorVal: any) => (
+			{colorArr.map((colorVal: Color) => (
 				<TouchableOpacity
 					disabled={
 						currentLevel < colorVal.requiredLevel || Object.values(theme).includes(colorVal.color)
@@ -61,7 +59,7 @@ const ColorOptions = ({ type }: Props) => {
 					<View style={addBackgroundColor(styles.colors, colorVal.color)}>
 						{currentLevel < colorVal.requiredLevel && (
 							<View style={styles.lock as ViewType}>
-								<Text style={{ color: pickTextColor(colorVal.color) }}>
+								<Text style={addTextColor({}, pickTextColor(colorVal.color))}>
 									{colorVal.requiredLevel}
 								</Text>
 								<Icon
