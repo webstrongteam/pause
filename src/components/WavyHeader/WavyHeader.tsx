@@ -18,13 +18,7 @@ type Props = PropsWithChildren<{
 	variant?: 'header' | 'centered'
 }>
 
-const WavyHeader = ({
-	outline = false,
-	bgColor,
-	// bgColor = theme.secondary,
-	variant = 'header',
-	children,
-}: Props) => {
+const WavyHeader = ({ outline = false, bgColor, variant = 'header', children }: Props) => {
 	const variantHeaderHeight = variant === 'header' ? headerHeight : centerHeight
 	const { useSubscribe } = useThemeContext()
 	const theme = useSubscribe((t) => t)

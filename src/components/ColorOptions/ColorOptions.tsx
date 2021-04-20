@@ -59,7 +59,7 @@ const ColorOptions = ({ type }: Props) => {
 					<View style={addBackgroundColor(styles.colors, colorVal.color)}>
 						{currentLevel < colorVal.requiredLevel && (
 							<View style={styles.lock as ViewType}>
-								<Text style={addTextColor({}, pickTextColor(colorVal.color))}>
+								<Text style={addTextColor(styles.levelText, pickTextColor(colorVal.color))}>
 									{colorVal.requiredLevel}
 								</Text>
 								<Icon

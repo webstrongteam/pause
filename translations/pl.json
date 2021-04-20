@@ -56,7 +56,8 @@
 		"primary": "Podstawowy",
 		"secondary": "Drugi",
 		"third": "Trzeci",
-		"progress": "Pasek \n postępu"
+		"progress": "Pasek postępu",
+		"chooseColor": "Wybierz kolor"
 	},
 	"Player": {
 		"break": "Przerwa",

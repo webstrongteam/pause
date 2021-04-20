@@ -56,7 +56,8 @@
 		"primary": "Primary",
 		"secondary": "Secondary",
 		"third": "Third",
-		"progress": "Progress \n bar"
+		"progress": "Progress bar",
+		"chooseColor": "Choose color"
 	},
 	"Player": {
 		"break": "Break",

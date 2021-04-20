@@ -32,3 +32,15 @@ export const musicMap: Record<string, number> = {
 export const exerciseMap: Record<string, number> = {
 	wall_sit: require('../../assets/pause/exercises/wall_sit.png'),
 }
+
+// Shadow
+export const shadowButton = {
+	shadowColor: '#000',
+	shadowOffset: {
+		width: 0,
+		height: 6,
+	},
+	shadowOpacity: 0.39,
+	shadowRadius: 8.3,
+	elevation: 13,
+}

@@ -28,7 +28,7 @@ import {
 	getPointsToLevelUp,
 	getVariety,
 } from '../../utils/helpers'
-import { optionalColor } from '../../utils/consts'
+import { optionalColor, shadowButton } from '../../utils/consts'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -59,24 +59,12 @@ const Profile = ({ navigation }: Props) => {
 		setIsColorPicked(false)
 	}
 
-	//Consts
-	const shadowOpt = {
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 0,
-			height: 6,
-		},
-		shadowOpacity: 0.39,
-		shadowRadius: 8.3,
-		elevation: 13,
-	}
-
 	return (
 		<>
 			<ScrollView bounces={false} style={addBackgroundColor(styles.container, theme.primary)}>
 				<Modal
 					visible={modalVisible}
-					title='Wybierz kolor'
+					title={translations.Profile.chooseColor}
 					toggleModal={closeModal}
 					buttons={[
 						{
@@ -143,7 +131,7 @@ const Profile = ({ navigation }: Props) => {
 						translations.Profile.genitivePoints,
 					)}
 					<Text>&nbsp;</Text>
-					{translations.Profile.toNextLvl}
+					<Text>{translations.Profile.toNextLvl}</Text>
 				</Text>
 
 				<NextLevelBenefits
@@ -155,7 +143,7 @@ const Profile = ({ navigation }: Props) => {
 			</ScrollView>
 			<View style={styles.colorConfigButtonPosition as ViewType}>
 				<TouchableOpacity onPress={() => setModalVisible(true)}>
-					<View style={[addBackgroundColor(styles.colorConfigButton, theme.third), shadowOpt]}>
+					<View style={[addBackgroundColor(styles.colorConfigButton, theme.third), shadowButton]}>
 						<Icon name='color-palette-outline' type='ionicon' color={optionalColor} size={30} />
 					</View>
 				</TouchableOpacity>
