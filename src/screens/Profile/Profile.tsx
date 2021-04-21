@@ -25,6 +25,7 @@ import { useThemeContext } from '../../utils/context/ThemeContext'
 import {
 	addBackgroundColor,
 	addTextColor,
+	pickTextColor,
 	getPointsToLevelUp,
 	getVariety,
 } from '../../utils/helpers'
@@ -68,7 +69,7 @@ const Profile = ({ navigation }: Props) => {
 					toggleModal={closeModal}
 					buttons={[
 						{
-							text: translations.common.ok,
+							text: 'Ok',
 							onPress: isColorPicked ? () => setIsColorPicked(false) : closeModal,
 						},
 					]}
@@ -98,8 +99,13 @@ const Profile = ({ navigation }: Props) => {
 					</Header>
 				</WavyHeader>
 
-				<Icon name='account' type='material-community' color='#fff' size={140} />
-				<Text style={styles.levelText as TextType}>
+				<Icon
+					name='account'
+					type='material-community'
+					color={pickTextColor(theme.primary)}
+					size={140}
+				/>
+				<Text style={addTextColor(styles.levelText, pickTextColor(theme.primary))}>
 					{translations.common.level}&nbsp;{settings.level}
 				</Text>
 
@@ -110,7 +116,7 @@ const Profile = ({ navigation }: Props) => {
 					barColor={theme.progress}
 				/>
 
-				<Text style={styles.levelInfo as TextType}>
+				<Text style={addTextColor(styles.levelInfo, pickTextColor(theme.primary))}>
 					<Text style={styles.fontBold as TextType}>{settings.points}&nbsp;</Text>
 					{getVariety(
 						settings.points,
@@ -120,7 +126,7 @@ const Profile = ({ navigation }: Props) => {
 					)}
 				</Text>
 
-				<Text style={styles.levelInfo as TextType}>
+				<Text style={addTextColor(styles.levelInfo, pickTextColor(theme.primary))}>
 					<Text style={styles.fontBold as TextType}>
 						{getPointsToLevelUp(settings.level) - settings.points}&nbsp;
 					</Text>
@@ -131,11 +137,13 @@ const Profile = ({ navigation }: Props) => {
 						translations.Profile.genitivePoints,
 					)}
 					<Text>&nbsp;</Text>
-					<Text>{translations.Profile.toNextLvl}</Text>
+					<Text style={addTextColor(styles.levelInfo, pickTextColor(theme.primary))}>
+						{translations.Profile.toNextLvl}
+					</Text>
 				</Text>
 
 				<NextLevelBenefits
-					titleClassName={styles.nextLevelText}
+					titleClassName={addTextColor(styles.nextLevelText, pickTextColor(theme.primary))}
 					title={translations.Level.nextLevel}
 					color={theme.third}
 					textColor={optionalColor}

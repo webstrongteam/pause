@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 
 //Styles and types
 import styles from './Home.scss'
-import { TextType, ViewType } from '../../types/styles'
+import { ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
 
 //Components
@@ -21,7 +21,13 @@ import { usePauseContext } from '../../utils/context/PauseContext'
 
 //Functions
 import { changeLevelAndPoints } from '../../../database/actions/settings'
-import { addBackgroundColor, getPointsToLevelUp, getRandomPause } from '../../utils/helpers'
+import {
+	addBackgroundColor,
+	addTextColor,
+	pickTextColor,
+	getPointsToLevelUp,
+	getRandomPause,
+} from '../../utils/helpers'
 
 // Hooks
 import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
@@ -157,17 +163,17 @@ const Home = ({ navigation }: Props) => {
 					name='account'
 					onPress={() => navigation.navigate('Profile')}
 					type='material-community'
-					color='#fff'
+					color={pickTextColor(theme.primary)}
 					size={42}
 				/>
-				<Text style={styles.levelText as TextType}>
+				<Text style={addTextColor(styles.levelText, pickTextColor(theme.primary))}>
 					{translations.common.level}&nbsp;{currentLevel}
 				</Text>
 				<Icon
 					name='cog-outline'
 					onPress={() => navigation.navigate('Settings')}
 					type='material-community'
-					color='#fff'
+					color={pickTextColor(theme.primary)}
 					size={40}
 				/>
 			</Footer>

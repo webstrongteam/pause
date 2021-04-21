@@ -12,7 +12,7 @@ import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
 //Helpers and actions
-import { addBackgroundColor, addTextColor } from '../../utils/helpers'
+import { addBackgroundColor, addTextColor, pickTextColor } from '../../utils/helpers'
 import { changeColor } from '../../../database/actions/theme'
 
 //Config
@@ -34,16 +34,6 @@ const ColorOptions = ({ type }: Props) => {
 	//Functions
 	const changeColorHandler = async (color: string) => {
 		themeContext.setTheme(await changeColor(color, type))
-	}
-
-	const pickTextColor = (bgColor: string) => {
-		const color = bgColor.substring(1, 7)
-		const r = parseInt(color.substring(0, 2), 16) // Red intensity
-		const g = parseInt(color.substring(2, 4), 16) // Green intensity
-		const b = parseInt(color.substring(4, 6), 16) // Blue intensity
-
-		//Convert RGB to greyscale and check overall intensity
-		return r * 0.299 + g * 0.587 + b * 0.114 > 120 ? '#383838' : '#efefef'
 	}
 
 	const renderColors = (colorArr: Color[]) => (

@@ -4,7 +4,12 @@ import { Icon } from 'react-native-elements'
 import { BoxShadow } from 'react-native-shadow'
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
-import { addBackgroundColor, getRandomPause, addTextColor } from '../../utils/helpers'
+import {
+	addBackgroundColor,
+	pickTextColor,
+	getRandomPause,
+	addTextColor,
+} from '../../utils/helpers'
 
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
@@ -138,23 +143,35 @@ const PauseScreen = ({ navigation }: Props) => {
 
 			<View style={styles.centreInfo as ViewType}>
 				<View style={styles.exerciseInfo as ViewType}>
-					<Text style={styles.firstInfo as TextType}>{translations.Pause.durationTime}</Text>
+					<Text style={addTextColor(styles.firstInfo, pickTextColor(theme.primary))}>
+						{translations.Pause.durationTime}
+					</Text>
 					<View style={styles.secondInfo as ViewType}>
-						<Text style={styles.secondInfoIcon as TextType}>
+						<Text style={addTextColor(styles.secondInfoIcon, pickTextColor(theme.primary))}>
 							{pause.exercise.time[settings.time].exerciseTime}s
 						</Text>
-						<Text style={styles.secondInfoIcon as TextType}>
+						<Text style={addTextColor(styles.secondInfoIcon, pickTextColor(theme.primary))}>
 							x{pause.exercise.time[settings.time].exerciseCount}
 						</Text>
 						<View>
-							<Icon name='info' type='feather' color='#fff' size={20} onPress={openModal} />
+							<Icon
+								name='info'
+								type='feather'
+								color={pickTextColor(theme.primary)}
+								size={20}
+								onPress={openModal}
+							/>
 						</View>
 					</View>
 				</View>
 
 				<View style={styles.exerciseInfo as ViewType}>
-					<Text style={styles.firstInfo as TextType}>{translations.Pause.music}</Text>
-					<Text style={styles.secondInfo as TextType}>{pause.music.name}</Text>
+					<Text style={addTextColor(styles.firstInfo, pickTextColor(theme.primary))}>
+						{translations.Pause.music}
+					</Text>
+					<Text style={addTextColor(styles.secondInfo, pickTextColor(theme.primary))}>
+						{pause.music.name}
+					</Text>
 				</View>
 			</View>
 
