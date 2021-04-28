@@ -178,16 +178,31 @@ const PauseScreen = ({ navigation }: Props) => {
 			<View style={styles.bottomIcons as ViewType}>
 				<BoxShadow setting={shadowOpt}>
 					<TouchableOpacity onPress={drawNewPauseHandler}>
-						<View style={addBackgroundColor(styles.Icon, theme.primary)}>
-							<Icon name='random' type='font-awesome' color='#fff' size={35} />
+						<View
+							style={[
+								addBackgroundColor(styles.Icon, theme.primary),
+								{ borderColor: pickTextColor(theme.primary) },
+							]}
+						>
+							<Icon
+								name='random'
+								type='font-awesome'
+								color={pickTextColor(theme.primary)}
+								size={35}
+							/>
 						</View>
 					</TouchableOpacity>
 				</BoxShadow>
 
 				<BoxShadow setting={shadowOpt}>
 					<TouchableOpacity onPress={() => navigation.navigate('Player')}>
-						<View style={addBackgroundColor(styles.Icon, theme.primary)}>
-							<Icon name='play' type='feather' color='#fff' size={35} />
+						<View
+							style={[
+								addBackgroundColor(styles.Icon, theme.primary),
+								{ borderColor: pickTextColor(theme.primary) },
+							]}
+						>
+							<Icon name='play' type='feather' color={pickTextColor(theme.primary)} size={35} />
 						</View>
 					</TouchableOpacity>
 				</BoxShadow>

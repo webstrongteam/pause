@@ -5,28 +5,7 @@
 	margin-right: 20px;
 	border-radius: 5px;
 }
-.colors {
-	width: 34px;
-	height: 34px;
-	margin-bottom: 10px;
-	border: 1px solid black;
-	border-radius: 5px;
-}
 .container {
 	flex-direction: row;
 	justify-content: space-between;
-}
-.colorsContainer {
-	width: 200px;
-	flex-direction: row;
-	justify-content: space-between;
-	flex-wrap: wrap;
-}
-.lock {
-	justify-content: space-around;
-	align-items: center;
-	height: 100%;
-}
-.levelText {
-	font-size: 12px;
 }
