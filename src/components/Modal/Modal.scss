@@ -1,9 +1,47 @@
-.ModalTitleText {
-	font-family: 'Lato-Light';
-	font-size: 24px;
+.contentWrapper {
+	background-color: #fff;
+	border-radius: 12px;
 }
-.ModalButtonText {
-	font-family: 'Lato-Light';
-	font-size: 16px;
-	color: #000;
+
+.header {
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	background-color: #f8f8f8;
+	border-bottom-color: #ddd;
+	border-bottom-width: 1px;
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+}
+
+.title {
+	padding: 16px;
+	font-size: 18px;
+	font-family: 'Lato-Bold';
+	color: #292b2c;
+}
+
+.content {
+	margin-top: -12px;
+	padding: 20px;
+}
+
+.buttons {
+	padding: 8px;
+	width: 100%;
+	justify-content: space-between;
+	flex-direction: row;
+	background-color: #f8f8f8;
+	border-top-color: #ddd;
+	border-top-width: 1px;
+	border-bottom-right-radius: 12px;
+	border-bottom-left-radius: 12px;
+}
+
+.button {
+	background-color: #f8f8f8;
+}
+
+.buttonText {
+	color: #1a6a73;
 }

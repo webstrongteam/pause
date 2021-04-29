@@ -15,50 +15,53 @@
 		"color": "#F2B077",
 		"requiredLevel": 1
 	},
+
 	{
-		"color": "#723147",
-		"requiredLevel": 1
-	},
-	{
-		"color": "#8653C9",
+		"color": "#0275d8",
 		"requiredLevel": 2
 	},
 	{
-		"color": "#1D2326",
+		"color": "#5cb85c",
+		"requiredLevel": 2
+	},
+	{
+		"color": "#f0ad4e",
+		"requiredLevel": 3
+	},
+	{
+		"color": "#5bc0de",
 		"requiredLevel": 4
 	},
 	{
+		"color": "#d9534f",
+		"requiredLevel": 6
+	},
+	{
+		"color": "#292b2c",
+		"requiredLevel": 6
+	},
+	{
+		"color": "#723147",
+		"requiredLevel": 7
+	},
+	{
+		"color": "#8653C9",
+		"requiredLevel": 11
+	},
+	{
 		"color": "#A72929",
-		"requiredLevel": 5
+		"requiredLevel": 12
 	},
 	{
 		"color": "#63CCCA",
-		"requiredLevel": 7
+		"requiredLevel": 14
 	},
-	{
-		"color": "#BA0B0B",
-		"requiredLevel": 7
-	},
-
 	{
 		"color": "#1CA63A",
-		"requiredLevel": 8
+		"requiredLevel": 16
 	},
-
 	{
 		"color": "#D87316",
-		"requiredLevel": 8
-	},
-	{
-		"color": "#F35BC9",
-		"requiredLevel": 10
-	},
-	{
-		"color": "#1774C9",
-		"requiredLevel": 13
-	},
-	{
-		"color": "#84FF4A",
-		"requiredLevel": 15
+		"requiredLevel": 16
 	}
 ]

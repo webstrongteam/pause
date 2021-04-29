@@ -27,6 +27,7 @@ import useShowMessage from '../../utils/hooks/useShowMessage'
 import Header from '../../components/Header/Header'
 import { addBackgroundColor, addTextColor } from '../../utils/helpers'
 import { optionalColor } from '../../utils/consts'
+import { restartTheme } from '../../../database/actions/theme'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -125,6 +126,7 @@ const SettingsScreen = ({ navigation }: Props) => {
 	const resetSettingsHandler = async () => {
 		try {
 			setSettings(await restartSettings())
+			themeContext.setTheme(await restartTheme())
 			showMessage()
 		} catch (error) {
 			showFailureMessage()

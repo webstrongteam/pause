@@ -12,14 +12,14 @@ import {
 } from '../../utils/helpers'
 
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
-import CloseIcon from '../../components/UI/CloseIcon/CloseIcon'
 import Modal from '../../components/Modal/Modal'
 
-import styles from './PauseScreen.scss'
+import styles from './Pause.scss'
 
 import { usePauseContext } from '../../utils/context/PauseContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
+import Header from '../../components/Header/Header'
 
 const shadowOpt = {
 	width: 80,
@@ -37,9 +37,9 @@ type Props = {
 	navigation: NavigationScreenType
 }
 
-const PauseScreen = ({ navigation }: Props) => {
+const Pause = ({ navigation }: Props) => {
 	const [modalVisible, setModalVisible] = useState(false)
-	const [minetues, setMinetues] = useState(0)
+	const [minutes, setMinutes] = useState(0)
 	const [seconds, setSeconds] = useState(0)
 
 	const pauseContext = usePauseContext()
@@ -47,11 +47,11 @@ const PauseScreen = ({ navigation }: Props) => {
 	const settingsContext = useSettingsContext()
 
 	const translations = settingsContext.useSubscribe((s) => s.translations)
-	const settings = settingsContext.useSubscribe((s) => s.settings)
+	const settings = settingsContext.useSubscribe((s) => s.settings)!
 	const pause = pauseContext.useSubscribe((p) => p)
 	const theme = themeContext.useSubscribe((t) => t)
 
-	if (!pause.music || !pause.exercise || !settings) {
+	if (!pause.music || !pause.exercise) {
 		return <></>
 	}
 
@@ -63,7 +63,7 @@ const PauseScreen = ({ navigation }: Props) => {
 
 	const openModal = () => {
 		setModalVisible(true)
-		setMinetues(Math.floor(maxTime / 60))
+		setMinutes(Math.floor(maxTime / 60))
 		setSeconds(Math.floor(maxTime % 60))
 	}
 
@@ -121,17 +121,17 @@ const PauseScreen = ({ navigation }: Props) => {
 						</View>
 						<View>
 							<Text style={styles.fontWeight as TextType}>
-								{minetues} min {seconds}s
+								{minutes} min {seconds}s
 							</Text>
 						</View>
 					</View>
 				</View>
 			</Modal>
+
 			<WavyHeader variant='centered'>
+				<Header closeIconHandler={() => navigation.goBack()} />
+
 				<View style={styles.headerContainer as ViewType}>
-					<View style={styles.closeIcon as ViewType}>
-						<CloseIcon onPress={() => navigation.goBack()} />
-					</View>
 					<Text style={addTextColor(styles.text, theme.primary)}>
 						{translations.Pause.exercise}
 					</Text>
@@ -146,23 +146,19 @@ const PauseScreen = ({ navigation }: Props) => {
 					<Text style={addTextColor(styles.firstInfo, pickTextColor(theme.primary))}>
 						{translations.Pause.durationTime}
 					</Text>
-					<View style={styles.secondInfo as ViewType}>
-						<Text style={addTextColor(styles.secondInfoIcon, pickTextColor(theme.primary))}>
-							{pause.exercise.time[settings.time].exerciseTime}s
-						</Text>
-						<Text style={addTextColor(styles.secondInfoIcon, pickTextColor(theme.primary))}>
-							x{pause.exercise.time[settings.time].exerciseCount}
-						</Text>
-						<View>
-							<Icon
-								name='info'
-								type='feather'
-								color={pickTextColor(theme.primary)}
-								size={20}
-								onPress={openModal}
-							/>
+					<TouchableOpacity onPress={openModal}>
+						<View style={styles.secondInfo as ViewType}>
+							<Text style={addTextColor(styles.secondInfoIcon, pickTextColor(theme.primary))}>
+								{pause.exercise.time[settings.time].exerciseTime}s
+							</Text>
+							<Text style={addTextColor(styles.secondInfoIcon, pickTextColor(theme.primary))}>
+								x{pause.exercise.time[settings.time].exerciseCount}
+							</Text>
+							<View>
+								<Icon name='info' type='feather' color={pickTextColor(theme.primary)} size={20} />
+							</View>
 						</View>
-					</View>
+					</TouchableOpacity>
 				</View>
 
 				<View style={styles.exerciseInfo as ViewType}>
@@ -180,7 +176,7 @@ const PauseScreen = ({ navigation }: Props) => {
 					<TouchableOpacity onPress={drawNewPauseHandler}>
 						<View
 							style={[
-								addBackgroundColor(styles.Icon, theme.primary),
+								addBackgroundColor(styles.icon, theme.primary),
 								{ borderColor: pickTextColor(theme.primary) },
 							]}
 						>
@@ -198,7 +194,7 @@ const PauseScreen = ({ navigation }: Props) => {
 					<TouchableOpacity onPress={() => navigation.navigate('Player')}>
 						<View
 							style={[
-								addBackgroundColor(styles.Icon, theme.primary),
+								addBackgroundColor(styles.icon, theme.primary),
 								{ borderColor: pickTextColor(theme.primary) },
 							]}
 						>
@@ -210,4 +206,4 @@ const PauseScreen = ({ navigation }: Props) => {
 		</View>
 	)
 }
-export default PauseScreen
+export default Pause

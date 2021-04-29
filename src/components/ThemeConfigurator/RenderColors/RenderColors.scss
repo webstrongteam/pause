@@ -1,12 +1,13 @@
 .colors {
-	width: 34px;
-	height: 34px;
-	margin-bottom: 10px;
-	border: 1px solid black;
+	width: 42px;
+	height: 42px;
+	border: 1px solid #000;
 	border-radius: 5px;
+	margin-bottom: 10px;
 }
 .colorsContainer {
 	width: 200px;
+	height: 100%;
 	flex-direction: row;
 	justify-content: space-between;
 	flex-wrap: wrap;

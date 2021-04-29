@@ -4,14 +4,14 @@ import styles from './ColorOptions.scss'
 import RenderColors from '../RenderColors/RenderColors'
 
 //Types
-import { ColorType } from '../../types/theme'
-import { ViewType } from '../../types/styles'
+import { ColorType } from '../../../types/theme'
+import { ViewType } from '../../../types/styles'
 
 //Contexts
-import { useThemeContext } from '../../utils/context/ThemeContext'
+import { useThemeContext } from '../../../utils/context/ThemeContext'
 
 //Helpers and actions
-import { addBackgroundColor } from '../../utils/helpers'
+import { addBackgroundColor } from '../../../utils/helpers'
 
 type Props = {
 	type: ColorType

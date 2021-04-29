@@ -3,15 +3,15 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import styles from './ColorButton.scss'
 
 //Contexts
-import { useSettingsContext } from '../../utils/context/SettingsContext'
-import { useThemeContext } from '../../utils/context/ThemeContext'
+import { useSettingsContext } from '../../../utils/context/SettingsContext'
+import { useThemeContext } from '../../../utils/context/ThemeContext'
 
 //Types
-import { TextType, ViewType } from '../../types/styles'
-import { ColorType } from '../../types/theme'
+import { TextType, ViewType } from '../../../types/styles'
+import { ColorType } from '../../../types/theme'
 
 //Utils
-import { addBackgroundColor } from '../../utils/helpers'
+import { addBackgroundColor } from '../../../utils/helpers'
 
 type Props = {
 	name: ColorType

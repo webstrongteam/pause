@@ -2,3 +2,5 @@ babel.config.js
 transformer.js
 metro.config.js
 *scss.d.ts
+/firebase/*
+.expo*

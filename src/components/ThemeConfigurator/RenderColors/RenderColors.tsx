@@ -1,22 +1,22 @@
 import React from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
 import styles from './RenderColors.scss'
 
 //Types
-import { Color, ColorType } from '../../types/theme'
-import { ViewType } from '../../types/styles'
+import { Color, ColorType } from '../../../types/theme'
+import { ViewType } from '../../../types/styles'
 
 //Contexts
-import { useSettingsContext } from '../../utils/context/SettingsContext'
-import { useThemeContext } from '../../utils/context/ThemeContext'
+import { useSettingsContext } from '../../../utils/context/SettingsContext'
+import { useThemeContext } from '../../../utils/context/ThemeContext'
 
 //Helpers and actions
-import { addBackgroundColor, addTextColor, pickTextColor } from '../../utils/helpers'
-import { changeColor } from '../../../database/actions/theme'
+import { addBackgroundColor, pickTextColor } from '../../../utils/helpers'
+import { changeColor } from '../../../../database/actions/theme'
 
 //Config
-import colors from '../../config/colors.json'
+import colors from '../../../config/colors.json'
 
 type Props = {
 	type: ColorType
@@ -35,6 +35,7 @@ const RenderColors = ({ type }: Props) => {
 	const changeColorHandler = async (color: string) => {
 		themeContext.setTheme(await changeColor(color, type))
 	}
+
 	return (
 		<View style={styles.colorsContainer as ViewType}>
 			{colors.map((colorVal: Color) => (
@@ -48,13 +49,10 @@ const RenderColors = ({ type }: Props) => {
 					<View style={addBackgroundColor(styles.colors, colorVal.color)}>
 						{currentLevel < colorVal.requiredLevel && (
 							<View style={styles.lock as ViewType}>
-								<Text style={addTextColor(styles.levelText, pickTextColor(colorVal.color))}>
-									{colorVal.requiredLevel}
-								</Text>
 								<Icon
 									name='lock-closed-outline'
 									type='ionicon'
-									size={15}
+									size={18}
 									color={pickTextColor(colorVal.color)}
 								/>
 							</View>

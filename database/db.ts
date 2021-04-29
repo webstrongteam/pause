@@ -1,7 +1,7 @@
 import { openDatabase } from 'expo-sqlite'
 import app from '../app.json'
 import { getLocale } from '../src/utils/helpers'
-import colors from '../src/config/colors.json'
+import { defaultTheme } from '../src/utils/consts'
 
 export const VERSION = app.expo.version
 export const db = openDatabase('pause.db', VERSION)
@@ -24,7 +24,7 @@ export const initDatabase = (callback: () => void) => {
 			)
 			tx.executeSql(
 				'INSERT OR IGNORE INTO theme (id, primaryColor, secondaryColor, thirdColor, progressColor) values (0, ?, ?, ?, ?);',
-				[colors[0].color, colors[1].color, colors[2].color, colors[3].color],
+				defaultTheme,
 				() => {
 					setupDatabase(callback)
 				},
@@ -39,15 +39,6 @@ export const setupDatabase = (callback: () => void) => {
 	// initDatabase(callback)
 	db.transaction(
 		(tx) => {
-			// TODO: REMOVE ME
-			// @ts-ignore
-			tx.executeSql(
-				'select * from theme',
-				[],
-				() => {},
-				() => initDatabase(callback),
-			)
-
 			// CHECK CORRECTION APP VERSION AND UPDATE DB
 			tx.executeSql('select * from settings', [], (_, { rows }) => {
 				const { version } = rows.item(0)

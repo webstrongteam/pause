@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react'
-import { Animated, View, Text, Image } from 'react-native'
+import React, { useState, useRef, useEffect } from 'react'
+import { Animated, View, Text, Image, BackHandler } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { Audio } from 'expo-av'
-
 import { Sound } from 'expo-av/build/Audio'
 import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
 import styles from './Player.scss'
@@ -22,11 +21,14 @@ import { NavigationScreenType } from '../../types/navigation'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { usePauseContext } from '../../utils/context/PauseContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
+
 import Header from '../../components/Header/Header'
+import StatusBar from '../../components/UI/StatusBar/StatusBar'
 
 type Props = {
 	navigation: NavigationScreenType
 }
+
 type MethodType = 'playAsync' | 'pauseAsync' | 'replayAsync' | 'unloadAsync'
 
 const Player = ({ navigation }: Props) => {
@@ -58,6 +60,7 @@ const Player = ({ navigation }: Props) => {
 	const [isMuted, setIsMuted] = useState(false)
 	const [playing, setPlaying] = useState(true)
 	const [showPauseIcon, setShowPauseIcon] = useState(false)
+	const [stopTimer, setStopTimer] = useState(false)
 
 	const [fullTime, setFullTime] = useState(exercise.time[time].totalTime)
 	const [isExercising, setIsExercising] = useState(true)
@@ -83,10 +86,12 @@ const Player = ({ navigation }: Props) => {
 		setPauseEffect(pause.sound)
 		setFinishEffect(finish.sound)
 	}
+
 	const soundControl = async (methodName: MethodType, sound: Audio.Sound) => {
 		await sound[methodName]()
 	}
-	//Amimation
+
+	//Animation
 	const fadeAnim = useRef(new Animated.Value(1)).current
 
 	const fadeIn = () => {
@@ -108,7 +113,7 @@ const Player = ({ navigation }: Props) => {
 		})
 	}
 
-	//Timer Consts
+	//Timer Const
 	const exerciseTime =
 		fullTime - (series * exercise.time[time].exerciseTime + series * exercise.time[time].pauseTime)
 	const pauseTime =
@@ -123,12 +128,16 @@ const Player = ({ navigation }: Props) => {
 		setPlaying(false)
 		setShowPauseIcon(true)
 	}
+
 	const quitHandler = async (finished: boolean) => {
+		setStopTimer(true)
 		if (pauseEffect) await soundControl('unloadAsync', pauseEffect)
 		if (finishEffect) await soundControl('unloadAsync', finishEffect)
 		if (audio) await soundControl('unloadAsync', audio)
+
 		navigation.replace('Home', { finished })
 	}
+
 	const pauseHandler = () => {
 		if (!isAnimating) {
 			setIsAnimating(true)
@@ -180,10 +189,12 @@ const Player = ({ navigation }: Props) => {
 	//Counters
 	useAsyncEffect(async () => {
 		await timeout(500)
+		if (stopTimer) return
 
 		if (shouldIncrementTime) {
 			setShouldIncrementTime(false)
 			await startCounterFunction()
+
 			if (shouldCounting) {
 				setFullTime(fullTime - 1)
 				if (isExercising) {
@@ -202,11 +213,31 @@ const Player = ({ navigation }: Props) => {
 			}
 			return
 		}
+
 		setShouldIncrementTime(true)
 	}, [fullTime, playing, startCounter, pauseEffect, finishEffect, shouldIncrementTime])
 
+	useEffect(() => {
+		// TODO: handle iOS back action
+		BackHandler.addEventListener('hardwareBackPress', () => {
+			// eslint-disable-next-line @typescript-eslint/no-floating-promises
+			closeIconPressHandler().then((r) => r)
+			return true
+		})
+
+		return () => {
+			BackHandler.removeEventListener('hardwareBackPress', () => {
+				// eslint-disable-next-line @typescript-eslint/no-floating-promises
+				closeIconPressHandler().then((r) => r)
+				return true
+			})
+		}
+	}, [])
+
 	return (
 		<View style={styles.container as ViewType}>
+			<StatusBar bgColor={theme.primary} />
+
 			<Image style={styles.image as ImageType} source={imageMap[music.name]} />
 
 			<Modal

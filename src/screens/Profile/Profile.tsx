@@ -9,8 +9,8 @@ import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import NextLevelBenefits from '../../components/NextLevelInfo/NextLevelInfo'
 import Modal from '../../components/Modal/Modal'
-import ColorButton from '../../components/ColorButton/ColorButton'
-import ColorOptions from '../../components/ColorOptions/ColorOptions'
+import ColorButton from '../../components/ThemeConfigurator/ColorButton/ColorButton'
+import ColorOptions from '../../components/ThemeConfigurator/ColorOptions/ColorOptions'
 
 //Types
 import { TextType, ViewType } from '../../types/styles'
@@ -149,6 +149,7 @@ const Profile = ({ navigation }: Props) => {
 					textColor={optionalColor}
 				/>
 			</ScrollView>
+
 			<View style={styles.colorConfigButtonPosition as ViewType}>
 				<TouchableOpacity onPress={() => setModalVisible(true)}>
 					<View style={[addBackgroundColor(styles.colorConfigButton, theme.third), shadowButton]}>

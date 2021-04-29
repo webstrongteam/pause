@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native'
+import colors from '../config/colors.json'
 
 export const optionalColor = '#5A5A5A'
 
@@ -19,6 +20,8 @@ export const longMultiplier = 1.8
 export const easyDifficultyMultiplier = 1
 export const mediumDifficultyMultiplier = 2
 export const hardDifficultyMultiplier = 2.5
+
+export const defaultTheme = [colors[0].color, colors[1].color, colors[2].color, colors[3].color]
 
 // Assets maps
 export const imageMap: Record<string, number> = {

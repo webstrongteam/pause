@@ -1,5 +1,6 @@
 import { ColorType, Theme } from '../../src/types/theme'
 import { db } from '../db'
+import { defaultTheme } from '../../src/utils/consts'
 
 export const getTheme = (): Promise<Theme> =>
 	new Promise((resolve, reject) => {
@@ -31,6 +32,26 @@ export const changeColor = (color: string, type: ColorType): Promise<Theme> =>
 						reject(e)
 					}
 				})
+			},
+			(err) => reject(err),
+		)
+	})
+
+export const restartTheme = (): Promise<Theme> =>
+	new Promise((resolve, reject) => {
+		db.transaction(
+			(tx) => {
+				tx.executeSql(
+					'update theme set primaryColor = ?, secondaryColor = ?, thirdColor = ?, progressColor = ? where id = 0;',
+					defaultTheme,
+					() => {
+						try {
+							resolve(getTheme())
+						} catch (e) {
+							reject(e)
+						}
+					},
+				)
 			},
 			(err) => reject(err),
 		)

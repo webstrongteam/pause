@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native'
+import { Dimensions, NativeModules, Platform, StatusBar } from 'react-native'
 import { Exercise, Music, Pause } from '../types/pause'
 import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings'
 import { Color } from '../types/theme'
@@ -18,6 +18,9 @@ import {
 import music from '../config/music.json'
 import exercises from '../config/exercises.json'
 import colors from '../config/colors.json'
+
+export const { width, height } = Dimensions.get('window')
+export const STATUS_BAR_HEIGHT = StatusBar.currentHeight ?? 20
 
 export const getLocale = () => {
 	const locale =
@@ -63,15 +66,19 @@ export const addTextColor = (baseStyles: {}, textColor: string): TextType => ({
 	color: textColor,
 })
 
-export const pickTextColor = (bgColor: string) => {
-	const color = bgColor.substring(1, 7)
-	const r = parseInt(color.substring(0, 2), 16) // Red intensity
-	const g = parseInt(color.substring(2, 4), 16) // Green intensity
-	const b = parseInt(color.substring(4, 6), 16) // Blue intensity
+export const getColorGrayscale = (color: string): number => {
+	const preparedColor = color.substring(1, 7)
+	const r = parseInt(preparedColor.substring(0, 2), 16) // Red intensity
+	const g = parseInt(preparedColor.substring(2, 4), 16) // Green intensity
+	const b = parseInt(preparedColor.substring(4, 6), 16) // Blue intensity
 
-	//Convert RGB to greyscale and check overall intensity
-	return r * 0.299 + g * 0.587 + b * 0.114 > 120 ? '#383838' : '#efefef'
+	// Convert RGB to greyscale
+	return r * 0.299 + g * 0.587 + b * 0.114
 }
+
+export const pickTextColor = (bgColor: string) =>
+	// Check overall intensity
+	getColorGrayscale(bgColor) > 120 ? '#292b2c' : '#efefef'
 
 export const timeout = async (time: number) => new Promise((resolve) => setTimeout(resolve, time))
 
