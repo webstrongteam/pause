@@ -52,7 +52,12 @@
 		"singularPoints": "point",
 		"pluralPoints": "points",
 		"genitivePoints": "points",
-		"toNextLvl": "to next level"
+		"toNextLvl": "to next level",
+		"primary": "Primary",
+		"secondary": "Secondary",
+		"third": "Third",
+		"progress": "Progress bar",
+		"chooseColor": "Choose color"
 	},
 	"Player": {
 		"break": "Break",

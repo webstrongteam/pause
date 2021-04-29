@@ -9,13 +9,14 @@ import {
 } from '../../utils/helpers'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import styles from './NextLevelInfo.scss'
+import { TextType } from '../../types/styles'
 
 type Props = {
 	title?: string
 	emptyBenefitsText?: string
 	color: string
 	textColor: string
-	titleClassName?: {}
+	titleClassName?: TextType | {}
 }
 
 const NextLevelBenefits = ({

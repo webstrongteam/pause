@@ -1,0 +1,64 @@
+[
+	{
+		"color": "#1A6A73",
+		"requiredLevel": 1
+	},
+	{
+		"color": "#FFFFFF",
+		"requiredLevel": 1
+	},
+	{
+		"color": "#C5D1D9",
+		"requiredLevel": 1
+	},
+	{
+		"color": "#F2B077",
+		"requiredLevel": 1
+	},
+	{
+		"color": "#723147",
+		"requiredLevel": 1
+	},
+	{
+		"color": "#8653C9",
+		"requiredLevel": 2
+	},
+	{
+		"color": "#1D2326",
+		"requiredLevel": 4
+	},
+	{
+		"color": "#A72929",
+		"requiredLevel": 5
+	},
+	{
+		"color": "#63CCCA",
+		"requiredLevel": 7
+	},
+	{
+		"color": "#BA0B0B",
+		"requiredLevel": 7
+	},
+
+	{
+		"color": "#1CA63A",
+		"requiredLevel": 8
+	},
+
+	{
+		"color": "#D87316",
+		"requiredLevel": 8
+	},
+	{
+		"color": "#F35BC9",
+		"requiredLevel": 10
+	},
+	{
+		"color": "#1774C9",
+		"requiredLevel": 13
+	},
+	{
+		"color": "#84FF4A",
+		"requiredLevel": 15
+	}
+]

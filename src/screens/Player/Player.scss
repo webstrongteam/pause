@@ -76,6 +76,7 @@
 	@include Text();
 	font-size: 48px;
 	text-transform: uppercase;
+	text-align: center;
 }
 .startCounter {
 	@include Text();

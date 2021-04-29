@@ -7,7 +7,7 @@ import { Sound } from 'expo-av/build/Audio'
 import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
 import styles from './Player.scss'
 import { imageMap, musicMap, exerciseMap } from '../../utils/consts'
-import { timeout } from '../../utils/helpers'
+import { timeout, pickTextColor, addTextColor } from '../../utils/helpers'
 
 //Components
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
@@ -40,7 +40,7 @@ const Player = ({ navigation }: Props) => {
 	const time = settingsContext.useSubscribe((t) => t.settings?.time)
 	const exercise = pauseContext.useSubscribe((e) => e.exercise)
 	const music = pauseContext.useSubscribe((m) => m.music)
-	const theme = themeContext.useSubscribe((t) => t.colors)
+	const theme = themeContext.useSubscribe((t) => t)
 
 	if (!music || !exercise || !time) {
 		return <></>
@@ -235,13 +235,16 @@ const Player = ({ navigation }: Props) => {
 			</Modal>
 
 			<WavyHeader bgColor={theme.primary} outline>
-				<Header closeIconColor='#fff' closeIconHandler={closeIconPressHandler}>
+				<Header
+					closeIconColor={pickTextColor(theme.primary)}
+					closeIconHandler={closeIconPressHandler}
+				>
 					{fullTime > exercise.time[time].exerciseTime && (
 						<View style={styles.counter as ViewType}>
-							<Text style={styles.breakIn as TextType}>
+							<Text style={addTextColor(styles.breakIn, pickTextColor(theme.primary))}>
 								{isExercising ? translations.Player.breakIn : translations.Player.nextSeriesIn}
 							</Text>
-							<Text style={styles.counterText as TextType}>
+							<Text style={addTextColor(styles.counterText, pickTextColor(theme.primary))}>
 								{isExercising ? exerciseTime : pauseTime}s
 							</Text>
 						</View>
@@ -277,23 +280,29 @@ const Player = ({ navigation }: Props) => {
 				backgroundColor={theme.primary}
 			>
 				<View>
-					<Text style={styles.infoText as TextType}>{exercise.name}</Text>
+					<Text style={addTextColor(styles.infoText, pickTextColor(theme.primary))}>
+						{exercise.name}
+					</Text>
 					<View style={styles.musicInfo as ViewType}>
-						<Text style={styles.infoText as TextType}>{music.name}</Text>
+						<Text style={addTextColor(styles.infoText, pickTextColor(theme.primary))}>
+							{music.name}
+						</Text>
 						<Icon
 							name={isMuted ? 'volume-x' : 'volume-2'}
 							type='feather'
-							color='#fff'
+							color={pickTextColor(theme.primary)}
 							size={20}
 							onPress={muteSoundHandler}
 						/>
 					</View>
 				</View>
-				<Text style={styles.playerCounter as TextType}>{fullTime}s</Text>
+				<Text style={addTextColor(styles.playerCounter, pickTextColor(theme.primary))}>
+					{fullTime}s
+				</Text>
 				<Icon
 					name={playing ? 'pause-outline' : 'play-outline'}
 					type='ionicon'
-					color='#fff'
+					color={pickTextColor(theme.primary)}
 					size={42}
 					onPress={pauseHandler}
 				/>

@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 
 //Styles and types
 import styles from './Home.scss'
-import { TextType, ViewType } from '../../types/styles'
+import { ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
 
 //Components
@@ -23,9 +23,10 @@ import { usePauseContext } from '../../utils/context/PauseContext'
 import { changeLevelAndPoints } from '../../../database/actions/settings'
 import {
 	addBackgroundColor,
+	addTextColor,
+	pickTextColor,
 	getPointsToLevelUp,
 	getRandomPause,
-	getTheme,
 } from '../../utils/helpers'
 
 // Hooks
@@ -45,7 +46,7 @@ const Home = ({ navigation }: Props) => {
 	//Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
-	const theme = themeContext.useSubscribe((t) => t.colors)
+	const theme = themeContext.useSubscribe((t) => t)
 	const pause = pauseContext.useSubscribe((p) => p)
 
 	if (!settings || !pause.points) {
@@ -68,8 +69,7 @@ const Home = ({ navigation }: Props) => {
 
 	const showMessage = useShowMessage({
 		message: `${translations.common.breakEnded} +${pause.points}p`,
-		backgroundColor: getTheme(levelUpAfterFinishExercise ? settings.level + 1 : settings.level)
-			.colors.primary,
+		backgroundColor: theme.primary,
 	})
 
 	//Handlers and functions
@@ -82,6 +82,7 @@ const Home = ({ navigation }: Props) => {
 		const finished = navigation.getParam('finished', false)
 		if (finished) {
 			showMessage()
+
 			if (levelUpAfterFinishExercise) {
 				setCurrentPoints(maxPoints)
 				settingsContext.setSettings(
@@ -162,17 +163,17 @@ const Home = ({ navigation }: Props) => {
 					name='account'
 					onPress={() => navigation.navigate('Profile')}
 					type='material-community'
-					color='#fff'
+					color={pickTextColor(theme.primary)}
 					size={42}
 				/>
-				<Text style={styles.levelText as TextType}>
+				<Text style={addTextColor(styles.levelText, pickTextColor(theme.primary))}>
 					{translations.common.level}&nbsp;{currentLevel}
 				</Text>
 				<Icon
 					name='cog-outline'
 					onPress={() => navigation.navigate('Settings')}
 					type='material-community'
-					color='#fff'
+					color={pickTextColor(theme.primary)}
 					size={40}
 				/>
 			</Footer>

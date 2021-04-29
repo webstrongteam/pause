@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 import { BoxShadow } from 'react-native-shadow'
 import { ViewType } from '../../types/styles'
 import { useThemeContext } from '../../utils/context/ThemeContext'
-import { addBackgroundColor } from '../../utils/helpers'
+import { addBackgroundColor, pickTextColor } from '../../utils/helpers'
 import { centerHeight } from '../../utils/consts'
 import styles from './PauseButton.scss'
 
@@ -26,7 +26,7 @@ type Props = {
 
 const PauseButton = ({ onPress }: Props) => {
 	const { useSubscribe } = useThemeContext()
-	const color = useSubscribe((c) => c.colors)
+	const primaryColor = useSubscribe((t) => t.primary)
 
 	return (
 		<TouchableOpacity
@@ -35,8 +35,13 @@ const PauseButton = ({ onPress }: Props) => {
 			onPress={onPress}
 		>
 			<BoxShadow setting={shadowOpt}>
-				<View style={addBackgroundColor(styles.box, color.primary)}>
-					<Icon name='pause' type='antdesign' color='#fff' size={128} />
+				<View
+					style={[
+						addBackgroundColor(styles.box, primaryColor),
+						{ borderColor: pickTextColor(primaryColor) },
+					]}
+				>
+					<Icon name='pause' type='antdesign' color={pickTextColor(primaryColor)} size={128} />
 				</View>
 			</BoxShadow>
 		</TouchableOpacity>

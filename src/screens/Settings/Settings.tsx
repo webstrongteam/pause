@@ -25,7 +25,8 @@ import {
 import useShowFailureMessage from '../../utils/hooks/useShowFailureMessage'
 import useShowMessage from '../../utils/hooks/useShowMessage'
 import Header from '../../components/Header/Header'
-import { defaultColor, addBackgroundColor, addTextColor } from '../../utils/helpers'
+import { addBackgroundColor, addTextColor } from '../../utils/helpers'
+import { optionalColor } from '../../utils/consts'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -48,14 +49,14 @@ const SettingsScreen = ({ navigation }: Props) => {
 
 	const settings = useSubscribe((s) => s.settings)
 	const translations = useSubscribe((s) => s.translations)
-	const theme = themeContext.useSubscribe((t) => t.colors)
+	const theme = themeContext.useSubscribe((t) => t)
 
 	if (!settings) return <></>
 
 	const showFailureMessage = useShowFailureMessage()
 	const showMessage = useShowMessage({
 		message: translations.Settings.settingsRestore,
-		backgroundColor: defaultColor,
+		backgroundColor: theme.primary,
 	})
 
 	const buttonGroupStyles = [
@@ -191,7 +192,7 @@ const SettingsScreen = ({ navigation }: Props) => {
 					onPress={() => setModalVisible(true)}
 					title={translations.Settings.clearData}
 					buttonStyle={addBackgroundColor(styles.buttonStyles, theme.third)}
-					titleStyle={addTextColor(styles.buttonTitle, theme.optional)}
+					titleStyle={addTextColor(styles.buttonTitle, optionalColor)}
 				/>
 			</View>
 		</>
