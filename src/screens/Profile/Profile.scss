@@ -1,61 +1,69 @@
-@mixin Text {
-	font-size: 32px;
-	font-family: 'Lato-Light';
-	color: #fff;
-	text-align: center;
-}
+@import '../../styles/_fonts';
 
 .container {
 	flex: 1;
 }
+
 .title {
-	font-size: 26px;
-	font-family: 'Lato-Light';
+	@include heading-26;
+	@include text-light;
 	text-transform: uppercase;
 }
+
 .progressBar {
 	margin: 12px 0;
 }
+
 .levelText {
-	@include Text();
+	@include heading-30;
+	@include text-light;
+	text-align: center;
 	margin-bottom: 15px;
 }
+
 .levelInfo {
-	@include Text();
-	font-size: 16px;
+	@include text-16;
+	@include text-light;
+	text-align: center;
 	margin-top: 8px;
 }
+
 .nextLevelText {
 	margin-top: 64px;
 	margin-bottom: 32px;
 }
+
 .fontBold {
-	font-family: 'Lato-Bold';
+	@include text-bold;
 }
+
+.colorConfigButtonPosition {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+}
+
 .colorConfigButton {
 	justify-content: center;
 	border-radius: 60px;
 	width: 60px;
 	height: 60px;
-	background-color: #fff;
 }
-.colorConfigButtonPosition {
-	position: absolute;
-	bottom: 15px;
-	right: 15px;
-}
+
 .colorConfig {
 	margin: 25px 0 20px 10px;
 	flex-direction: row;
 	justify-content: space-evenly;
 	align-items: baseline;
 }
+
 .colorName {
-	margin: 16px 0;
-	font-family: 'Lato-Light';
-	font-size: 22px;
+	@include text-light;
+	@include heading-22;
+	margin: 12px 0 20px 0;
 	text-align: center;
 }
+
 .colorPicker {
 	align-items: center;
 	justify-content: space-around;

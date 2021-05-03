@@ -45,7 +45,7 @@
 		"long": "Long",
 		"clearData": "Clear data",
 		"clearDataDescription": "Are you sure you want to clear all data?",
-		"settingsRestore": "User data has been restored"
+		"settingsRestore": "User data has been restored."
 	},
 	"Profile": {
 		"title": "Profile",

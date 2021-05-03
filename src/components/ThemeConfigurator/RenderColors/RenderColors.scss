@@ -1,3 +1,5 @@
+@import '../../../styles/_fonts';
+
 .colors {
 	width: 42px;
 	height: 42px;
@@ -5,6 +7,7 @@
 	border-radius: 5px;
 	margin-bottom: 10px;
 }
+
 .colorsContainer {
 	width: 200px;
 	height: 100%;
@@ -12,11 +15,13 @@
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
+
 .lock {
 	justify-content: space-around;
 	align-items: center;
 	height: 100%;
 }
+
 .levelText {
-	font-size: 12px;
+	@include text-12;
 }

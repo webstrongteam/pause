@@ -3,7 +3,6 @@ import { View, Text } from 'react-native'
 import {
 	addBackgroundColor,
 	addTextColor,
-	concatStyles,
 	getNextLevelBenefits,
 	getVariety,
 } from '../../utils/helpers'
@@ -38,14 +37,14 @@ const NextLevelBenefits = ({
 
 	if (!levelBenefits.themes && !levelBenefits.music && !levelBenefits.exercises) {
 		if (emptyBenefitsText) {
-			return <Text style={concatStyles(styles.title, titleClassName)}>{emptyBenefitsText}</Text>
+			return <Text style={[styles.title, titleClassName]}>{emptyBenefitsText}</Text>
 		}
 		return <></>
 	}
 
 	return (
 		<View>
-			<Text style={concatStyles(styles.title, titleClassName)}>{title}</Text>
+			<Text style={[styles.title, titleClassName]}>{title}</Text>
 
 			{!!levelBenefits.exercises && (
 				<View style={addBackgroundColor(styles.nextLevelInfo, color)}>

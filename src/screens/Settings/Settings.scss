@@ -1,8 +1,4 @@
-@mixin Text {
-	font-size: 16px;
-	font-family: 'Lato-Light';
-	text-align: center;
-}
+@import '../../styles/_fonts';
 
 @mixin ButtonGroup {
 	border: none;
@@ -10,52 +6,68 @@
 	border-radius: 14px;
 	padding: 4px 4px;
 }
+
 .container {
 	flex: 1;
 }
+
 .title {
-	font-size: 26px;
-	font-family: 'Lato-Light';
+	@include heading-26;
+	@include text-light;
 	text-transform: uppercase;
 }
+
 .label {
-	@include Text();
+	@include text-16;
+	@include text-light;
+	text-align: center;
 	text-transform: uppercase;
 	margin-top: 40px;
 }
+
 .settings {
-	margin: 20px 0 48px 0;
+	margin: 0 0 48px 0;
 	align-items: center;
 }
+
 .selectedButton {
 	border-radius: 12px;
 	width: 90%;
 	align-self: center;
 }
+
 .languages {
 	@include ButtonGroup();
 	width: 185px;
 }
+
 .difficulty {
 	@include ButtonGroup();
 	width: 300px;
 }
+
 .breakTime {
 	@include ButtonGroup();
 	width: 260px;
 }
+
 .buttonStyles {
 	width: 300px;
 	border-radius: 14px;
 }
+
 .buttonTitle {
-	@include Text();
+	@include text-16;
+	@include text-light;
+	text-align: center;
 	text-transform: uppercase;
 	margin-right: 5px;
 }
+
 .buttonGroupText {
-	font-size: 16px;
+	@include text-16;
 }
+
 .clearButtonPosition {
 	position: absolute;
 	bottom: 20px;
@@ -65,10 +77,12 @@
 }
 
 .ModalText {
-	@include Text();
+	@include text-16;
+	@include text-light;
+	text-align: center;
 	color: #000;
 }
 
 .Modal {
-	margin-top: 20px;
+	margin-top: 12px;
 }

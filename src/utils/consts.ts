@@ -1,10 +1,13 @@
-import { Dimensions } from 'react-native'
+import { Dimensions, StatusBar } from 'react-native'
 import colors from '../config/colors.json'
 
 export const optionalColor = '#5A5A5A'
 
-export const headerHeight = Dimensions.get('screen').height / 7
-export const centerHeight = Dimensions.get('screen').height * 0.4
+export const { width, height } = Dimensions.get('window')
+export const STATUS_BAR_HEIGHT = StatusBar.currentHeight ?? 20
+
+export const headerHeight = height / 7
+export const centerHeight = height * 0.4
 
 // Levels
 export const basePoints = 75
@@ -34,16 +37,4 @@ export const musicMap: Record<string, number> = {
 
 export const exerciseMap: Record<string, number> = {
 	wall_sit: require('../../assets/pause/exercises/wall_sit.png'),
-}
-
-// Shadow
-export const shadowButton = {
-	shadowColor: '#000',
-	shadowOffset: {
-		width: 0,
-		height: 6,
-	},
-	shadowOpacity: 0.39,
-	shadowRadius: 8.3,
-	elevation: 13,
 }

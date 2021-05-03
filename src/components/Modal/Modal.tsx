@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import { Button } from 'react-native-elements'
 import ModalBase from 'react-native-modal'
-import { height, STATUS_BAR_HEIGHT, width } from '../../utils/helpers'
+import { height, STATUS_BAR_HEIGHT, width } from '../../utils/consts'
 import styles from './Modal.scss'
 
 export type ModalButtonType = {

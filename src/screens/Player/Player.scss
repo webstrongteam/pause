@@ -1,85 +1,84 @@
-@mixin Text() {
-	font-family: 'Lato-Light';
-	font-size: 16px;
-	color: #fff;
-}
+@import '../../styles/_fonts';
 
 .container {
 	flex: 1;
 	background-color: #000;
 }
 
-.headerContainer {
-	margin: 40px 20px 0 20px;
-}
-.header {
-	height: 100%;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-}
 .breakIn {
-	@include Text();
+	@include text-16;
+	@include text-light;
 }
+
 .counter {
 	align-items: flex-end;
 }
+
 .counterText {
-	@include Text();
-	font-size: 24px;
-	font-family: 'Lato-Bold';
+	@include heading-22;
+	@include text-bold;
 }
 
 .infoText {
-	@include Text();
+	@include text-16;
+	@include text-light;
 	margin-right: 4px;
 }
+
 .playerCounter {
-	@include Text();
-	font-family: 'Lato-Bold';
-	font-size: 28px;
+	@include heading-28;
+	@include text-bold;
 }
+
 .musicInfo {
 	flex-direction: row;
 	align-items: center;
 }
+
 .modalText {
-	@include Text();
+	@include text-16;
+	@include text-light;
 	color: #000;
 	text-align: center;
 }
 
 .modal {
-	margin-top: 20px;
+	margin-top: 12px;
 }
+
 .image {
 	opacity: 0.7;
 	position: absolute;
 	top: 0;
 }
+
 .exerciseInfo {
 	flex: 1;
 	justify-content: center;
 	align-self: center;
 	margin-top: -128px;
 }
+
 .exerciseName {
-	@include Text();
-	font-size: 48px;
+	@include heading-40;
+	@include text-light;
 	text-transform: uppercase;
-	text-decoration: underline;
 }
+
 .exerciseIcon {
 	height: 196px;
 }
+
 .breakText {
-	@include Text();
-	font-size: 48px;
+	@include heading-40;
+	@include text-light;
 	text-transform: uppercase;
 	text-align: center;
+	color: #fff;
 }
+
 .startCounter {
-	@include Text();
-	font-family: 'Lato-Bold';
+	@include text-bold;
 	font-size: 150px;
+	color: #fff;
 }

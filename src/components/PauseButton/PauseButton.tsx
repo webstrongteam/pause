@@ -4,25 +4,16 @@ import { Icon } from 'react-native-elements'
 import { BoxShadow } from 'react-native-shadow'
 import { ViewType } from '../../types/styles'
 import { useThemeContext } from '../../utils/context/ThemeContext'
-import { addBackgroundColor, pickTextColor } from '../../utils/helpers'
-import { centerHeight } from '../../utils/consts'
+import { addBackgroundColor, getShadowOpt, pickTextColor } from '../../utils/helpers'
+import { centerHeight, width } from '../../utils/consts'
 import styles from './PauseButton.scss'
-
-const shadowOpt = {
-	width: 190,
-	height: 190,
-	color: '#000',
-	border: 25,
-	radius: 95,
-	opacity: 0.2,
-	x: 5,
-	y: 6,
-	style: { marginVertical: 0 },
-}
 
 type Props = {
 	onPress: () => void
 }
+
+const pauseButtonSize = width * 0.5
+const pauseIconSize = pauseButtonSize * 0.65
 
 const PauseButton = ({ onPress }: Props) => {
 	const { useSubscribe } = useThemeContext()
@@ -34,14 +25,24 @@ const PauseButton = ({ onPress }: Props) => {
 			style={[styles.pauseButton, { top: centerHeight - 60 }] as ViewType}
 			onPress={onPress}
 		>
-			<BoxShadow setting={shadowOpt}>
+			<BoxShadow setting={getShadowOpt(pauseButtonSize)}>
 				<View
 					style={[
 						addBackgroundColor(styles.box, primaryColor),
-						{ borderColor: pickTextColor(primaryColor) },
+						{
+							borderColor: pickTextColor(primaryColor),
+							width: pauseButtonSize,
+							height: pauseButtonSize,
+							borderRadius: pauseButtonSize / 2,
+						},
 					]}
 				>
-					<Icon name='pause' type='antdesign' color={pickTextColor(primaryColor)} size={128} />
+					<Icon
+						name='pause'
+						type='antdesign'
+						color={pickTextColor(primaryColor)}
+						size={pauseIconSize}
+					/>
 				</View>
 			</BoxShadow>
 		</TouchableOpacity>

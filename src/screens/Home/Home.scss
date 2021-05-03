@@ -1,9 +1,4 @@
-@mixin Text() {
-	font-family: 'Lato-Light';
-	color: #000;
-	font-size: 30px;
-	text-align: center;
-}
+@import '../../styles/_fonts';
 
 .container {
 	flex: 1;
@@ -18,17 +13,13 @@
 }
 
 .levelText {
-	@include Text();
-	color: #fff;
+	@include heading-26;
+	@include text-light;
+	text-align: center;
 }
-.newLevel {
-	@include Text();
-}
-.fontBold {
-	@include Text();
-	font-family: 'Lato-Bold';
-}
+
 .getBenefitsTitle {
-	@include Text();
-	font-size: 26px;
+	@include heading-18;
+	@include text-light;
+	text-align: center;
 }

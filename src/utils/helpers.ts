@@ -1,4 +1,4 @@
-import { Dimensions, NativeModules, Platform, StatusBar } from 'react-native'
+import { NativeModules, Platform } from 'react-native'
 import { Exercise, Music, Pause } from '../types/pause'
 import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings'
 import { Color } from '../types/theme'
@@ -19,9 +19,6 @@ import music from '../config/music.json'
 import exercises from '../config/exercises.json'
 import colors from '../config/colors.json'
 
-export const { width, height } = Dimensions.get('window')
-export const STATUS_BAR_HEIGHT = StatusBar.currentHeight ?? 20
-
 export const getLocale = () => {
 	const locale =
 		Platform.OS === 'ios'
@@ -32,6 +29,18 @@ export const getLocale = () => {
 	}
 	return 'en'
 }
+
+export const getShadowOpt = (size: number) => ({
+	width: size,
+	height: size,
+	color: '#000',
+	border: size * 0.2,
+	radius: size / 2,
+	opacity: 0.1,
+	x: 0,
+	y: 0,
+	style: { marginVertical: 0 },
+})
 
 export const getRandomPause = (pause: Pause, settings: Settings): Pause => ({
 	music: getRandomMusic(pause.music, settings.level),
@@ -56,15 +65,15 @@ export const getNextLevelBenefits = (level: number): NextLevelBenefits => {
 	}
 }
 
-export const addBackgroundColor = (baseStyles: {}, backgroundColor: string): ViewType => ({
-	...baseStyles,
-	backgroundColor,
-})
+export const addBackgroundColor = (baseStyles: {}, backgroundColor: string): ViewType => [
+	baseStyles,
+	{ backgroundColor },
+]
 
-export const addTextColor = (baseStyles: {}, textColor: string): TextType => ({
-	...baseStyles,
-	color: textColor,
-})
+export const addTextColor = (baseStyles: {}, textColor: string): TextType => [
+	baseStyles,
+	{ color: textColor },
+]
 
 export const getColorGrayscale = (color: string): number => {
 	const preparedColor = color.substring(1, 7)
@@ -81,11 +90,6 @@ export const pickTextColor = (bgColor: string) =>
 	getColorGrayscale(bgColor) > 120 ? '#292b2c' : '#efefef'
 
 export const timeout = async (time: number) => new Promise((resolve) => setTimeout(resolve, time))
-
-export const concatStyles = (firstStyles = {}, secondStyles = {}): {} => ({
-	...firstStyles,
-	...secondStyles,
-})
 
 export const getVariety = (value: number, singular: string, plural: string, genitive?: string) =>
 	`${getVarietyOption(value, singular, plural, genitive)}`

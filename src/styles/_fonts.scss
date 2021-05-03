@@ -1,0 +1,99 @@
+@mixin text-bold {
+	font-family: 'Lato-Bold';
+}
+
+@mixin text-light {
+	font-family: 'Lato-Light';
+}
+
+@mixin heading-40 {
+	font-size: 2.5rem;
+	letter-spacing: 2.22px;
+	line-height: 3.025rem;
+}
+
+@mixin heading-34 {
+	font-size: 2.25rem;
+	letter-spacing: 0.25px;
+	line-height: 2.625rem;
+}
+
+@mixin heading-30 {
+	font-size: 1.875rem;
+	line-height: 2.25rem;
+}
+
+@mixin heading-28 {
+	font-size: 1.75rem;
+	line-height: 2.125rem;
+}
+
+@mixin heading-26 {
+	font-size: 1.625rem;
+	line-height: 1.5rem;
+}
+
+@mixin heading-24 {
+	font-size: 1.5rem;
+	line-height: 1.75rem;
+}
+
+@mixin heading-22 {
+	font-size: 1.375rem;
+	line-height: 1.5rem;
+}
+
+@mixin heading-20 {
+	font-size: 1.25rem;
+	line-height: 1.5rem;
+}
+
+@mixin heading-18 {
+	font-size: 1.125rem;
+	line-height: 1rem;
+}
+
+@mixin heading-16 {
+	font-size: 1rem;
+	line-height: 1.2rem;
+}
+
+@mixin text-18 {
+	font-size: 1.125rem;
+	line-height: 1.75rem;
+}
+
+@mixin text-16 {
+	font-size: 1rem;
+	line-height: 1.5rem;
+}
+
+@mixin text-15 {
+	font-size: 0.9375rem;
+	line-height: 1.25rem;
+}
+
+@mixin text-14 {
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+}
+
+@mixin text-13 {
+	font-size: 0.8125rem;
+	line-height: 1.25rem;
+}
+
+@mixin text-12 {
+	font-size: 0.75rem;
+	line-height: 1rem;
+}
+
+@mixin text-11 {
+	font-size: 0.6875rem;
+	line-height: 1rem;
+}
+
+@mixin text-10 {
+	font-size: 0.625rem;
+	line-height: 0.625rem;
+}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ScrollView, Text, View, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
+import { BoxShadow } from 'react-native-shadow'
 import styles from './Profile.scss'
 
 //Components
@@ -28,8 +29,9 @@ import {
 	pickTextColor,
 	getPointsToLevelUp,
 	getVariety,
+	getShadowOpt,
 } from '../../utils/helpers'
-import { optionalColor, shadowButton } from '../../utils/consts'
+import { optionalColor } from '../../utils/consts'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -151,11 +153,13 @@ const Profile = ({ navigation }: Props) => {
 			</ScrollView>
 
 			<View style={styles.colorConfigButtonPosition as ViewType}>
-				<TouchableOpacity onPress={() => setModalVisible(true)}>
-					<View style={[addBackgroundColor(styles.colorConfigButton, theme.third), shadowButton]}>
-						<Icon name='color-palette-outline' type='ionicon' color={optionalColor} size={30} />
-					</View>
-				</TouchableOpacity>
+				<BoxShadow setting={getShadowOpt(60)}>
+					<TouchableOpacity onPress={() => setModalVisible(true)}>
+						<View style={addBackgroundColor(styles.colorConfigButton, theme.third)}>
+							<Icon name='color-palette-outline' type='ionicon' color={optionalColor} size={30} />
+						</View>
+					</TouchableOpacity>
+				</BoxShadow>
 			</View>
 		</>
 	)

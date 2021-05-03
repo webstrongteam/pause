@@ -9,29 +9,15 @@ import {
 	pickTextColor,
 	getRandomPause,
 	addTextColor,
+	getShadowOpt,
 } from '../../utils/helpers'
-
 import WavyHeader from '../../components/WavyHeader/WavyHeader'
 import Modal from '../../components/Modal/Modal'
-
-import styles from './Pause.scss'
-
 import { usePauseContext } from '../../utils/context/PauseContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import Header from '../../components/Header/Header'
-
-const shadowOpt = {
-	width: 80,
-	height: 80,
-	color: '#000',
-	border: 10,
-	radius: 40,
-	opacity: 0.2,
-	x: 0,
-	y: 0,
-	style: { marginVertical: 0 },
-}
+import styles from './Pause.scss'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -83,44 +69,44 @@ const Pause = ({ navigation }: Props) => {
 				<View style={styles.modalInfo as ViewType}>
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
-							<Text style={styles.fontLight as TextType}>
+							<Text style={styles.textLight as TextType}>
 								{translations.Pause.seriesDurationTime}
 							</Text>
 						</View>
 						<View>
-							<Text style={styles.fontWeight as TextType}>
+							<Text style={styles.textBold as TextType}>
 								{pause.exercise.time[settings.time].exerciseTime}s
 							</Text>
 						</View>
 					</View>
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
-							<Text style={styles.fontLight as TextType}>{translations.Pause.numberOfReps}</Text>
+							<Text style={styles.textLight as TextType}>{translations.Pause.numberOfReps}</Text>
 						</View>
 						<View>
-							<Text style={styles.fontWeight as TextType}>
+							<Text style={styles.textBold as TextType}>
 								{pause.exercise.time[settings.time].exerciseCount}
 							</Text>
 						</View>
 					</View>
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
-							<Text style={styles.fontLight as TextType}>
+							<Text style={styles.textLight as TextType}>
 								{translations.Pause.breakDurationTime}
 							</Text>
 						</View>
 						<View>
-							<Text style={styles.fontWeight as TextType}>
+							<Text style={styles.textBold as TextType}>
 								{pause.exercise.time[settings.time].pauseTime}s
 							</Text>
 						</View>
 					</View>
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
-							<Text style={styles.fontLight as TextType}>{translations.Pause.totalTime}</Text>
+							<Text style={styles.textLight as TextType}>{translations.Pause.totalTime}</Text>
 						</View>
 						<View>
-							<Text style={styles.fontWeight as TextType}>
+							<Text style={styles.textBold as TextType}>
 								{minutes} min {seconds}s
 							</Text>
 						</View>
@@ -132,27 +118,27 @@ const Pause = ({ navigation }: Props) => {
 				<Header closeIconHandler={() => navigation.goBack()} />
 
 				<View style={styles.headerContainer as ViewType}>
-					<Text style={addTextColor(styles.text, theme.primary)}>
+					<Text style={addTextColor(styles.exerciseHeading, theme.primary)}>
 						{translations.Pause.exercise}
 					</Text>
-					<Text style={addTextColor(styles.exerciseStyle, theme.primary)}>
+					<Text style={addTextColor(styles.exerciseName, theme.primary)}>
 						{pause.exercise?.name}
 					</Text>
 				</View>
 			</WavyHeader>
 
-			<View style={styles.centreInfo as ViewType}>
+			<View style={styles.exerciseInfoWrapper as ViewType}>
 				<View style={styles.exerciseInfo as ViewType}>
-					<Text style={addTextColor(styles.firstInfo, pickTextColor(theme.primary))}>
+					<Text style={addTextColor(styles.exerciseInfoHeading, pickTextColor(theme.primary))}>
 						{translations.Pause.durationTime}
 					</Text>
 					<TouchableOpacity onPress={openModal}>
-						<View style={styles.secondInfo as ViewType}>
-							<Text style={addTextColor(styles.secondInfoIcon, pickTextColor(theme.primary))}>
+						<View style={styles.exerciseInfoElement as ViewType}>
+							<Text style={addTextColor(styles.exerciseInfoText, pickTextColor(theme.primary))}>
 								{pause.exercise.time[settings.time].exerciseTime}s
 							</Text>
-							<Text style={addTextColor(styles.secondInfoIcon, pickTextColor(theme.primary))}>
-								x{pause.exercise.time[settings.time].exerciseCount}
+							<Text style={addTextColor(styles.exerciseInfoText, pickTextColor(theme.primary))}>
+								&nbsp;&nbsp;&nbsp;x{pause.exercise.time[settings.time].exerciseCount}
 							</Text>
 							<View>
 								<Icon name='info' type='feather' color={pickTextColor(theme.primary)} size={20} />
@@ -162,17 +148,17 @@ const Pause = ({ navigation }: Props) => {
 				</View>
 
 				<View style={styles.exerciseInfo as ViewType}>
-					<Text style={addTextColor(styles.firstInfo, pickTextColor(theme.primary))}>
+					<Text style={addTextColor(styles.exerciseInfoHeading, pickTextColor(theme.primary))}>
 						{translations.Pause.music}
 					</Text>
-					<Text style={addTextColor(styles.secondInfo, pickTextColor(theme.primary))}>
+					<Text style={addTextColor(styles.exerciseInfoText, pickTextColor(theme.primary))}>
 						{pause.music.name}
 					</Text>
 				</View>
 			</View>
 
 			<View style={styles.bottomIcons as ViewType}>
-				<BoxShadow setting={shadowOpt}>
+				<BoxShadow setting={getShadowOpt(80)}>
 					<TouchableOpacity onPress={drawNewPauseHandler}>
 						<View
 							style={[
@@ -190,7 +176,7 @@ const Pause = ({ navigation }: Props) => {
 					</TouchableOpacity>
 				</BoxShadow>
 
-				<BoxShadow setting={shadowOpt}>
+				<BoxShadow setting={getShadowOpt(80)}>
 					<TouchableOpacity onPress={() => navigation.navigate('Player')}>
 						<View
 							style={[
