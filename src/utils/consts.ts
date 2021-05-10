@@ -10,9 +10,9 @@ export const headerHeight = height / 7
 export const centerHeight = height * 0.4
 
 // Levels
-export const basePoints = 75
-export const baseLevelPoints = 220
-export const progressMultiplier = 10
+export const baseExercisePoints = 75
+export const baseLevelPoints = 60
+export const progressSqrt = 5
 
 // Times
 export const shortTimeMultiplier = 1

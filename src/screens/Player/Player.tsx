@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Animated, View, Text, Image, BackHandler } from 'react-native'
+import { Animated, View, Text, Image, BackHandler, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { Audio } from 'expo-av'
 import { Sound } from 'expo-av/build/Audio'
@@ -76,6 +76,7 @@ const Player = ({ navigation }: Props) => {
 
 		setAudio(sound)
 	}
+
 	const loadSoundEffects = async () => {
 		// eslint-disable-next-line @typescript-eslint/no-var-requires
 		const pause = await Audio.Sound.createAsync(require('../../../assets/soundEffects/pause.mp3'), {
@@ -314,18 +315,19 @@ const Player = ({ navigation }: Props) => {
 					<Text style={addTextColor(styles.infoText, pickTextColor(theme.primary))}>
 						{exercise.name}
 					</Text>
-					<View style={styles.musicInfo as ViewType}>
-						<Text style={addTextColor(styles.infoText, pickTextColor(theme.primary))}>
-							{music.name}
-						</Text>
-						<Icon
-							name={isMuted ? 'volume-x' : 'volume-2'}
-							type='feather'
-							color={pickTextColor(theme.primary)}
-							size={20}
-							onPress={muteSoundHandler}
-						/>
-					</View>
+					<TouchableOpacity onPress={muteSoundHandler}>
+						<View style={styles.musicInfo as ViewType}>
+							<Text style={addTextColor(styles.infoText, pickTextColor(theme.primary))}>
+								{music.name}
+							</Text>
+							<Icon
+								name={isMuted ? 'volume-x' : 'volume-2'}
+								type='feather'
+								color={pickTextColor(theme.primary)}
+								size={20}
+							/>
+						</View>
+					</TouchableOpacity>
 				</View>
 				<Text style={addTextColor(styles.playerCounter, pickTextColor(theme.primary))}>
 					{fullTime}s

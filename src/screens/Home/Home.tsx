@@ -27,6 +27,7 @@ import {
 	pickTextColor,
 	getPointsToLevelUp,
 	getRandomPause,
+	timeout,
 } from '../../utils/helpers'
 
 // Hooks
@@ -36,6 +37,8 @@ import useShowMessage from '../../utils/hooks/useShowMessage'
 type Props = {
 	navigation: NavigationScreenType
 }
+
+const PROGRESS_ANIMATION_DURATION = 4000
 
 const Home = ({ navigation }: Props) => {
 	//Contexts
@@ -58,16 +61,17 @@ const Home = ({ navigation }: Props) => {
 	const [currentPoints, setCurrentPoints] = useState(
 		settings.points - getPointsToLevelUp(settings.level - 1),
 	)
-	const [maxPoints, setMaxPoints] = useState(
-		getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1),
-	)
+
 	const [currentLevel, setCurrentLevel] = useState(settings.level)
 	const [modalVisible, setModalVisible] = useState(false)
 
-	const pointsAfterFinishExercise = settings.points + pause.points
-	const levelUpAfterFinishExercise = pointsAfterFinishExercise > getPointsToLevelUp(settings.level)
+	const pointsAfterFinishExercise: number = settings.points + pause.points
+	const levelUpAfterFinishExercise: boolean =
+		pointsAfterFinishExercise >= getPointsToLevelUp(settings.level)
+	const pointsToLevelUp =
+		getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1)
 
-	const showMessage = useShowMessage({
+	const showFinishedExerciseMessage = useShowMessage({
 		message: `${translations.common.breakEnded} +${pause.points}p`,
 		backgroundColor: theme.primary,
 	})
@@ -80,36 +84,35 @@ const Home = ({ navigation }: Props) => {
 
 	const finishExercise = async () => {
 		const finished = navigation.getParam('finished', false)
-		if (finished) {
-			showMessage()
+		if (!finished) return
 
-			if (levelUpAfterFinishExercise) {
-				setCurrentPoints(maxPoints)
-				settingsContext.setSettings(
-					await changeLevelAndPoints(settings.level + 1, pointsAfterFinishExercise),
-				)
-				setModalVisible(true)
+		showFinishedExerciseMessage()
 
-				setTimeout(() => {
-					setAnimate(false)
-					setCurrentPoints(0)
-				}, 5000)
+		if (levelUpAfterFinishExercise) {
+			setCurrentPoints(pointsToLevelUp)
+			settingsContext.setSettings(
+				await changeLevelAndPoints(settings.level + 1, pointsAfterFinishExercise),
+			)
+			setModalVisible(true)
 
-				setTimeout(() => {
-					setAnimate(true)
-					setCurrentPoints(pointsAfterFinishExercise - getPointsToLevelUp(settings.level))
-					setMaxPoints(getPointsToLevelUp(settings.level) - getPointsToLevelUp(settings.level - 1))
-					setCurrentLevel(settings.level + 1)
-					navigation.setParams({ finished: false })
-				}, 5100)
-			} else {
-				settingsContext.setSettings(
-					await changeLevelAndPoints(settings.level, pointsAfterFinishExercise),
-				)
-				setCurrentPoints(pointsAfterFinishExercise - getPointsToLevelUp(settings.level - 1))
-				navigation.setParams({ finished: false })
-			}
+			await timeout(PROGRESS_ANIMATION_DURATION)
+
+			setAnimate(false)
+			setCurrentPoints(0)
+
+			await timeout(100)
+
+			setAnimate(true)
+			setCurrentPoints(pointsAfterFinishExercise - getPointsToLevelUp(settings.level))
+			setCurrentLevel(settings.level + 1)
+		} else {
+			settingsContext.setSettings(
+				await changeLevelAndPoints(settings.level, pointsAfterFinishExercise),
+			)
+			setCurrentPoints(pointsAfterFinishExercise - getPointsToLevelUp(settings.level - 1))
 		}
+
+		navigation.setParams({ finished: false })
 	}
 
 	useAsyncEffect(async () => {
@@ -147,7 +150,7 @@ const Home = ({ navigation }: Props) => {
 			<Footer
 				animate={animate}
 				currentValue={currentPoints}
-				maxValue={maxPoints}
+				maxValue={pointsToLevelUp}
 				barColor={theme.progress}
 				backgroundColor={theme.primary}
 				animateConfig={{
@@ -155,7 +158,7 @@ const Home = ({ navigation }: Props) => {
 						settings.level > 1
 							? settings.points - getPointsToLevelUp(settings.level - 1)
 							: settings.points,
-					duration: 5000,
+					duration: PROGRESS_ANIMATION_DURATION,
 					useNativeDriver: false,
 				}}
 			>

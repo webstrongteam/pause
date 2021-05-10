@@ -4,14 +4,14 @@ import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings
 import { Color } from '../types/theme'
 import { TextType, ViewType } from '../types/styles'
 import {
+	baseExercisePoints,
 	baseLevelPoints,
-	basePoints,
 	easyDifficultyMultiplier,
 	hardDifficultyMultiplier,
 	longMultiplier,
 	mediumDifficultyMultiplier,
 	mediumTimeMultiplier,
-	progressMultiplier,
+	progressSqrt,
 	shortTimeMultiplier,
 } from './consts'
 
@@ -45,11 +45,17 @@ export const getShadowOpt = (size: number) => ({
 export const getRandomPause = (pause: Pause, settings: Settings): Pause => ({
 	music: getRandomMusic(pause.music, settings.level),
 	exercise: getRandomExercises(pause.exercise, settings.level, settings.difficulty),
-	points: +(basePoints * getPointsMultiplier(settings.time, settings.difficulty)).toFixed(0),
+	points: +(baseExercisePoints * getPointsMultiplier(settings.time, settings.difficulty)).toFixed(
+		0,
+	),
 })
 
-export const getPointsToLevelUp = (level: number): number =>
-	+(baseLevelPoints * level + level * progressMultiplier).toFixed(0)
+export const getPointsToLevelUp = (level: number): number => {
+	if (!level) return 0
+
+	const nextLevel = level + 1
+	return +(baseLevelPoints * nextLevel * (nextLevel * Math.sqrt(progressSqrt))).toFixed(0)
+}
 
 export const getNextLevelBenefits = (level: number): NextLevelBenefits => {
 	const nextLevelMusic = (music as Music[]).filter((m) => m.requiredLevel === level + 1)
@@ -89,7 +95,7 @@ export const pickTextColor = (bgColor: string) =>
 	// Check overall intensity
 	getColorGrayscale(bgColor) > 120 ? '#292b2c' : '#efefef'
 
-export const timeout = async (time: number) => new Promise((resolve) => setTimeout(resolve, time))
+export const timeout = async (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const getVariety = (value: number, singular: string, plural: string, genitive?: string) =>
 	`${getVarietyOption(value, singular, plural, genitive)}`

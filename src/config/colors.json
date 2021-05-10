@@ -26,23 +26,23 @@
 	},
 	{
 		"color": "#f0ad4e",
-		"requiredLevel": 3
-	},
-	{
-		"color": "#5bc0de",
 		"requiredLevel": 4
 	},
 	{
+		"color": "#5bc0de",
+		"requiredLevel": 5
+	},
+	{
 		"color": "#d9534f",
-		"requiredLevel": 6
+		"requiredLevel": 7
 	},
 	{
 		"color": "#292b2c",
-		"requiredLevel": 6
+		"requiredLevel": 7
 	},
 	{
 		"color": "#723147",
-		"requiredLevel": 7
+		"requiredLevel": 9
 	},
 	{
 		"color": "#8653C9",
