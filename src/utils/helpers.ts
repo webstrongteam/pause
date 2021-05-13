@@ -3,6 +3,7 @@ import { Exercise, Music, Pause } from '../types/pause'
 import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings'
 import { Color } from '../types/theme'
 import { TextType, ViewType } from '../types/styles'
+import config from '../config/config'
 import {
 	baseExercisePoints,
 	baseLevelPoints,
@@ -15,9 +16,9 @@ import {
 	shortTimeMultiplier,
 } from './consts'
 
-import music from '../config/music.json'
-import exercises from '../config/exercises.json'
-import colors from '../config/colors.json'
+import music from '../resources/music.json'
+import exercises from '../resources/exercises.json'
+import colors from '../resources/colors.json'
 
 export const getLocale = () => {
 	const locale =
@@ -178,3 +179,10 @@ const difficultyMultiplierMap: Record<Difficulty, number> = {
 
 const getPointsMultiplier = (time: Time, difficulty: Difficulty) =>
 	timeMultiplierMap[time] + difficultyMultiplierMap[difficulty]
+
+export const logConfigStatus = () => {
+	/* eslint-disable no-console */
+	console.info(`Sentry: ${config.SETUP_SENTRY}`)
+	console.info(`Google Analytics: ${config.SETUP_ANALYTICS}`)
+	console.info('To change this setup, edit config.ts file.')
+}

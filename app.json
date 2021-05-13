@@ -13,10 +13,6 @@
 			"resizeMode": "cover",
 			"backgroundColor": "#ffffff"
 		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": ["**/*"],
 		"ios": {
 			"buildNumber": "1.0.0",
 			"bundleIdentifier": "com.webStrong.pause",
@@ -26,6 +22,10 @@
 			"package": "com.webStrong.pause",
 			"versionCode": 1000
 		},
+		"updates": {
+			"fallbackToCacheTimeout": 0
+		},
+		"assetBundlePatterns": ["**/*"],
 		"packagerOpts": {
 			"config": "metro.config.js",
 			"sourceExts": ["ts", "tsx", "scss", "sass"]

@@ -1,9 +1,9 @@
 import React, { PropsWithChildren } from 'react'
 import { createStateContext } from '../createStateContext'
 import { Theme } from '../../types/theme'
-import colors from '../../config/colors.json'
 import { getTheme } from '../../../database/actions/theme'
 import useAsyncEffect from '../hooks/useAsyncEffect'
+import colors from '../../resources/colors.json'
 
 export const themeInitialState: Theme = {
 	primary: '',

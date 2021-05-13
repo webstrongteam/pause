@@ -1,6 +1,8 @@
 import { ColorType, Theme } from '../../src/types/theme'
 import { db } from '../db'
 import { defaultTheme } from '../../src/utils/consts'
+import { sentryError } from '../../src/utils/sentryEvent'
+import logEvent from '../../src/utils/logEvent'
 
 export const getTheme = (): Promise<Theme> =>
 	new Promise((resolve, reject) => {
@@ -8,6 +10,10 @@ export const getTheme = (): Promise<Theme> =>
 			(tx) => {
 				tx.executeSql('select * from theme;', [], (_, { rows }) => {
 					const colors = rows.item(0)
+
+					if (!colors) {
+						sentryError('Missing colors in theme table!')
+					}
 
 					resolve({
 						primary: colors.primaryColor,
@@ -17,7 +23,10 @@ export const getTheme = (): Promise<Theme> =>
 					})
 				})
 			},
-			(err) => reject(err),
+			(err) => {
+				sentryError(err)
+				reject(err)
+			},
 		)
 	})
 
@@ -27,13 +36,22 @@ export const changeColor = (color: string, type: ColorType): Promise<Theme> =>
 			(tx) => {
 				tx.executeSql(`update theme set ${type}Color = ? where id = 0;`, [color], () => {
 					try {
+						logEvent('Change color', {
+							component: 'actions',
+							color,
+						})
+
 						resolve(getTheme())
 					} catch (e) {
+						sentryError(e)
 						reject(e)
 					}
 				})
 			},
-			(err) => reject(err),
+			(err) => {
+				sentryError(err)
+				reject(err)
+			},
 		)
 	})
 
@@ -48,11 +66,15 @@ export const restartTheme = (): Promise<Theme> =>
 						try {
 							resolve(getTheme())
 						} catch (e) {
+							sentryError(e)
 							reject(e)
 						}
 					},
 				)
 			},
-			(err) => reject(err),
+			(err) => {
+				sentryError(err)
+				reject(err)
+			},
 		)
 	})

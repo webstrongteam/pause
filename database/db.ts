@@ -2,6 +2,8 @@ import { openDatabase } from 'expo-sqlite'
 import app from '../app.json'
 import { getLocale } from '../src/utils/helpers'
 import { defaultTheme } from '../src/utils/consts'
+import { sentryError } from '../src/utils/sentryEvent'
+import logEvent from '../src/utils/logEvent'
 
 export const VERSION = app.expo.version
 export const db = openDatabase('pause.db', VERSION)
@@ -30,8 +32,7 @@ export const initDatabase = (callback: () => void) => {
 				},
 			)
 		},
-		// eslint-disable-next-line no-console
-		(err) => console.log(err),
+		(err) => sentryError(err),
 	)
 }
 
@@ -45,6 +46,10 @@ export const setupDatabase = (callback: () => void) => {
 
 				if (version !== VERSION) {
 					if (version.includes('_INIT')) {
+						logEvent('firstSetup', {
+							name: 'startedApp',
+						})
+
 						tx.executeSql('UPDATE settings SET version = ? WHERE id = 0;', [VERSION], () => {
 							callback()
 						})

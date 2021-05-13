@@ -1,5 +1,7 @@
 import { Difficulty, Lang, Settings, Time } from '../../src/types/settings'
 import { db } from '../db'
+import { sentryError } from '../../src/utils/sentryEvent'
+import logEvent from '../../src/utils/logEvent'
 
 export const getSettings = (): Promise<Settings> =>
 	new Promise((resolve, reject) => {
@@ -9,7 +11,10 @@ export const getSettings = (): Promise<Settings> =>
 					resolve(rows.item(0))
 				})
 			},
-			(err) => reject(err),
+			(err) => {
+				sentryError(err)
+				reject(err)
+			},
 		)
 	})
 
@@ -19,13 +24,21 @@ export const changeLanguage = (lang: Lang): Promise<Settings> =>
 			(tx) => {
 				tx.executeSql('update settings set lang = ? where id = 0;', [lang], () => {
 					try {
+						logEvent('Change language', {
+							component: 'actions',
+						})
+
 						resolve(getSettings())
 					} catch (e) {
+						sentryError(e)
 						reject(e)
 					}
 				})
 			},
-			(err) => reject(err),
+			(err) => {
+				sentryError(err)
+				reject(err)
+			},
 		)
 	})
 
@@ -38,14 +51,24 @@ export const changeLevelAndPoints = (level: number, points: number): Promise<Set
 					[level, points],
 					() => {
 						try {
+							logEvent('Change level and points', {
+								component: 'actions',
+								level,
+								points,
+							})
+
 							resolve(getSettings())
 						} catch (e) {
+							sentryError(e)
 							reject(e)
 						}
 					},
 				)
 			},
-			(err) => reject(err),
+			(err) => {
+				sentryError(err)
+				reject(err)
+			},
 		)
 	})
 
@@ -55,13 +78,21 @@ export const changeDifficulty = (difficulty: Difficulty): Promise<Settings> =>
 			(tx) => {
 				tx.executeSql('update settings set difficulty = ? where id = 0;', [difficulty], () => {
 					try {
+						logEvent('Change difficulty', {
+							component: 'actions',
+						})
+
 						resolve(getSettings())
 					} catch (e) {
+						sentryError(e)
 						reject(e)
 					}
 				})
 			},
-			(err) => reject(err),
+			(err) => {
+				sentryError(err)
+				reject(err)
+			},
 		)
 	})
 
@@ -71,13 +102,21 @@ export const changeTime = (time: Time): Promise<Settings> =>
 			(tx) => {
 				tx.executeSql('update settings set time = ? where id = 0;', [time], () => {
 					try {
+						logEvent('Change time', {
+							component: 'actions',
+						})
+
 						resolve(getSettings())
 					} catch (e) {
+						sentryError(e)
 						reject(e)
 					}
 				})
 			},
-			(err) => reject(err),
+			(err) => {
+				sentryError(err)
+				reject(err)
+			},
 		)
 	})
 
@@ -92,11 +131,15 @@ export const restartSettings = (): Promise<Settings> =>
 						try {
 							resolve(getSettings())
 						} catch (e) {
+							sentryError(e)
 							reject(e)
 						}
 					},
 				)
 			},
-			(err) => reject(err),
+			(err) => {
+				sentryError(err)
+				reject(err)
+			},
 		)
 	})

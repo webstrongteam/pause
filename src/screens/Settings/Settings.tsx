@@ -28,6 +28,8 @@ import Header from '../../components/Header/Header'
 import { addBackgroundColor, addTextColor } from '../../utils/helpers'
 import { optionalColor } from '../../utils/consts'
 import { restartTheme } from '../../../database/actions/theme'
+import { sentryError } from '../../utils/sentryEvent'
+import logEvent from '../../utils/logEvent'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -52,7 +54,10 @@ const SettingsScreen = ({ navigation }: Props) => {
 	const translations = useSubscribe((s) => s.translations)
 	const theme = themeContext.useSubscribe((t) => t)
 
-	if (!settings) return <></>
+	if (!settings) {
+		sentryError('Missing data from context in Settings')
+		return <></>
+	}
 
 	const showFailureMessage = useShowFailureMessage()
 	const showMessage = useShowMessage({
@@ -125,12 +130,18 @@ const SettingsScreen = ({ navigation }: Props) => {
 
 	const resetSettingsHandler = async () => {
 		try {
+			await logEvent('Reset settings and theme', {
+				component: 'Settings',
+			})
+
 			setSettings(await restartSettings())
 			themeContext.setTheme(await restartTheme())
 			showMessage()
 		} catch (error) {
+			sentryError(error)
 			showFailureMessage()
 		}
+
 		setModalVisible(false)
 	}
 

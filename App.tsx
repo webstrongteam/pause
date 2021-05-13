@@ -9,6 +9,9 @@ import { setupDatabase } from './database/db'
 import { SettingsContextProvider } from './src/utils/context/SettingsContext'
 import { PauseContextProvider } from './src/utils/context/PauseContext'
 import { ThemeContextProvider } from './src/utils/context/ThemeContext'
+import sentryConfig from './src/config/sentry'
+import { logConfigStatus } from './src/utils/helpers'
+import logEvent from './src/utils/logEvent'
 
 export default function App() {
 	const [loading, setLoading] = useState<boolean>(true)
@@ -32,7 +35,14 @@ export default function App() {
 		}
 		setCustomText(customTextProps)
 
+		sentryConfig()
+		logConfigStatus()
+
 		setupDatabase(() => {
+			logEvent('successStartedApp', {
+				name: 'startedApp',
+			})
+
 			setLoading(false)
 		})
 	}

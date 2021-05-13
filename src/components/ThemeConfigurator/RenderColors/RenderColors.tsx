@@ -16,7 +16,7 @@ import { addBackgroundColor, pickTextColor } from '../../../utils/helpers'
 import { changeColor } from '../../../../database/actions/theme'
 
 //Config
-import colors from '../../../config/colors.json'
+import colors from '../../../resources/colors.json'
 
 type Props = {
 	type: ColorType

@@ -18,6 +18,8 @@ import { useThemeContext } from '../../utils/context/ThemeContext'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import Header from '../../components/Header/Header'
 import styles from './Pause.scss'
+import { sentryError } from '../../utils/sentryEvent'
+import logEvent from '../../utils/logEvent'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -25,8 +27,6 @@ type Props = {
 
 const Pause = ({ navigation }: Props) => {
 	const [modalVisible, setModalVisible] = useState(false)
-	const [minutes, setMinutes] = useState(0)
-	const [seconds, setSeconds] = useState(0)
 
 	const pauseContext = usePauseContext()
 	const themeContext = useThemeContext()
@@ -38,19 +38,34 @@ const Pause = ({ navigation }: Props) => {
 	const theme = themeContext.useSubscribe((t) => t)
 
 	if (!pause.music || !pause.exercise) {
+		sentryError('Missing data from context in Pause')
 		return <></>
 	}
 
-	const maxTime = pause.exercise.time[settings.time].totalTime
+	const totalPauseTime = pause.exercise.time[settings.time].totalTime
+	const pauseMinutes = Math.floor(totalPauseTime / 60)
+	const pauseSeconds = Math.floor(totalPauseTime % 60)
 
 	const drawNewPauseHandler = () => {
+		logEvent('Draw new pause', {
+			component: 'Pause',
+			pauseBeforeDraw: pause,
+		})
+
 		pauseContext.setPause(getRandomPause(pause, settings))
 	}
 
 	const openModal = () => {
 		setModalVisible(true)
-		setMinutes(Math.floor(maxTime / 60))
-		setSeconds(Math.floor(maxTime % 60))
+	}
+
+	const moveToPlayer = () => {
+		logEvent('Move to player', {
+			component: 'Player',
+			pause,
+		})
+
+		navigation.navigate('Player')
 	}
 
 	return (
@@ -107,7 +122,7 @@ const Pause = ({ navigation }: Props) => {
 						</View>
 						<View>
 							<Text style={styles.textBold as TextType}>
-								{minutes} min {seconds}s
+								{pauseMinutes} min {pauseSeconds}s
 							</Text>
 						</View>
 					</View>
@@ -177,7 +192,7 @@ const Pause = ({ navigation }: Props) => {
 				</BoxShadow>
 
 				<BoxShadow setting={getShadowOpt(80)}>
-					<TouchableOpacity onPress={() => navigation.navigate('Player')}>
+					<TouchableOpacity onPress={moveToPlayer}>
 						<View
 							style={[
 								addBackgroundColor(styles.icon, theme.primary),

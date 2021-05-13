@@ -24,6 +24,8 @@ import { useThemeContext } from '../../utils/context/ThemeContext'
 
 import Header from '../../components/Header/Header'
 import StatusBar from '../../components/UI/StatusBar/StatusBar'
+import { sentryError } from '../../utils/sentryEvent'
+import logEvent from '../../utils/logEvent'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -45,6 +47,7 @@ const Player = ({ navigation }: Props) => {
 	const theme = themeContext.useSubscribe((t) => t)
 
 	if (!music || !exercise || !time) {
+		sentryError('Missing data from context in Player')
 		return <></>
 	}
 
@@ -136,6 +139,13 @@ const Player = ({ navigation }: Props) => {
 		if (finishEffect) await soundControl('unloadAsync', finishEffect)
 		if (audio) await soundControl('unloadAsync', audio)
 
+		if (!finished) {
+			logEvent('Exit from pending pause', {
+				component: 'Player',
+				currentPause: { music, exercise, time },
+			})
+		}
+
 		navigation.replace('Home', { finished })
 	}
 
@@ -158,6 +168,13 @@ const Player = ({ navigation }: Props) => {
 
 	const muteSoundHandler = async () => {
 		if (audio) {
+			if (!isMuted) {
+				logEvent('Mute music', {
+					component: 'Player',
+					music,
+				})
+			}
+
 			await audio.setIsMutedAsync(!isMuted)
 			setIsMuted(!isMuted)
 		}

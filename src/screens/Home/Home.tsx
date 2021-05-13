@@ -33,6 +33,8 @@ import {
 // Hooks
 import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
 import useShowMessage from '../../utils/hooks/useShowMessage'
+import { sentryError } from '../../utils/sentryEvent'
+import logEvent from '../../utils/logEvent'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -53,6 +55,7 @@ const Home = ({ navigation }: Props) => {
 	const pause = pauseContext.useSubscribe((p) => p)
 
 	if (!settings || !pause.points) {
+		sentryError('Missing data from context in Home')
 		return <></>
 	}
 
@@ -78,6 +81,10 @@ const Home = ({ navigation }: Props) => {
 
 	//Handlers and functions
 	const pauseHandler = () => {
+		logEvent('Move to pause screen', {
+			component: 'Home',
+		})
+
 		pauseContext.setPause(getRandomPause(pause, settings))
 		navigation.navigate('PauseScreen')
 	}
@@ -86,9 +93,17 @@ const Home = ({ navigation }: Props) => {
 		const finished = navigation.getParam('finished', false)
 		if (!finished) return
 
+		logEvent('Finish pause', {
+			component: 'Home',
+		})
+
 		showFinishedExerciseMessage()
 
 		if (levelUpAfterFinishExercise) {
+			logEvent(`Level up - ${settings.level + 1}`, {
+				component: 'Home',
+			})
+
 			setCurrentPoints(pointsToLevelUp)
 			settingsContext.setSettings(
 				await changeLevelAndPoints(settings.level + 1, pointsAfterFinishExercise),

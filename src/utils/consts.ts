@@ -1,5 +1,5 @@
 import { Dimensions, StatusBar } from 'react-native'
-import colors from '../config/colors.json'
+import colors from '../resources/colors.json'
 
 export const optionalColor = '#5A5A5A'
 

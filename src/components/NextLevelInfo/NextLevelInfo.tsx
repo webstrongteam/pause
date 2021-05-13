@@ -27,11 +27,7 @@ const NextLevelBenefits = ({
 }: Props) => {
 	const { useSubscribe } = useSettingsContext()
 	const translations = useSubscribe((s) => s.translations.common)
-	const level = useSubscribe((s) => s.settings?.level)
-
-	if (!level) {
-		return <></>
-	}
+	const level = useSubscribe((s) => s.settings?.level)!
 
 	const levelBenefits = getNextLevelBenefits(level)
 

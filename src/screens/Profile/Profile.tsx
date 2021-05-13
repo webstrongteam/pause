@@ -32,6 +32,7 @@ import {
 	getShadowOpt,
 } from '../../utils/helpers'
 import { optionalColor } from '../../utils/consts'
+import logEvent from '../../utils/logEvent'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -57,6 +58,15 @@ const Profile = ({ navigation }: Props) => {
 		setSelectedColorType(colorType)
 		setIsColorPicked(true)
 	}
+
+	const openModal = () => {
+		logEvent('Open modal with theme configurator', {
+			component: 'Profile',
+		})
+
+		setModalVisible(true)
+	}
+
 	const closeModal = () => {
 		setModalVisible(false)
 		setIsColorPicked(false)
@@ -154,7 +164,7 @@ const Profile = ({ navigation }: Props) => {
 
 			<View style={styles.colorConfigButtonPosition as ViewType}>
 				<BoxShadow setting={getShadowOpt(60)}>
-					<TouchableOpacity onPress={() => setModalVisible(true)}>
+					<TouchableOpacity onPress={openModal}>
 						<View style={addBackgroundColor(styles.colorConfigButton, theme.third)}>
 							<Icon name='color-palette-outline' type='ionicon' color={optionalColor} size={30} />
 						</View>
