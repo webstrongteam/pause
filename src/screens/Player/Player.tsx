@@ -1,20 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Animated, View, Text, Image, BackHandler, TouchableOpacity } from 'react-native'
-import { Icon } from 'react-native-elements'
-import { Audio } from 'expo-av'
+import { Animated, View, BackHandler } from 'react-native'
 import { Sound } from 'expo-av/build/Audio'
 import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
 import styles from './Player.scss'
-import { imageMap, musicMap, exerciseMap } from '../../utils/consts'
-import { timeout, pickTextColor, addTextColor } from '../../utils/helpers'
-
-//Components
-import WavyHeader from '../../components/WavyHeader/WavyHeader'
-import Footer from '../../components/Footer/Footer'
-import Modal from '../../components/Modal/Modal'
+import { musicMap } from '../../utils/consts'
+import { timeout } from '../../utils/helpers'
 
 //Types
-import { TextType, ViewType, ImageType } from '../../types/styles'
+import { ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
 
 //Contexts
@@ -22,10 +15,12 @@ import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { usePauseContext } from '../../utils/context/PauseContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
-import Header from '../../components/Header/Header'
 import StatusBar from '../../components/UI/StatusBar/StatusBar'
 import { sentryError } from '../../utils/sentryEvent'
 import logEvent from '../../utils/logEvent'
+import PlayerModals from './PlayerModals/PlayerModals'
+import PlayerFooter from './PlayerFooter/PlayerFooter'
+import PlayerVideo from './PlayerVideo/PlayerVideo'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -254,109 +249,15 @@ const Player = ({ navigation }: Props) => {
 
 	return (
 		<View style={styles.container as ViewType}>
-			<StatusBar bgColor={theme.primary} />
-
-			<Image style={styles.image as ImageType} source={imageMap[music.name]} />
-
-			<Modal
-				visible={modalVisible}
-				title={translations.Player.leaveExercise}
-				toggleModal={() => setModalVisible(false)}
-				buttons={[
-					{
-						text: translations.common.no,
-						onPress: () => setModalVisible(false),
-					},
-					{
-						text: translations.common.yes,
-						onPress: async () => {
-							setModalVisible(false)
-							await quitHandler(false)
-						},
-					},
-				]}
-			>
-				<View style={styles.modal as ViewType}>
-					<Text style={styles.modalText as TextType}>
-						{translations.Player.leaveExerciseDescription}
-					</Text>
-				</View>
-			</Modal>
-
-			<WavyHeader bgColor={theme.primary} outline>
-				<Header
-					closeIconColor={pickTextColor(theme.primary)}
-					closeIconHandler={closeIconPressHandler}
-				>
-					{fullTime > exercise.time[time].exerciseTime && (
-						<View style={styles.counter as ViewType}>
-							<Text style={addTextColor(styles.breakIn, pickTextColor(theme.primary))}>
-								{isExercising ? translations.Player.breakIn : translations.Player.nextSeriesIn}
-							</Text>
-							<Text style={addTextColor(styles.counterText, pickTextColor(theme.primary))}>
-								{isExercising ? exerciseTime : pauseTime}s
-							</Text>
-						</View>
-					)}
-				</Header>
-			</WavyHeader>
-
-			<Animated.View style={[styles.exerciseInfo, { opacity: fadeAnim }] as ViewType}>
-				{startCounter !== 0 && !showPauseIcon && (
-					<Text style={styles.startCounter as TextType}>{startCounter}</Text>
-				)}
-
-				{shouldShowExerciseImage && (
-					<Image
-						style={styles.exerciseIcon as ImageType}
-						source={exerciseMap[exercise.iconName]}
-						resizeMode='contain'
-					/>
-				)}
-				{!showPauseIcon && !isExercising && fullTime > 0 && (
-					<>
-						<Text style={styles.breakText as TextType}>{translations.Player.break}</Text>
-						<Icon name='pause-outline' type='ionicon' color='#fff' size={200} />
-					</>
-				)}
-				{showPauseIcon && <Icon name='pause-outline' type='ionicon' color='#fff' size={236} />}
-			</Animated.View>
-
-			<Footer
-				currentValue={progress}
-				maxValue={exercise.time[time].totalTime}
-				barColor={theme.progress}
-				backgroundColor={theme.primary}
-			>
-				<View>
-					<Text style={addTextColor(styles.infoText, pickTextColor(theme.primary))}>
-						{exercise.name}
-					</Text>
-					<TouchableOpacity onPress={muteSoundHandler}>
-						<View style={styles.musicInfo as ViewType}>
-							<Text style={addTextColor(styles.infoText, pickTextColor(theme.primary))}>
-								{music.name}
-							</Text>
-							<Icon
-								name={isMuted ? 'volume-x' : 'volume-2'}
-								type='feather'
-								color={pickTextColor(theme.primary)}
-								size={20}
-							/>
-						</View>
-					</TouchableOpacity>
-				</View>
-				<Text style={addTextColor(styles.playerCounter, pickTextColor(theme.primary))}>
-					{fullTime}s
-				</Text>
-				<Icon
-					name={playing ? 'pause-outline' : 'play-outline'}
-					type='ionicon'
-					color={pickTextColor(theme.primary)}
-					size={42}
-					onPress={pauseHandler}
-				/>
-			</Footer>
+			<StatusBar bgColor={theme.secondary} />
+			<PlayerModals
+				modalVisible={modalVisible}
+				translations={translations}
+				setModalVisible={setModalVisible}
+				quitHandler={() => quitHandler(false)}
+			/>
+			<PlayerVideo />
+			<PlayerFooter />
 		</View>
 	)
 }

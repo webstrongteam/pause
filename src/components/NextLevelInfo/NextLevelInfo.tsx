@@ -31,7 +31,7 @@ const NextLevelBenefits = ({
 
 	const levelBenefits = getNextLevelBenefits(level)
 
-	if (!levelBenefits.themes && !levelBenefits.music && !levelBenefits.exercises) {
+	if (!levelBenefits.colors && !levelBenefits.exercises) {
 		if (emptyBenefitsText) {
 			return <Text style={[styles.title, titleClassName]}>{emptyBenefitsText}</Text>
 		}
@@ -56,26 +56,12 @@ const NextLevelBenefits = ({
 				</View>
 			)}
 
-			{!!levelBenefits.music && (
+			{!!levelBenefits.colors && (
 				<View style={addBackgroundColor(styles.nextLevelInfo, color)}>
 					<Text style={addTextColor(styles.nextLevelInfoText, textColor)}>
-						{levelBenefits.music > 1 && <Text>{levelBenefits.music}&nbsp;</Text>}
+						{levelBenefits.colors > 1 && <Text>{levelBenefits.colors}&nbsp;</Text>}
 						{getVariety(
-							levelBenefits.music,
-							translations.singularNewMusic,
-							translations.pluralNewMusic,
-							translations.genitiveNewMusic,
-						)}
-					</Text>
-				</View>
-			)}
-
-			{!!levelBenefits.themes && (
-				<View style={addBackgroundColor(styles.nextLevelInfo, color)}>
-					<Text style={addTextColor(styles.nextLevelInfoText, textColor)}>
-						{levelBenefits.themes > 1 && <Text>{levelBenefits.themes}&nbsp;</Text>}
-						{getVariety(
-							levelBenefits.themes,
+							levelBenefits.colors,
 							translations.singularNewTheme,
 							translations.pluralNewThemes,
 							translations.genitiveNewThemes,
