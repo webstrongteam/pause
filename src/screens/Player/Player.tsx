@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Animated, View, BackHandler } from 'react-native'
-import { Sound } from 'expo-av/build/Audio'
+import React, { useState, useEffect } from 'react'
+import { View, BackHandler } from 'react-native'
+import { Audio, Video } from 'expo-av'
 import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
 import styles from './Player.scss'
-import { musicMap } from '../../utils/consts'
 import { timeout } from '../../utils/helpers'
 
 //Types
@@ -21,6 +20,7 @@ import logEvent from '../../utils/logEvent'
 import PlayerModals from './PlayerModals/PlayerModals'
 import PlayerFooter from './PlayerFooter/PlayerFooter'
 import PlayerVideo from './PlayerVideo/PlayerVideo'
+import { PlayerContextProvider, usePlayerContext } from './PlayerContext'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -30,50 +30,23 @@ type MethodType = 'playAsync' | 'pauseAsync' | 'replayAsync' | 'unloadAsync'
 
 const Player = ({ navigation }: Props) => {
 	//Contexts
+	const playerContext = usePlayerContext()
 	const settingsContext = useSettingsContext()
 	const pauseContext = usePauseContext()
 	const themeContext = useThemeContext()
 
 	//Subscribes
-	const translations = settingsContext.useSubscribe((s) => s.translations)
-	const time = settingsContext.useSubscribe((t) => t.settings?.time)
-	const exercise = pauseContext.useSubscribe((e) => e.exercise)
-	const music = pauseContext.useSubscribe((m) => m.music)
-	const theme = themeContext.useSubscribe((t) => t)
+	const player = playerContext.useSubscribe((s) => s)
+	const time = settingsContext.useSubscribe((s) => s.settings?.time)
+	const exercise = pauseContext.useSubscribe((s) => s.exercise)
+	const theme = themeContext.useSubscribe((s) => s)
 
-	if (!music || !exercise || !time) {
+	if (!exercise || !time) {
 		sentryError('Missing data from context in Player')
 		return <></>
 	}
 
-	//States
-	const [modalVisible, setModalVisible] = useState(false)
-	const [isAnimating, setIsAnimating] = useState(false)
-
-	const [startCounter, setStartCounter] = useState(5)
-
-	const [audio, setAudio] = useState<Sound>()
-	const [pauseEffect, setPauseEffect] = useState<Sound>()
-	const [finishEffect, setFinishEffect] = useState<Sound>()
-	const [isMuted, setIsMuted] = useState(false)
-	const [playing, setPlaying] = useState(true)
-	const [showPauseIcon, setShowPauseIcon] = useState(false)
-	const [stopTimer, setStopTimer] = useState(false)
-
-	const [fullTime, setFullTime] = useState(exercise.time[time].totalTime)
-	const [isExercising, setIsExercising] = useState(true)
-	const [series, setSeries] = useState(exercise.time[time].exerciseCount - 1)
 	const [shouldIncrementTime, setShouldIncrementTime] = useState(false)
-
-	//Sound Functions
-	const loadMusic = async () => {
-		const { sound } = await Audio.Sound.createAsync(musicMap[music.name], {
-			shouldPlay: true,
-			isLooping: true,
-		})
-
-		setAudio(sound)
-	}
 
 	const loadSoundEffects = async () => {
 		// eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -82,183 +55,117 @@ const Player = ({ navigation }: Props) => {
 		})
 		// eslint-disable-next-line @typescript-eslint/no-var-requires
 		const finish = await Audio.Sound.createAsync(require('../../../assets/soundEffects/finish.mp3'))
-		setPauseEffect(pause.sound)
-		setFinishEffect(finish.sound)
+
+		playerContext.setPlayer({ pauseEffect: pause.sound, finishEffect: finish.sound })
 	}
 
-	const soundControl = async (methodName: MethodType, sound: Audio.Sound) => {
+	const assetControl = async (methodName: MethodType, sound: Audio.Sound | Video) => {
 		await sound[methodName]()
 	}
 
-	//Animation
-	const fadeAnim = useRef(new Animated.Value(1)).current
-
-	const fadeIn = () => {
-		Animated.timing(fadeAnim, {
-			toValue: 1,
-			duration: 300,
-			useNativeDriver: true,
-		}).start(() => setIsAnimating(false))
-	}
-
-	const fadeOut = () => {
-		Animated.timing(fadeAnim, {
-			toValue: 0,
-			duration: 300,
-			useNativeDriver: true,
-		}).start(() => {
-			setShowPauseIcon(!showPauseIcon)
-			fadeIn()
-		})
-	}
-
-	//Timer Const
-	const exerciseTime =
-		fullTime - (series * exercise.time[time].exerciseTime + series * exercise.time[time].pauseTime)
-	const pauseTime =
-		fullTime -
-		(series * exercise.time[time].exerciseTime + (series - 1) * exercise.time[time].pauseTime)
-	const progress = exercise.time[time].totalTime - fullTime
-
-	//Handlers and functions
-	const closeIconPressHandler = async () => {
-		setModalVisible(true)
-		if (audio) await soundControl('pauseAsync', audio)
-		setPlaying(false)
-		setShowPauseIcon(true)
-	}
-
-	const quitHandler = async (finished: boolean) => {
-		setStopTimer(true)
-		if (pauseEffect) await soundControl('unloadAsync', pauseEffect)
-		if (finishEffect) await soundControl('unloadAsync', finishEffect)
-		if (audio) await soundControl('unloadAsync', audio)
-
-		if (!finished) {
-			logEvent('Exit from pending pause', {
-				component: 'Player',
-				currentPause: { music, exercise, time },
-			})
-		}
-
-		navigation.replace('Home', { finished })
-	}
-
-	const pauseHandler = () => {
-		if (!isAnimating) {
-			setIsAnimating(true)
-			setShouldIncrementTime(false)
-			setPlaying(!playing)
-			fadeOut()
-		}
-	}
-
-	const startCounterFunction = async () => {
-		if (playing && startCounter >= 1 && pauseEffect && finishEffect) {
-			setStartCounter(startCounter - 1)
-			if (startCounter > 1) await soundControl('replayAsync', pauseEffect)
-			else await soundControl('replayAsync', finishEffect)
-		}
-	}
-
-	const muteSoundHandler = async () => {
-		if (audio) {
-			if (!isMuted) {
-				logEvent('Mute music', {
-					component: 'Player',
-					music,
-				})
-			}
-
-			await audio.setIsMutedAsync(!isMuted)
-			setIsMuted(!isMuted)
-		}
-	}
-
-	const shouldCounting = fullTime > 0 && playing && startCounter === 0
-	const shouldShowExerciseImage =
-		(!showPauseIcon && isExercising && startCounter === 0) || fullTime === 0
-
-	//Loading sound effects
+	// Load sound effects
 	useAsyncEffect(async () => {
 		await loadSoundEffects()
 	}, [])
 
-	//Loading and playing music
 	useAsyncEffect(async () => {
-		if (!audio && startCounter === 0 && playing) {
-			await loadMusic()
-			return
+		if (player.status === 'exercising' || player.status === 'pause') {
+			await assetControl('replayAsync', player.pauseEffect!)
+			playerContext.setPlayer({ fullTime: exercise.time[time].totalTime })
 		}
-		if (!playing && audio) {
-			await soundControl('pauseAsync', audio)
-			return
-		}
-		if (audio) {
-			await soundControl('playAsync', audio)
-		}
-	}, [playing, startCounter])
 
-	//Counters
+		if (player.status === 'stop' || player.status === 'pause') {
+			setShouldIncrementTime(false)
+			if (player.videoRef) await assetControl('pauseAsync', player.videoRef)
+
+			if (player.status === 'stop') {
+				playerContext.setPlayer({modalType: 'leaveModal', openModal: true})
+			}
+		}
+
+		if (player.status === 'exit' || player.status === 'finish') {
+			if (player.pauseEffect) await assetControl('unloadAsync', player.pauseEffect)
+			if (player.finishEffect) await assetControl('unloadAsync', player.finishEffect)
+			if (player.videoRef) await assetControl('unloadAsync', player.videoRef)
+
+			const finished = player.status === 'finish'
+			if (!finished) {
+				await logEvent('Exit from pending pause', {
+					component: 'Player',
+					currentPause: { exercise, time },
+				})
+			}
+
+			navigation.replace('Home', { finished })
+		}
+	}, [player.status])
+
 	useAsyncEffect(async () => {
 		await timeout(500)
-		if (stopTimer) return
+
+		if (player.fullTime === 0) {
+			playerContext.setPlayer({ status: 'finish' })
+			return
+		}
+
+		if (!(player.status === 'exercising' || player.status === 'pause')) {
+			return
+		}
 
 		if (shouldIncrementTime) {
 			setShouldIncrementTime(false)
-			await startCounterFunction()
 
-			if (shouldCounting) {
-				setFullTime(fullTime - 1)
-				if (isExercising) {
-					if (exerciseTime === 1) {
-						setIsExercising(false)
-						if (pauseEffect && fullTime > 1) await soundControl('replayAsync', pauseEffect)
-					}
-				} else if (pauseTime === 1) {
-					setSeries(series - 1)
-					if (pauseEffect) await soundControl('replayAsync', pauseEffect)
-					setIsExercising(true)
-				}
-			} else if (fullTime === 0) {
-				if (finishEffect) await soundControl('replayAsync', finishEffect)
-				await quitHandler(true)
+			if (player.status === 'exercising' && player.exerciseTime === 1) {
+				playerContext.setPlayer({
+					status: 'pause',
+					fullTime: player.fullTime - 1,
+					exerciseTime: 0,
+					pauseTime: exercise.time[time].pauseTime,
+				})
+				return
 			}
+
+			if (player.status === 'pause' && player.exerciseTime === 1) {
+				playerContext.setPlayer({
+					status: 'exercising',
+					fullTime: player.fullTime - 1,
+					exerciseTime: exercise.time[time].exerciseTime,
+					pauseTime: 0,
+				})
+				return
+			}
+
+			playerContext.setPlayer({ fullTime: player.fullTime - 1 })
 			return
 		}
 
 		setShouldIncrementTime(true)
-	}, [fullTime, playing, startCounter, pauseEffect, finishEffect, shouldIncrementTime])
+	}, [player.fullTime, player.status, shouldIncrementTime])
 
 	useEffect(() => {
 		// TODO: handle iOS back action
 		BackHandler.addEventListener('hardwareBackPress', () => {
-			// eslint-disable-next-line @typescript-eslint/no-floating-promises
-			closeIconPressHandler().then((r) => r)
+			playerContext.setPlayer({ status: 'stop' })
 			return true
 		})
 
 		return () => {
 			BackHandler.removeEventListener('hardwareBackPress', () => {
-				// eslint-disable-next-line @typescript-eslint/no-floating-promises
-				closeIconPressHandler().then((r) => r)
+				playerContext.setPlayer({ status: 'stop' })
 				return true
 			})
 		}
 	}, [])
 
 	return (
-		<View style={styles.container as ViewType}>
-			<StatusBar bgColor={theme.secondary} />
-			<PlayerModals
-				modalVisible={modalVisible}
-				translations={translations}
-				setModalVisible={setModalVisible}
-				quitHandler={() => quitHandler(false)}
-			/>
-			<PlayerVideo />
-			<PlayerFooter />
-		</View>
+		<PlayerContextProvider>
+			<View style={styles.container as ViewType}>
+				<StatusBar bgColor={theme.secondary} />
+				<PlayerModals />
+				<PlayerVideo />
+				<PlayerFooter />
+			</View>
+		</PlayerContextProvider>
 	)
 }
 
