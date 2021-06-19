@@ -8,6 +8,7 @@ export const STATUS_BAR_HEIGHT = StatusBar.currentHeight ?? 20
 
 export const headerHeight = height / 7
 export const centerHeight = height * 0.4
+export const footerHeight = height * 0.67
 
 // Levels
 export const baseExercisePoints = 75
@@ -25,16 +26,3 @@ export const mediumDifficultyMultiplier = 2
 export const hardDifficultyMultiplier = 2.5
 
 export const defaultTheme = [colors[0].color, colors[1].color, colors[2].color, colors[3].color]
-
-// Assets maps
-export const imageMap: Record<string, number> = {
-	Sea: require('../../assets/pause/music/sea/sea.jpg'),
-}
-
-export const musicMap: Record<string, number> = {
-	Sea: require('../../assets/pause/music/sea/sea.mp3'),
-}
-
-export const exerciseMap: Record<string, number> = {
-	wall_sit: require('../../assets/pause/exercises/wall_sit.png'),
-}

@@ -1,31 +1,36 @@
 import React, { PropsWithChildren } from 'react'
 import { View } from 'react-native'
 import Svg, { Path } from 'react-native-svg'
-import styles from './WavyHeader.scss'
-
-//Types
 import { ViewType } from '../../types/styles'
-
-//Contexts
 import { useThemeContext } from '../../utils/context/ThemeContext'
-
-//Utils
-import { centerHeight, headerHeight } from '../../utils/consts'
+import { centerHeight, footerHeight, headerHeight } from '../../utils/consts'
+import styles from './Wavy.scss'
 
 type Props = PropsWithChildren<{
 	outline?: boolean
 	bgColor?: string
-	variant?: 'header' | 'centered'
+	position?: 'header' | 'centered' | 'footer'
 }>
 
-const WavyHeader = ({ outline = false, bgColor, variant = 'header', children }: Props) => {
-	const variantHeaderHeight = variant === 'header' ? headerHeight : centerHeight
+const Wavy = ({ outline = false, bgColor, position = 'header', children }: Props) => {
 	const { useSubscribe } = useThemeContext()
 	const theme = useSubscribe((t) => t)
 
+	const getContentHeight = () => {
+		if (position === 'header') {
+			return headerHeight
+		}
+		if (position === 'centered') {
+			return centerHeight
+		}
+		return footerHeight
+	}
+
+	const contentHeight = getContentHeight()
+
 	return (
 		<>
-			<View style={{ height: variantHeaderHeight, backgroundColor: bgColor ?? theme.secondary }}>
+			<View style={{ height: contentHeight, backgroundColor: bgColor ?? theme.secondary }}>
 				{children}
 			</View>
 			{outline ? (
@@ -33,7 +38,7 @@ const WavyHeader = ({ outline = false, bgColor, variant = 'header', children }: 
 					style={{
 						...(styles.aspectRatio as {}),
 						...(styles.outline as {}),
-						top: variantHeaderHeight + 2,
+						top: contentHeight + 2,
 					}}
 				>
 					<Svg height='100%' width='100%' viewBox='0 0 1440 320'>
@@ -59,4 +64,4 @@ const WavyHeader = ({ outline = false, bgColor, variant = 'header', children }: 
 	)
 }
 
-export default WavyHeader
+export default Wavy

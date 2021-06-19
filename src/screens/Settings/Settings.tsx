@@ -3,7 +3,7 @@ import { ScrollView, View, Text } from 'react-native'
 import { Icon, ButtonGroup, Button } from 'react-native-elements'
 
 //Components
-import WavyHeader from '../../components/WavyHeader/WavyHeader'
+import Wavy from '../../components/Wavy/Wavy'
 import Modal from '../../components/Modal/Modal'
 
 //Types and styles
@@ -170,13 +170,13 @@ const SettingsScreen = ({ navigation }: Props) => {
 					</View>
 				</Modal>
 
-				<WavyHeader>
+				<Wavy>
 					<Header closeIconHandler={() => navigation.replace('Home')}>
 						<Text style={addTextColor(styles.title, theme.primary)}>
 							{translations.Settings.title}
 						</Text>
 					</Header>
-				</WavyHeader>
+				</Wavy>
 
 				<View style={styles.settings as ViewType}>
 					{Object.keys(buttonGroups).map((key, index) => (

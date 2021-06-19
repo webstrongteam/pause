@@ -26,22 +26,22 @@ const PlayerFooter = () => {
 		return <></>
 	}
 
-	if (player.status !== 'preview') {
+	const isExercising = player.exerciseTime > 0
+
+	if (player.status !== 'preview' && player.fullTime !== undefined) {
 		return (
 			<Footer
-				currentValue={player.exerciseProgress}
+				currentValue={exercise.time[time].totalTime - player.fullTime}
 				maxValue={exercise.time[time].totalTime}
 				barColor={theme.progress}
 				backgroundColor={theme.primary}
 			>
 				<View style={styles.counter as ViewType}>
 					<Text style={addTextColor(styles.breakIn, pickTextColor(theme.primary))}>
-						{player.status === 'exercising'
-							? translations.Player.breakIn
-							: translations.Player.nextSeriesIn}
+						{isExercising ? translations.Player.breakIn : translations.Player.nextSeriesIn}
 					</Text>
 					<Text style={addTextColor(styles.counterText, pickTextColor(theme.primary))}>
-						{player.status === 'exercising' ? player.exerciseTime : player.pauseTime}s
+						{isExercising ? player.exerciseTime : player.pauseTime}s
 					</Text>
 				</View>
 			</Footer>

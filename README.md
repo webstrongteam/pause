@@ -7,3 +7,10 @@
   - E-mail: **admin@webstrong.pl**
 
 - **Jira project board:** https://webstrong.atlassian.net/secure/RapidBoard.jspa?projectKey=PAS
+
+Player TODO:
+
+- Clean up styles
+- Add pause icon on player
+- Load clips from server and cache its
+- Add animations (footer, player, random button)

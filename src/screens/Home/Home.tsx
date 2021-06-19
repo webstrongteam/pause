@@ -8,7 +8,7 @@ import { ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
 
 //Components
-import WavyHeader from '../../components/WavyHeader/WavyHeader'
+import Wavy from '../../components/Wavy/Wavy'
 import PauseButton from '../../components/PauseButton/PauseButton'
 import Footer from '../../components/Footer/Footer'
 import Modal from '../../components/Modal/Modal'
@@ -86,21 +86,21 @@ const Home = ({ navigation }: Props) => {
 		})
 
 		pauseContext.setPause(getRandomPause(pause, settings))
-		navigation.navigate('PauseScreen')
+		navigation.navigate('Player')
 	}
 
 	const finishExercise = async () => {
 		const finished = navigation.getParam('finished', false)
 		if (!finished) return
 
-		logEvent('Finish pause', {
+		await logEvent('Finish pause', {
 			component: 'Home',
 		})
 
 		showFinishedExerciseMessage()
 
 		if (levelUpAfterFinishExercise) {
-			logEvent(`Level up - ${settings.level + 1}`, {
+			await logEvent(`Level up - ${settings.level + 1}`, {
 				component: 'Home',
 			})
 
@@ -157,7 +157,7 @@ const Home = ({ navigation }: Props) => {
 			</Modal>
 
 			<View style={styles.header as ViewType}>
-				<WavyHeader variant='centered' />
+				<Wavy position='centered' />
 			</View>
 
 			<PauseButton onPress={pauseHandler} />

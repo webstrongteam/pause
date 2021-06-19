@@ -10,7 +10,11 @@ import styles from './PlayerModals.scss'
 const PlayerModals = () => {
 	const playerContext = usePlayerContext()
 	const settingsContext = useSettingsContext()
+	const pauseContext = usePauseContext()
+
 	const player = playerContext.useSubscribe((s) => s)
+	const time = settingsContext.useSubscribe((s) => s.settings?.time)!
+	const exercise = pauseContext.useSubscribe((p) => p.exercise!)
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 
 	if (player.modalType === 'leaveModal') {
@@ -26,7 +30,7 @@ const PlayerModals = () => {
 					},
 					{
 						text: translations.common.yes,
-						onPress: () => playerContext.setPlayer({ openModal: false }),
+						onPress: () => playerContext.setPlayer({ openModal: false, status: 'exit' }),
 					},
 				]}
 			>
@@ -40,10 +44,6 @@ const PlayerModals = () => {
 	}
 
 	if (player.modalType === 'exerciseInfoModal') {
-		const pauseContext = usePauseContext()
-		const time = settingsContext.useSubscribe((s) => s.settings?.time)!
-		const exercise = pauseContext.useSubscribe((p) => p.exercise!)
-
 		const totalPauseTime = exercise.time[time].totalTime
 		const pauseMinutes = Math.floor(totalPauseTime / 60)
 		const pauseSeconds = Math.floor(totalPauseTime % 60)

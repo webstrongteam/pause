@@ -6,7 +6,8 @@
 }
 
 .counter {
-	align-items: flex-end;
+	align-items: center;
+	width: 100%;
 }
 
 .counterText {
@@ -16,7 +17,7 @@
 
 .exerciseInfo {
 	align-items: center;
-	margin-bottom: 20px;
+	margin-bottom: 64px;
 }
 
 .exerciseInfoHeading {
@@ -27,7 +28,6 @@
 .exerciseInfoElement {
 	@include heading-30;
 	@include text-light;
-	display: flex;
 	flex-direction: row;
 }
 

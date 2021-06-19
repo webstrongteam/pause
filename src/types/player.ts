@@ -6,7 +6,7 @@ export interface Player {
 	exerciseProgress: number
 	openModal: boolean
 	modalType: 'leaveModal' | 'exerciseInfoModal'
-	fullTime: number
+	fullTime?: number
 	exerciseTime: number
 	pauseTime: number
 	pauseEffect?: Sound
