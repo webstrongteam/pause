@@ -10,7 +10,7 @@
 
 Player TODO:
 
-- Clean up styles
-- Add pause icon on player
+- Add exercises
 - Load clips from server and cache its
+- Clean up styles
 - Add animations (footer, player, random button)

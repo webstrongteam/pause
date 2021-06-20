@@ -19,10 +19,10 @@ type MethodType = 'playAsync' | 'pauseAsync' | 'replayAsync' | 'unloadAsync'
 
 export const playerInitialState: Player = {
 	status: 'preview',
-	exerciseProgress: 0,
-	openModal: false,
+	fullTime: undefined,
 	pauseTime: 0,
 	exerciseTime: 0,
+	openModal: false,
 	modalType: 'exerciseInfoModal',
 }
 
@@ -38,8 +38,8 @@ const PlayerHandler = ({ navigation }: Props) => {
 	const pauseContext = usePauseContext()
 
 	const player = playerContext.useSubscribe((s) => s)
-	const time = settingsContext.useSubscribe((s) => s.settings?.time)
 	const exercise = pauseContext.useSubscribe((s) => s.exercise)
+	const time = settingsContext.useSubscribe((s) => s.settings?.time)
 
 	if (!exercise || !time) {
 		sentryError('Missing data from context in Player')
@@ -70,7 +70,7 @@ const PlayerHandler = ({ navigation }: Props) => {
 			if (player.pauseEffect) await assetControl('replayAsync', player.pauseEffect)
 			if (player.videoRef) await assetControl('playAsync', player.videoRef)
 
-			if (!player.fullTime) {
+			if (player.fullTime === undefined) {
 				playerContext.setPlayer({
 					fullTime: exercise.time[time].totalTime,
 					exerciseTime: exercise.time[time].exerciseTime,
@@ -79,11 +79,11 @@ const PlayerHandler = ({ navigation }: Props) => {
 		}
 
 		if (player.status === 'stop' || player.status === 'pause') {
-			if (player.status === 'stop') {
-				setShouldIncrementTime(false)
-			}
+			if (player.fullTime === undefined) return
 
+			if (player.status === 'stop') setShouldIncrementTime(false)
 			if (player.videoRef) await assetControl('pauseAsync', player.videoRef)
+			return
 		}
 
 		if (player.status === 'exit' || player.status === 'finish') {
@@ -106,7 +106,10 @@ const PlayerHandler = ({ navigation }: Props) => {
 	useAsyncEffect(async () => {
 		await timeout(500)
 
-		if (!(player.status === 'exercising' || player.status === 'pause')) {
+		if (
+			!(player.status === 'exercising' || player.status === 'pause') ||
+			player.fullTime === undefined
+		) {
 			return
 		}
 
@@ -120,13 +123,13 @@ const PlayerHandler = ({ navigation }: Props) => {
 				if (player.exerciseTime === 1) {
 					playerContext.setPlayer({
 						status: 'pause',
-						fullTime: player.fullTime! - 1,
+						fullTime: player.fullTime - 1,
 						pauseTime: exercise.time[time].pauseTime,
 						exerciseTime: 0,
 					})
 				} else {
 					playerContext.setPlayer({
-						fullTime: player.fullTime! - 1,
+						fullTime: player.fullTime - 1,
 						exerciseTime: player.exerciseTime - 1,
 					})
 				}
@@ -136,13 +139,13 @@ const PlayerHandler = ({ navigation }: Props) => {
 				if (player.pauseTime === 1) {
 					playerContext.setPlayer({
 						status: 'exercising',
-						fullTime: player.fullTime! - 1,
+						fullTime: player.fullTime - 1,
 						exerciseTime: exercise.time[time].exerciseTime,
 						pauseTime: 0,
 					})
 				} else {
 					playerContext.setPlayer({
-						fullTime: player.fullTime! - 1,
+						fullTime: player.fullTime - 1,
 						pauseTime: player.pauseTime - 1,
 					})
 				}
@@ -158,13 +161,13 @@ const PlayerHandler = ({ navigation }: Props) => {
 	useEffect(() => {
 		// TODO: handle iOS back action
 		BackHandler.addEventListener('hardwareBackPress', () => {
-			playerContext.setPlayer({ status: 'stop' })
+			playerContext.setPlayer({ openModal: true, modalType: 'leaveModal', status: 'stop' })
 			return true
 		})
 
 		return () => {
 			BackHandler.removeEventListener('hardwareBackPress', () => {
-				playerContext.setPlayer({ status: 'stop' })
+				playerContext.setPlayer({ openModal: true, modalType: 'leaveModal', status: 'stop' })
 				return true
 			})
 		}

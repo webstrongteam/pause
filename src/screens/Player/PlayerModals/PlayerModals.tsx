@@ -18,15 +18,19 @@ const PlayerModals = () => {
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 
 	if (player.modalType === 'leaveModal') {
+		const closeModalHandler = () => {
+			playerContext.setPlayer({ openModal: false, status: player.fullTime ? 'stop' : 'preview' })
+		}
+
 		return (
 			<Modal
 				visible={player.openModal}
 				title={translations.Player.leaveExercise}
-				toggleModal={() => playerContext.setPlayer({ openModal: false })}
+				toggleModal={closeModalHandler}
 				buttons={[
 					{
 						text: translations.common.no,
-						onPress: () => playerContext.setPlayer({ openModal: false }),
+						onPress: closeModalHandler,
 					},
 					{
 						text: translations.common.yes,

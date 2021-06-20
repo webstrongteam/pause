@@ -26,9 +26,9 @@ const PlayerFooter = () => {
 		return <></>
 	}
 
-	const isExercising = player.exerciseTime > 0
-
 	if (player.status !== 'preview' && player.fullTime !== undefined) {
+		const isExercising = player.exerciseTime > 0
+
 		return (
 			<Footer
 				currentValue={exercise.time[time].totalTime - player.fullTime}
@@ -53,6 +53,7 @@ const PlayerFooter = () => {
 			<Text style={addTextColor(styles.exerciseInfoHeading, pickTextColor(theme.primary))}>
 				{translations.Pause.durationTime}
 			</Text>
+
 			<TouchableOpacity
 				onPress={() => playerContext.setPlayer({ openModal: true, modalType: 'exerciseInfoModal' })}
 			>
