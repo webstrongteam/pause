@@ -156,7 +156,7 @@ const PlayerHandler = ({ navigation }: Props) => {
 		}
 
 		setShouldIncrementTime(true)
-	}, [player.status, shouldIncrementTime])
+	}, [player.status, shouldIncrementTime, player.fullTime === undefined])
 
 	useEffect(() => {
 		// TODO: handle iOS back action

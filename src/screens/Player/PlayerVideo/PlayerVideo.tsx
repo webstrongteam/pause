@@ -1,9 +1,9 @@
-import React from 'react'
-import { View, ViewStyle } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { Animated, View, ViewStyle } from 'react-native'
 import { Video } from 'expo-av'
 import { playerInitialState, usePlayerContext } from '../PlayerContext'
 import { useThemeContext } from '../../../utils/context/ThemeContext'
-import { getRandomPause } from '../../../utils/helpers'
+import { getRandomPause, setAnimation } from '../../../utils/helpers'
 import { ViewType } from '../../../types/styles'
 import logEvent from '../../../utils/logEvent'
 import { usePauseContext } from '../../../utils/context/PauseContext'
@@ -28,6 +28,8 @@ const PlayerVideo = () => {
 	const theme = themeContext.useSubscribe((s) => s)
 	const pause = pauseContext.useSubscribe((p) => p)
 	const settings = settingsContext.useSubscribe((s) => s.settings!)
+
+	const scaleRandomExerciseButton = useRef(new Animated.Value(0)).current
 
 	const stopExercising = player.status === 'stop' || player.status === 'preview'
 	const pauseExercising =
@@ -56,6 +58,14 @@ const PlayerVideo = () => {
 		}
 	}
 
+	useEffect(() => {
+		if (stopExercising) {
+			setAnimation(1, 200, scaleRandomExerciseButton)
+		} else {
+			setAnimation(0, 200, scaleRandomExerciseButton)
+		}
+	}, [stopExercising])
+
 	useAsyncEffect(async () => {
 		if (video.current) {
 			await video.current.playAsync()
@@ -68,8 +78,8 @@ const PlayerVideo = () => {
 			<View style={styles.videoWrapper as ViewType}>
 				<IconButton
 					wrapperStyle={styles.exitIcon as ViewStyle}
-					size={30}
-					shadowSize={60}
+					size={25}
+					shadowSize={55}
 					color={theme.primary}
 					type='feather'
 					name='x'
@@ -90,20 +100,21 @@ const PlayerVideo = () => {
 			</View>
 
 			<View style={styles.playerButtons as ViewStyle}>
-				{stopExercising && (
-					<IconButton
-						size={25}
-						shadowSize={60}
-						wrapperStyle={styles.randomButton as ViewStyle}
-						color={theme.primary}
-						name='random'
-						type='font-awesome'
-						onPress={drawNewPauseHandler}
-					/>
-				)}
+				<View style={styles.randomButton as ViewStyle}>
+					<Animated.View style={{ transform: [{ scale: scaleRandomExerciseButton }] }}>
+						<IconButton
+							size={25}
+							shadowSize={60}
+							color={theme.primary}
+							name='random'
+							type='font-awesome'
+							onPress={drawNewPauseHandler}
+						/>
+					</Animated.View>
+				</View>
 
 				<IconButton
-					size={stopExercising ? 60 : 65}
+					size={70}
 					shadowSize={120}
 					color={theme.primary}
 					type={stopExercising ? 'foundation' : 'antdesign'}

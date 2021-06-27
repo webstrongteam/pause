@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native'
+import { Animated, NativeModules, Platform } from 'react-native'
 import { Exercise, Pause } from '../types/pause'
 import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings'
 import { Color } from '../types/theme'
@@ -163,4 +163,17 @@ export const logConfigStatus = () => {
 	console.info(`Sentry: ${config.SETUP_SENTRY}`)
 	console.info(`Google Analytics: ${config.SETUP_ANALYTICS}`)
 	console.info('To change this setup, edit config.ts file.')
+}
+
+export const setAnimation = (
+	toValue: number,
+	duration: number,
+	value: Animated.Value,
+	callback?: () => void,
+) => {
+	Animated.timing(value, {
+		toValue,
+		duration,
+		useNativeDriver: false,
+	}).start(callback)
 }
