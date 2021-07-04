@@ -23,12 +23,12 @@ const PlayerFooter = () => {
 	const time = settingsContext.useSubscribe((s) => s.settings?.time)
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 
-	const [unmountExerciseInfo, setUnmountExerciseInfo] = useState(false)
-
 	if (!time || !exercise) {
 		sentryError('Missing data from context in PlayerFooter')
 		return <></>
 	}
+
+	const [unmountExerciseInfo, setUnmountExerciseInfo] = useState(false)
 
 	const moveExerciseInfoAnim = useRef(new Animated.Value(0)).current
 	const moveProgressBarAnim = useRef(new Animated.Value(-100)).current

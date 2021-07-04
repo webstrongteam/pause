@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react'
+import React, { PropsWithChildren, useState } from 'react'
 import { BackHandler } from 'react-native'
 import { Audio, Video } from 'expo-av'
 import { Player } from '../../types/player'
@@ -58,12 +58,20 @@ const PlayerHandler = ({ navigation }: Props) => {
 		playerContext.setPlayer({ pauseEffect: pause.sound, finishEffect: finish.sound })
 	}
 
-	const assetControl = async (methodName: MethodType, sound: Audio.Sound | Video) => {
-		await sound[methodName]()
+	const BackHandlerEvent = () => {
+		BackHandler.addEventListener('hardwareBackPress', () => {
+			playerContext.setPlayer({ openModal: true, modalType: 'leaveModal', status: 'stop' })
+			return true
+		})
 	}
 
 	useAsyncEffect(async () => {
 		await loadSoundEffects()
+
+		BackHandlerEvent()
+		return () => {
+			BackHandlerEvent()
+		}
 	}, [])
 
 	useAsyncEffect(async () => {
@@ -159,22 +167,11 @@ const PlayerHandler = ({ navigation }: Props) => {
 		setShouldIncrementTime(true)
 	}, [player.status, shouldIncrementTime, player.fullTime === undefined])
 
-	useEffect(() => {
-		// TODO: handle iOS back action
-		BackHandler.addEventListener('hardwareBackPress', () => {
-			playerContext.setPlayer({ openModal: true, modalType: 'leaveModal', status: 'stop' })
-			return true
-		})
-
-		return () => {
-			BackHandler.removeEventListener('hardwareBackPress', () => {
-				playerContext.setPlayer({ openModal: true, modalType: 'leaveModal', status: 'stop' })
-				return true
-			})
-		}
-	}, [])
-
 	return <></>
+}
+
+const assetControl = async (methodName: MethodType, sound: Audio.Sound | Video) => {
+	await sound[methodName]()
 }
 
 export const PlayerContextProvider = ({ children, navigation }: PropsWithChildren<Props>) => (

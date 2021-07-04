@@ -5,12 +5,13 @@ import { DownloadProgressData } from 'expo-file-system/src/FileSystem.types'
 import { usePlayerContext } from '../../PlayerContext'
 import { usePauseContext } from '../../../../utils/context/PauseContext'
 import { useThemeContext } from '../../../../utils/context/ThemeContext'
+import { useSettingsContext } from '../../../../utils/context/SettingsContext'
+import { sentryError } from '../../../../utils/sentryEvent'
 import config from '../../../../config/config'
 import useAsyncEffect from '../../../../utils/hooks/useAsyncEffect'
 import ProgressBar from '../../../../components/ProgressBar/ProgressBar'
 import Spinner from '../../../../components/Spinner/Spinner'
 import styles from './DownloadVideo.scss'
-import { useSettingsContext } from '../../../../utils/context/SettingsContext'
 
 type Props = {
 	playerHeight: number
@@ -23,8 +24,8 @@ const DownloadVideo = ({ playerHeight, playerWidth }: Props) => {
 	const themeContext = useThemeContext()
 	const settingsContext = useSettingsContext()
 
-	const videoId = pauseContext.useSubscribe((s) => s.exercise?.videoId)
 	const { primary } = themeContext.useSubscribe((s) => s)
+	const videoId = pauseContext.useSubscribe((s) => s.exercise?.videoId)
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 
 	const [progress, setProgress] = useState<number | undefined>()
@@ -36,6 +37,7 @@ const DownloadVideo = ({ playerHeight, playerWidth }: Props) => {
 		const videoDownloadProgress = +(
 			downloadProgress.totalBytesWritten / downloadProgress.totalBytesExpectedToWrite
 		).toFixed(3)
+
 		setProgress(videoDownloadProgress)
 	}
 
@@ -47,15 +49,19 @@ const DownloadVideo = ({ playerHeight, playerWidth }: Props) => {
 	)
 
 	const checkVideoOnFileSystem = async () => {
-		const result = await FileSystem.getInfoAsync(fileUri)
-		if (!result.exists) {
-			await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}/clips/`, {
-				intermediates: true,
-			})
-			const file = await downloadResumable.downloadAsync()
-			playerContext.setPlayer({ videoUri: file?.uri })
-		} else {
-			playerContext.setPlayer({ videoUri: result.uri })
+		try {
+			const result = await FileSystem.getInfoAsync(fileUri)
+			if (!result.exists) {
+				await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}/clips/`, {
+					intermediates: true,
+				})
+				const file = await downloadResumable.downloadAsync()
+				playerContext.setPlayer({ videoUri: file?.uri })
+			} else {
+				playerContext.setPlayer({ videoUri: result.uri })
+			}
+		} catch (err) {
+			sentryError(err)
 		}
 	}
 

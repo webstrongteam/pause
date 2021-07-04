@@ -1,12 +1,12 @@
-import { Text, View } from 'react-native'
 import React from 'react'
+import { Text, View } from 'react-native'
 import Modal from '../../../components/Modal/Modal'
 import { TextType, ViewType } from '../../../types/styles'
 import { usePauseContext } from '../../../utils/context/PauseContext'
 import { useSettingsContext } from '../../../utils/context/SettingsContext'
 import { usePlayerContext } from '../PlayerContext'
-import styles from './PlayerModals.scss'
 import { sentryError } from '../../../utils/sentryEvent'
+import styles from './PlayerModals.scss'
 
 const PlayerModals = () => {
 	const playerContext = usePlayerContext()
@@ -15,7 +15,7 @@ const PlayerModals = () => {
 
 	const player = playerContext.useSubscribe((s) => s)
 	const time = settingsContext.useSubscribe((s) => s.settings?.time)
-	const exercise = pauseContext.useSubscribe((p) => p.exercise)
+	const exercise = pauseContext.useSubscribe((s) => s.exercise)
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 
 	if (!time || !exercise) {

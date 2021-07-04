@@ -31,19 +31,18 @@ const videoShadowOpt: BoxShadowType = {
 }
 
 const PlayerVideo = () => {
-	const video = useRef<Video>(null)
-	const scaleRandomExerciseButton = useRef(new Animated.Value(0)).current
-
 	const playerContext = usePlayerContext()
 	const pauseContext = usePauseContext()
+	const settingsContext = useSettingsContext()
 	const themeContext = useThemeContext()
 
-	const settingsContext = useSettingsContext()
+	const { primary } = themeContext.useSubscribe((s) => s)
 	const player = playerContext.useSubscribe((s) => s)
-	const theme = themeContext.useSubscribe((s) => s)
 	const pause = pauseContext.useSubscribe((p) => p)
-
 	const settings = settingsContext.useSubscribe((s) => s.settings!)
+
+	const video = useRef<Video>(null)
+	const scaleRandomExerciseButton = useRef(new Animated.Value(0)).current
 
 	const stopExercising = player.status === 'stop' || player.status === 'preview'
 	const showPauseScreen =
@@ -94,7 +93,7 @@ const PlayerVideo = () => {
 					wrapperStyle={styles.exitIcon as ViewStyle}
 					size={25}
 					shadowSize={55}
-					color={theme.primary}
+					color={primary}
 					type='feather'
 					name='x'
 					onPress={() =>
@@ -127,7 +126,7 @@ const PlayerVideo = () => {
 						<IconButton
 							size={25}
 							shadowSize={60}
-							color={theme.primary}
+							color={primary}
 							name='random'
 							type='font-awesome'
 							onPress={drawNewPauseHandler}
@@ -138,7 +137,7 @@ const PlayerVideo = () => {
 				<IconButton
 					size={70}
 					shadowSize={120}
-					color={theme.primary}
+					color={primary}
 					type={stopExercising ? 'foundation' : 'antdesign'}
 					name={stopExercising ? 'play' : 'pause'}
 					onPress={managePlayer}

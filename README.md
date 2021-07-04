@@ -11,5 +11,4 @@
 Player TODO:
 
 - Add exercises
-- Optimizing
-- Clean up styles
+- Testing
