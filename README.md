@@ -11,6 +11,5 @@
 Player TODO:
 
 - Add exercises
-- Load clips from server and cache its
+- Optimizing
 - Clean up styles
-- Add animations (footer, player, random button)

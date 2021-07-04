@@ -1,0 +1,17 @@
+.downloadScreen {
+	position: absolute;
+	background-color: #fff;
+	z-index: 20;
+}
+
+.downloadProgress {
+	position: absolute;
+	z-index: 25;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.progressBar {
+	margin-top: 12px;
+}

@@ -8,6 +8,7 @@ import { usePauseContext } from '../../../utils/context/PauseContext'
 import { useThemeContext } from '../../../utils/context/ThemeContext'
 import { useSettingsContext } from '../../../utils/context/SettingsContext'
 import { usePlayerContext } from '../PlayerContext'
+import { sentryError } from '../../../utils/sentryEvent'
 import styles from './PlayerFooter.scss'
 
 const PlayerFooter = () => {
@@ -25,6 +26,7 @@ const PlayerFooter = () => {
 	const [unmountExerciseInfo, setUnmountExerciseInfo] = useState(false)
 
 	if (!time || !exercise) {
+		sentryError('Missing data from context in PlayerFooter')
 		return <></>
 	}
 
@@ -68,7 +70,7 @@ const PlayerFooter = () => {
 		<Animated.View style={{ bottom: moveExerciseInfoAnim }}>
 			<View style={styles.exerciseInfo as ViewType}>
 				<Text style={addTextColor(styles.exerciseInfoHeading, pickTextColor(theme.primary))}>
-					{translations.Pause.durationTime}
+					{translations.Player.durationTime}
 				</Text>
 
 				<TouchableOpacity

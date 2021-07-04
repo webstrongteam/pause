@@ -6,7 +6,7 @@ export interface Pause {
 }
 
 export interface Exercise {
-	name: string
+	videoId: string
 	difficulty: Difficulty
 	iconName: string
 	requiredLevel: number

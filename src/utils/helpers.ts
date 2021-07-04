@@ -1,9 +1,11 @@
 import { Animated, NativeModules, Platform } from 'react-native'
+import { BoxShadowType } from 'react-native-shadow'
 import { Exercise, Pause } from '../types/pause'
 import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings'
 import { Color } from '../types/theme'
 import { TextType, ViewType } from '../types/styles'
 import config from '../config/config'
+
 import {
 	baseExercisePoints,
 	baseLevelPoints,
@@ -15,7 +17,6 @@ import {
 	progressSqrt,
 	shortTimeMultiplier,
 } from './consts'
-
 import exercises from '../resources/exercises.json'
 import colors from '../resources/colors.json'
 
@@ -30,7 +31,7 @@ export const getLocale = () => {
 	return 'en'
 }
 
-export const getShadowOpt = (size: number) => ({
+export const getShadowOpt = (size: number): BoxShadowType => ({
 	width: size,
 	height: size,
 	color: '#000',
@@ -133,7 +134,7 @@ const getRandomExercises = (
 	} else {
 		availableExercises = (exercises as Exercise[]).filter(
 			(exercise) =>
-				actualExercise.name !== exercise.name &&
+				actualExercise.videoId !== exercise.videoId &&
 				+exercise.requiredLevel <= level &&
 				exercise.difficulty === difficulty,
 		)

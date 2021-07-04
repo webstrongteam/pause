@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Animated, View, ViewStyle } from 'react-native'
 import { Video } from 'expo-av'
+import { BoxShadow, BoxShadowType } from 'react-native-shadow'
 import { playerInitialState, usePlayerContext } from '../PlayerContext'
 import { useThemeContext } from '../../../utils/context/ThemeContext'
 import { getRandomPause, setAnimation } from '../../../utils/helpers'
@@ -9,31 +10,45 @@ import logEvent from '../../../utils/logEvent'
 import { usePauseContext } from '../../../utils/context/PauseContext'
 import { useSettingsContext } from '../../../utils/context/SettingsContext'
 import { height, width } from '../../../utils/consts'
-import useAsyncEffect from '../../../utils/hooks/useAsyncEffect'
 import PauseVideo from '../components/PauseVideo/PauseVideo'
 import IconButton from '../components/IconButton/IconButton'
+import DownloadVideo from '../components/DownloadVideo/DownloadVideo'
 import styles from './PlayerVideo.scss'
 
 const playerWidth = width * 0.75
 const playerHeight = height * 0.5
 
+const videoShadowOpt: BoxShadowType = {
+	width: playerWidth,
+	height: playerHeight,
+	border: 6,
+	opacity: 0.1,
+	color: '#000',
+	radius: 0,
+	x: 0,
+	y: 0,
+	style: { marginVertical: 0 },
+}
+
 const PlayerVideo = () => {
-	const video = React.useRef<Video>(null)
+	const video = useRef<Video>(null)
+	const scaleRandomExerciseButton = useRef(new Animated.Value(0)).current
+
 	const playerContext = usePlayerContext()
 	const pauseContext = usePauseContext()
 	const themeContext = useThemeContext()
-	const settingsContext = useSettingsContext()
 
+	const settingsContext = useSettingsContext()
 	const player = playerContext.useSubscribe((s) => s)
 	const theme = themeContext.useSubscribe((s) => s)
 	const pause = pauseContext.useSubscribe((p) => p)
+
 	const settings = settingsContext.useSubscribe((s) => s.settings!)
 
-	const scaleRandomExerciseButton = useRef(new Animated.Value(0)).current
-
 	const stopExercising = player.status === 'stop' || player.status === 'preview'
-	const pauseExercising =
-		(player.fullTime !== undefined && player.status === 'stop') || player.status === 'pause'
+	const showPauseScreen =
+		player.videoUri &&
+		((player.fullTime !== undefined && player.status === 'stop') || player.status === 'pause')
 
 	const drawNewPauseHandler = () => {
 		logEvent('Draw new pause', {
@@ -66,9 +81,8 @@ const PlayerVideo = () => {
 		}
 	}, [stopExercising])
 
-	useAsyncEffect(async () => {
+	useEffect(() => {
 		if (video.current) {
-			await video.current.playAsync()
 			playerContext.setPlayer({ videoRef: video.current })
 		}
 	}, [video.current])
@@ -87,16 +101,24 @@ const PlayerVideo = () => {
 						playerContext.setPlayer({ openModal: true, modalType: 'leaveModal', status: 'stop' })}
 				/>
 
-				{pauseExercising && <PauseVideo playerHeight={playerHeight} playerWidth={playerWidth} />}
+				{!player.videoUri && (
+					<DownloadVideo playerHeight={playerHeight} playerWidth={playerWidth} />
+				)}
+				{showPauseScreen && <PauseVideo playerHeight={playerHeight} playerWidth={playerWidth} />}
 
-				<Video
-					ref={video}
-					source={require('../../../../assets/exercises/1.mp4')}
-					style={{ width: playerWidth, height: playerHeight }}
-					resizeMode='cover'
-					isLooping
-					isMuted
-				/>
+				{player.videoUri && (
+					<BoxShadow setting={videoShadowOpt}>
+						<Video
+							ref={video}
+							source={{ uri: player.videoUri }}
+							style={{ width: playerWidth, height: playerHeight }}
+							onLoadStart={() => video.current?.playAsync()}
+							resizeMode='cover'
+							isLooping
+							isMuted
+						/>
+					</BoxShadow>
+				)}
 			</View>
 
 			<View style={styles.playerButtons as ViewStyle}>

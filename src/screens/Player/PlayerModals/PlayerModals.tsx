@@ -6,6 +6,7 @@ import { usePauseContext } from '../../../utils/context/PauseContext'
 import { useSettingsContext } from '../../../utils/context/SettingsContext'
 import { usePlayerContext } from '../PlayerContext'
 import styles from './PlayerModals.scss'
+import { sentryError } from '../../../utils/sentryEvent'
 
 const PlayerModals = () => {
 	const playerContext = usePlayerContext()
@@ -13,9 +14,14 @@ const PlayerModals = () => {
 	const pauseContext = usePauseContext()
 
 	const player = playerContext.useSubscribe((s) => s)
-	const time = settingsContext.useSubscribe((s) => s.settings?.time)!
-	const exercise = pauseContext.useSubscribe((p) => p.exercise!)
+	const time = settingsContext.useSubscribe((s) => s.settings?.time)
+	const exercise = pauseContext.useSubscribe((p) => p.exercise)
 	const translations = settingsContext.useSubscribe((s) => s.translations)
+
+	if (!time || !exercise) {
+		sentryError('Missing data from context in PlayerModals')
+		return <></>
+	}
 
 	if (player.modalType === 'leaveModal') {
 		const closeModalHandler = () => {
@@ -54,7 +60,7 @@ const PlayerModals = () => {
 
 		return (
 			<Modal
-				title={exercise.name}
+				title={translations.Player.exercise}
 				visible={player.openModal}
 				toggleModal={() => playerContext.setPlayer({ openModal: false })}
 				buttons={[
@@ -68,7 +74,7 @@ const PlayerModals = () => {
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
 							<Text style={styles.textLight as TextType}>
-								{translations.Pause.seriesDurationTime}
+								{translations.Player.seriesDurationTime}
 							</Text>
 						</View>
 						<View>
@@ -77,7 +83,7 @@ const PlayerModals = () => {
 					</View>
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
-							<Text style={styles.textLight as TextType}>{translations.Pause.numberOfReps}</Text>
+							<Text style={styles.textLight as TextType}>{translations.Player.numberOfReps}</Text>
 						</View>
 						<View>
 							<Text style={styles.textBold as TextType}>{exercise.time[time].exerciseCount}</Text>
@@ -86,7 +92,7 @@ const PlayerModals = () => {
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
 							<Text style={styles.textLight as TextType}>
-								{translations.Pause.breakDurationTime}
+								{translations.Player.breakDurationTime}
 							</Text>
 						</View>
 						<View>
@@ -95,7 +101,7 @@ const PlayerModals = () => {
 					</View>
 					<View style={styles.modalElements as ViewType}>
 						<View style={styles.marginModalInfo as ViewType}>
-							<Text style={styles.textLight as TextType}>{translations.Pause.totalTime}</Text>
+							<Text style={styles.textLight as TextType}>{translations.Player.totalTime}</Text>
 						</View>
 						<View>
 							<Text style={styles.textBold as TextType}>

@@ -8,6 +8,7 @@ export interface Player {
 	fullTime?: number
 	exerciseTime: number
 	pauseTime: number
+	videoUri?: string
 	pauseEffect?: Sound
 	finishEffect?: Sound
 	videoRef?: Video

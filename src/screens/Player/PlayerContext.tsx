@@ -23,6 +23,7 @@ export const playerInitialState: Player = {
 	pauseTime: 0,
 	exerciseTime: 0,
 	openModal: false,
+	videoUri: undefined,
 	modalType: 'exerciseInfoModal',
 }
 
