@@ -6,6 +6,7 @@ import { usePauseContext } from '../../../utils/context/PauseContext'
 import { useSettingsContext } from '../../../utils/context/SettingsContext'
 import { usePlayerContext } from '../PlayerContext'
 import { sentryError } from '../../../utils/sentryEvent'
+import { getPauseTotalTime } from '../../../utils/helpers'
 import styles from './PlayerModals.scss'
 
 const PlayerModals = () => {
@@ -54,7 +55,7 @@ const PlayerModals = () => {
 	}
 
 	if (player.modalType === 'exerciseInfoModal') {
-		const totalPauseTime = exercise.time[time].totalTime
+		const totalPauseTime = getPauseTotalTime(exercise.time[time])
 		const pauseMinutes = Math.floor(totalPauseTime / 60)
 		const pauseSeconds = Math.floor(totalPauseTime % 60)
 

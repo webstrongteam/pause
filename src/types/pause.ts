@@ -10,13 +10,11 @@ export interface Exercise {
 	difficulty: Difficulty
 	iconName: string
 	requiredLevel: number
-	time: Record<
-		Time,
-		{
-			pauseTime: number
-			exerciseCount: number
-			exerciseTime: number
-			totalTime: number
-		}
-	>
+	time: Record<Time, ExerciseTime>
+}
+
+export type ExerciseTime = {
+	pauseTime: number
+	exerciseCount: number
+	exerciseTime: number
 }

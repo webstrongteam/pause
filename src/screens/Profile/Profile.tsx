@@ -155,6 +155,7 @@ const Profile = ({ navigation }: Props) => {
 				</Text>
 
 				<NextLevelBenefits
+					level={settings.level}
 					titleClassName={addTextColor(styles.nextLevelText, pickTextColor(theme.primary))}
 					title={translations.Level.nextLevel}
 					color={theme.third}

@@ -1,6 +1,6 @@
 import { Animated, NativeModules, Platform } from 'react-native'
 import { BoxShadowType } from 'react-native-shadow'
-import { Exercise, Pause } from '../types/pause'
+import { Exercise, ExerciseTime, Pause } from '../types/pause'
 import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings'
 import { Color } from '../types/theme'
 import { TextType, ViewType } from '../types/styles'
@@ -68,6 +68,10 @@ export const getNextLevelBenefits = (level: number): NextLevelBenefits => {
 		colors: nextLevelColors.length,
 	}
 }
+
+export const getPauseTotalTime = (exerciseTime: ExerciseTime): number =>
+	exerciseTime.exerciseTime * exerciseTime.exerciseCount +
+	exerciseTime.pauseTime * (exerciseTime.exerciseCount - 1)
 
 export const addBackgroundColor = (baseStyles: {}, backgroundColor: string): ViewType => [
 	baseStyles,

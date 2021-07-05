@@ -26,7 +26,7 @@ import useShowFailureMessage from '../../utils/hooks/useShowFailureMessage'
 import useShowMessage from '../../utils/hooks/useShowMessage'
 import Header from '../../components/Header/Header'
 import { addBackgroundColor, addTextColor } from '../../utils/helpers'
-import { optionalColor } from '../../utils/consts'
+import { defaultTheme, optionalColor } from '../../utils/consts'
 import { restartTheme } from '../../../database/actions/theme'
 import { sentryError } from '../../utils/sentryEvent'
 import logEvent from '../../utils/logEvent'
@@ -62,7 +62,7 @@ const SettingsScreen = ({ navigation }: Props) => {
 	const showFailureMessage = useShowFailureMessage()
 	const showMessage = useShowMessage({
 		message: translations.Settings.settingsRestore,
-		backgroundColor: theme.primary,
+		backgroundColor: defaultTheme[0],
 	})
 
 	const buttonGroupStyles = [

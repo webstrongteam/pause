@@ -12,6 +12,7 @@ import { TextType } from '../../types/styles'
 
 type Props = {
 	title?: string
+	level: number
 	emptyBenefitsText?: string
 	color: string
 	textColor: string
@@ -20,6 +21,7 @@ type Props = {
 
 const NextLevelBenefits = ({
 	title,
+	level,
 	color,
 	textColor,
 	emptyBenefitsText,
@@ -27,7 +29,6 @@ const NextLevelBenefits = ({
 }: Props) => {
 	const { useSubscribe } = useSettingsContext()
 	const translations = useSubscribe((s) => s.translations.common)
-	const level = useSubscribe((s) => s.settings?.level)!
 
 	const levelBenefits = getNextLevelBenefits(level)
 

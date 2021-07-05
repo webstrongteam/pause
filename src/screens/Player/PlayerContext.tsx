@@ -8,7 +8,7 @@ import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { usePauseContext } from '../../utils/context/PauseContext'
 import { sentryError } from '../../utils/sentryEvent'
 import logEvent from '../../utils/logEvent'
-import { timeout } from '../../utils/helpers'
+import { getPauseTotalTime, timeout } from '../../utils/helpers'
 import { NavigationScreenType } from '../../types/navigation'
 
 type Props = {
@@ -58,7 +58,13 @@ const PlayerHandler = ({ navigation }: Props) => {
 		playerContext.setPlayer({ pauseEffect: pause.sound, finishEffect: finish.sound })
 	}
 
-	const BackHandlerEvent = () => {
+	const unmountAssets = async () => {
+		if (player.pauseEffect) await assetControl('unloadAsync', player.pauseEffect)
+		if (player.finishEffect) await assetControl('unloadAsync', player.finishEffect)
+		if (player.videoRef) await assetControl('unloadAsync', player.videoRef)
+	}
+
+	const backHandlerEvent = () => {
 		BackHandler.addEventListener('hardwareBackPress', () => {
 			playerContext.setPlayer({ openModal: true, modalType: 'leaveModal', status: 'stop' })
 			return true
@@ -67,27 +73,35 @@ const PlayerHandler = ({ navigation }: Props) => {
 
 	useAsyncEffect(async () => {
 		await loadSoundEffects()
+		backHandlerEvent()
 
-		BackHandlerEvent()
 		return () => {
-			BackHandlerEvent()
+			backHandlerEvent()
+			unmountAssets()
 		}
 	}, [])
 
 	useAsyncEffect(async () => {
 		if (player.status === 'exercising' || player.status === 'pause') {
 			if (player.pauseEffect) await assetControl('replayAsync', player.pauseEffect)
-			if (player.videoRef) await assetControl('playAsync', player.videoRef)
+			if (player.videoRef) {
+				if (player.status === 'exercising') {
+					await assetControl('playAsync', player.videoRef)
+				} else {
+					await assetControl('pauseAsync', player.videoRef)
+				}
+			}
 
 			if (player.fullTime === undefined) {
 				playerContext.setPlayer({
-					fullTime: exercise.time[time].totalTime,
+					fullTime: getPauseTotalTime(exercise.time[time]),
 					exerciseTime: exercise.time[time].exerciseTime,
 				})
 			}
+			return
 		}
 
-		if (player.status === 'stop' || player.status === 'pause') {
+		if (player.status === 'stop') {
 			if (player.fullTime === undefined) return
 
 			if (player.status === 'stop') setShouldIncrementTime(false)
@@ -96,16 +110,14 @@ const PlayerHandler = ({ navigation }: Props) => {
 		}
 
 		if (player.status === 'exit' || player.status === 'finish') {
-			if (player.pauseEffect) await assetControl('unloadAsync', player.pauseEffect)
-			if (player.finishEffect) await assetControl('unloadAsync', player.finishEffect)
-			if (player.videoRef) await assetControl('unloadAsync', player.videoRef)
-
 			const finished = player.status === 'finish'
 			if (!finished) {
 				await logEvent('Exit from pending pause', {
 					component: 'Player',
 					currentPause: { exercise, time },
 				})
+			} else if (player.finishEffect) {
+				await assetControl('pauseAsync', player.finishEffect)
 			}
 
 			navigation.replace('Home', { finished })

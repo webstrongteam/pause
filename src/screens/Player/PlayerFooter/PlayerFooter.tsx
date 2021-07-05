@@ -2,7 +2,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Icon } from 'react-native-elements'
 import { Animated, Text, TouchableOpacity, View } from 'react-native'
 import Footer from '../../../components/Footer/Footer'
-import { addTextColor, pickTextColor, setAnimation } from '../../../utils/helpers'
+import {
+	addTextColor,
+	getPauseTotalTime,
+	pickTextColor,
+	setAnimation,
+} from '../../../utils/helpers'
 import { ViewType } from '../../../types/styles'
 import { usePauseContext } from '../../../utils/context/PauseContext'
 import { useThemeContext } from '../../../utils/context/ThemeContext'
@@ -39,17 +44,23 @@ const PlayerFooter = () => {
 				setUnmountExerciseInfo(true)
 				setAnimation(0, 250, moveProgressBarAnim)
 			})
+		} else if (player.status === 'preview') {
+			setAnimation(-100, 250, moveProgressBarAnim, () => {
+				setUnmountExerciseInfo(false)
+				setAnimation(0, 150, moveExerciseInfoAnim)
+			})
 		}
 	}, [player.status, player.fullTime])
 
 	if (unmountExerciseInfo) {
 		const isExercising = player.exerciseTime > 0
+		const totalTime = getPauseTotalTime(exercise.time[time])
 
 		return (
 			<Animated.View style={{ bottom: moveProgressBarAnim }}>
 				<Footer
-					currentValue={exercise.time[time].totalTime - player.fullTime!}
-					maxValue={exercise.time[time].totalTime}
+					currentValue={totalTime - (player.fullTime ?? 0)}
+					maxValue={totalTime}
 					barColor={theme.progress}
 					backgroundColor={theme.primary}
 				>
