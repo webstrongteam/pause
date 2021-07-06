@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 import { BoxShadow } from 'react-native-shadow'
 import styles from './Profile.scss'
 
-//Components
+// Components
 import Header from '../../components/Header/Header'
 import Wavy from '../../components/Wavy/Wavy'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
@@ -13,16 +13,16 @@ import Modal from '../../components/Modal/Modal'
 import ColorButton from '../../components/ThemeConfigurator/ColorButton/ColorButton'
 import ColorOptions from '../../components/ThemeConfigurator/ColorOptions/ColorOptions'
 
-//Types
+// Types
 import { TextType, ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
 import { ColorType } from '../../types/theme'
 
-//Contexts
+// Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 
-//Utils
+// Utils
 import {
 	addBackgroundColor,
 	addTextColor,
@@ -39,21 +39,21 @@ type Props = {
 }
 
 const Profile = ({ navigation }: Props) => {
-	//States
+	// States
 	const [modalVisible, setModalVisible] = useState(false)
 	const [isColorPicked, setIsColorPicked] = useState(false)
 	const [selectedColorType, setSelectedColorType] = useState<ColorType>('primary')
 
-	//Contexts
+	// Contexts
 	const settingsContext = useSettingsContext()
 	const themeContext = useThemeContext()
 
-	//Subscribes
+	// Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)!
 	const theme = themeContext.useSubscribe((t) => t)
 
-	//Functions
+	// Functions
 	const colorPickHandler = (colorType: ColorType) => {
 		setSelectedColorType(colorType)
 		setIsColorPicked(true)
@@ -118,7 +118,9 @@ const Profile = ({ navigation }: Props) => {
 					size={140}
 				/>
 				<Text style={addTextColor(styles.levelText, pickTextColor(theme.primary))}>
-					{translations.common.level}&nbsp;{settings.level}
+					{translations.common.level}
+					&nbsp;
+					{settings.level}
 				</Text>
 
 				<ProgressBar
@@ -129,7 +131,10 @@ const Profile = ({ navigation }: Props) => {
 				/>
 
 				<Text style={addTextColor(styles.levelInfo, pickTextColor(theme.primary))}>
-					<Text style={styles.fontBold as TextType}>{settings.points}&nbsp;</Text>
+					<Text style={styles.fontBold as TextType}>
+						{settings.points}
+						&nbsp;
+					</Text>
 					{getVariety(
 						settings.points,
 						translations.Profile.singularPoints,
@@ -140,7 +145,8 @@ const Profile = ({ navigation }: Props) => {
 
 				<Text style={addTextColor(styles.levelInfo, pickTextColor(theme.primary))}>
 					<Text style={styles.fontBold as TextType}>
-						{getPointsToLevelUp(settings.level) - settings.points}&nbsp;
+						{getPointsToLevelUp(settings.level) - settings.points}
+						&nbsp;
 					</Text>
 					{getVariety(
 						getPointsToLevelUp(settings.level) - settings.points,

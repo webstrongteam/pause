@@ -1,3 +1,4 @@
 *scss.d.ts
 /firebase/*
 .expo*
+package-lock.json

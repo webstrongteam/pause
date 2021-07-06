@@ -106,7 +106,8 @@ const PlayerModals = () => {
 						</View>
 						<View>
 							<Text style={styles.textBold as TextType}>
-								{pauseMinutes} min {pauseSeconds}s
+								{pauseMinutes} min
+								{pauseSeconds}s
 							</Text>
 						</View>
 					</View>

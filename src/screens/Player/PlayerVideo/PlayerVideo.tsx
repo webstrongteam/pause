@@ -97,7 +97,8 @@ const PlayerVideo = () => {
 					type='feather'
 					name='x'
 					onPress={() =>
-						playerContext.setPlayer({ openModal: true, modalType: 'leaveModal', status: 'stop' })}
+						playerContext.setPlayer({ openModal: true, modalType: 'leaveModal', status: 'stop' })
+					}
 				/>
 
 				{!player.videoUri && (

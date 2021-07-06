@@ -46,7 +46,12 @@ const NextLevelBenefits = ({
 			{!!levelBenefits.exercises && (
 				<View style={addBackgroundColor(styles.nextLevelInfo, color)}>
 					<Text style={addTextColor(styles.nextLevelInfoText, textColor)}>
-						{levelBenefits.exercises > 1 && <Text>{levelBenefits.exercises}&nbsp;</Text>}
+						{levelBenefits.exercises > 1 && (
+							<Text>
+								{levelBenefits.exercises}
+								&nbsp;
+							</Text>
+						)}
 						{getVariety(
 							levelBenefits.exercises,
 							translations.singularNewExercise,
@@ -60,7 +65,12 @@ const NextLevelBenefits = ({
 			{!!levelBenefits.colors && (
 				<View style={addBackgroundColor(styles.nextLevelInfo, color)}>
 					<Text style={addTextColor(styles.nextLevelInfoText, textColor)}>
-						{levelBenefits.colors > 1 && <Text>{levelBenefits.colors}&nbsp;</Text>}
+						{levelBenefits.colors > 1 && (
+							<Text>
+								{levelBenefits.colors}
+								&nbsp;
+							</Text>
+						)}
 						{getVariety(
 							levelBenefits.colors,
 							translations.singularNewTheme,

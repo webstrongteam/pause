@@ -2,24 +2,24 @@ import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
 
-//Styles and types
+// Styles and types
 import styles from './Home.scss'
 import { ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
 
-//Components
+// Components
 import Wavy from '../../components/Wavy/Wavy'
 import PauseButton from '../../components/PauseButton/PauseButton'
 import Footer from '../../components/Footer/Footer'
 import Modal from '../../components/Modal/Modal'
 import NextLevelBenefits from '../../components/NextLevelInfo/NextLevelInfo'
 
-//Contexts
+// Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 import { usePauseContext } from '../../utils/context/PauseContext'
 
-//Functions
+// Functions
 import { changeLevelAndPoints } from '../../../database/actions/settings'
 import {
 	addBackgroundColor,
@@ -43,12 +43,12 @@ type Props = {
 const PROGRESS_ANIMATION_DURATION = 2500
 
 const Home = ({ navigation }: Props) => {
-	//Contexts
+	// Contexts
 	const settingsContext = useSettingsContext()
 	const pauseContext = usePauseContext()
 	const themeContext = useThemeContext()
 
-	//Subscribes
+	// Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const settings = settingsContext.useSubscribe((s) => s.settings)
 	const theme = themeContext.useSubscribe((t) => t)
@@ -77,7 +77,7 @@ const Home = ({ navigation }: Props) => {
 		backgroundColor: theme.primary,
 	})
 
-	//Handlers and functions
+	// Handlers and functions
 	const pauseHandler = () => {
 		logEvent('Move to pause screen', {
 			component: 'Home',
@@ -187,7 +187,9 @@ const Home = ({ navigation }: Props) => {
 					size={42}
 				/>
 				<Text style={addTextColor(styles.levelText, pickTextColor(theme.primary))}>
-					{translations.common.level}&nbsp;{currentLevel}
+					{translations.common.level}
+					&nbsp;
+					{currentLevel}
 				</Text>
 				<Icon
 					name='cog-outline'

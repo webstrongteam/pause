@@ -3,14 +3,14 @@ import { View } from 'react-native'
 import styles from './ColorOptions.scss'
 import RenderColors from '../RenderColors/RenderColors'
 
-//Types
+// Types
 import { ColorType } from '../../../types/theme'
 import { ViewType } from '../../../types/styles'
 
-//Contexts
+// Contexts
 import { useThemeContext } from '../../../utils/context/ThemeContext'
 
-//Helpers and actions
+// Helpers and actions
 import { addBackgroundColor } from '../../../utils/helpers'
 
 type Props = {

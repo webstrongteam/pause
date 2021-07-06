@@ -2,17 +2,17 @@ import React, { useState } from 'react'
 import { ScrollView, View, Text } from 'react-native'
 import { Icon, ButtonGroup, Button } from 'react-native-elements'
 
-//Components
+// Components
 import Wavy from '../../components/Wavy/Wavy'
 import Modal from '../../components/Modal/Modal'
 
-//Types and styles
+// Types and styles
 import styles from './Settings.scss'
 import { TextType, ViewType } from '../../types/styles'
 import { Difficulty, Lang, Time, Settings } from '../../types/settings'
 import { NavigationScreenType } from '../../types/navigation'
 
-//Contexts
+// Contexts
 import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { useThemeContext } from '../../utils/context/ThemeContext'
 

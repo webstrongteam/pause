@@ -86,14 +86,16 @@ const PlayerFooter = () => {
 
 				<TouchableOpacity
 					onPress={() =>
-						playerContext.setPlayer({ openModal: true, modalType: 'exerciseInfoModal' })}
+						playerContext.setPlayer({ openModal: true, modalType: 'exerciseInfoModal' })
+					}
 				>
 					<View style={styles.exerciseInfoElement as ViewType}>
 						<Text style={addTextColor(styles.exerciseInfoText, pickTextColor(theme.primary))}>
 							{exercise.time[time].exerciseTime}s
 						</Text>
 						<Text style={addTextColor(styles.exerciseInfoText, pickTextColor(theme.primary))}>
-							&nbsp;&nbsp;&nbsp;x{exercise.time[time].exerciseCount}
+							&nbsp;&nbsp;&nbsp;x
+							{exercise.time[time].exerciseCount}
 						</Text>
 						<Icon name='info' type='feather' color={pickTextColor(theme.primary)} size={18} />
 					</View>

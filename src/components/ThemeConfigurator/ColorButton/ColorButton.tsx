@@ -2,15 +2,15 @@ import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import styles from './ColorButton.scss'
 
-//Contexts
+// Contexts
 import { useSettingsContext } from '../../../utils/context/SettingsContext'
 import { useThemeContext } from '../../../utils/context/ThemeContext'
 
-//Types
+// Types
 import { TextType, ViewType } from '../../../types/styles'
 import { ColorType } from '../../../types/theme'
 
-//Utils
+// Utils
 import { addBackgroundColor } from '../../../utils/helpers'
 
 type Props = {
@@ -19,11 +19,11 @@ type Props = {
 }
 
 const ColorButton = ({ name, onPress }: Props) => {
-	//Contexts
+	// Contexts
 	const settingsContext = useSettingsContext()
 	const themeContext = useThemeContext()
 
-	//Subscribes
+	// Subscribes
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 	const theme = themeContext.useSubscribe((t) => t)
 

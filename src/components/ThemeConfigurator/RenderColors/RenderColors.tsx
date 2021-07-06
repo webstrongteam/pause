@@ -3,19 +3,19 @@ import { View, TouchableOpacity } from 'react-native'
 import { Icon } from 'react-native-elements'
 import styles from './RenderColors.scss'
 
-//Types
+// Types
 import { Color, ColorType } from '../../../types/theme'
 import { ViewType } from '../../../types/styles'
 
-//Contexts
+// Contexts
 import { useSettingsContext } from '../../../utils/context/SettingsContext'
 import { useThemeContext } from '../../../utils/context/ThemeContext'
 
-//Helpers and actions
+// Helpers and actions
 import { addBackgroundColor, pickTextColor } from '../../../utils/helpers'
 import { changeColor } from '../../../../database/actions/theme'
 
-//Config
+// Config
 import colors from '../../../resources/colors.json'
 
 type Props = {
@@ -23,15 +23,15 @@ type Props = {
 }
 
 const RenderColors = ({ type }: Props) => {
-	//Contexts
+	// Contexts
 	const settingsContext = useSettingsContext()
 	const themeContext = useThemeContext()
 
-	//Subscribes
+	// Subscribes
 	const currentLevel = settingsContext.useSubscribe((s) => s.settings?.level)!
 	const theme = themeContext.useSubscribe((t) => t)
 
-	//Functions
+	// Functions
 	const changeColorHandler = async (color: string) => {
 		themeContext.setTheme(await changeColor(color, type))
 	}
