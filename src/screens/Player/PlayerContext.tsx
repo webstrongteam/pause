@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from 'react'
+import React, { PropsWithChildren, useEffect, useRef } from 'react'
 import { BackHandler } from 'react-native'
 import { Audio, Video } from 'expo-av'
 import { Player } from '../../types/player'
@@ -8,7 +8,7 @@ import { useSettingsContext } from '../../utils/context/SettingsContext'
 import { usePauseContext } from '../../utils/context/PauseContext'
 import { sentryError } from '../../utils/sentryEvent'
 import logEvent from '../../utils/logEvent'
-import { getPauseTotalTime, timeout } from '../../utils/helpers'
+import { getPauseTotalTime } from '../../utils/helpers'
 import { NavigationScreenType } from '../../types/navigation'
 
 type Props = {
@@ -47,7 +47,8 @@ const PlayerHandler = ({ navigation }: Props) => {
 		return <></>
 	}
 
-	const [shouldIncrementTime, setShouldIncrementTime] = useState(false)
+	// eslint-disable-next-line no-undef
+	const playerTimerId = useRef<NodeJS.Timer | null>(null)
 
 	const loadSoundEffects = async () => {
 		// eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -71,11 +72,54 @@ const PlayerHandler = ({ navigation }: Props) => {
 		})
 	}
 
+	const playerTimer = () => {
+		const timeToEnd = player.fullTime! - 1
+
+		if (player.status === 'exercising') {
+			if (player.exerciseTime === 1) {
+				playerContext.setPlayer({
+					status: timeToEnd === 0 ? 'finish' : 'pause',
+					fullTime: timeToEnd,
+					pauseTime: exercise.time[time].pauseTime,
+					exerciseTime: 0,
+				})
+			} else {
+				playerContext.setPlayer({
+					fullTime: timeToEnd,
+					exerciseTime: player.exerciseTime - 1,
+				})
+			}
+		}
+
+		if (player.status === 'pause') {
+			if (player.pauseTime === 1) {
+				playerContext.setPlayer({
+					status: 'exercising',
+					fullTime: timeToEnd,
+					exerciseTime: exercise.time[time].exerciseTime,
+					pauseTime: 0,
+				})
+			} else {
+				playerContext.setPlayer({
+					fullTime: player.fullTime! - 1,
+					pauseTime: player.pauseTime - 1,
+				})
+			}
+		}
+	}
+
+	const stopPlayerTimer = () => {
+		if (playerTimerId.current) {
+			clearTimeout(playerTimerId.current)
+		}
+	}
+
 	useAsyncEffect(async () => {
 		await loadSoundEffects()
 		backHandlerEvent()
 
 		return () => {
+			stopPlayerTimer()
 			backHandlerEvent()
 			unmountAssets()
 		}
@@ -83,7 +127,9 @@ const PlayerHandler = ({ navigation }: Props) => {
 
 	useAsyncEffect(async () => {
 		if (player.status === 'exercising' || player.status === 'pause') {
-			if (player.pauseEffect) await assetControl('replayAsync', player.pauseEffect)
+			if (player.pauseEffect) {
+				await assetControl('replayAsync', player.pauseEffect)
+			}
 			if (player.videoRef) {
 				if (player.status === 'exercising') {
 					await assetControl('playAsync', player.videoRef)
@@ -103,9 +149,9 @@ const PlayerHandler = ({ navigation }: Props) => {
 
 		if (player.status === 'stop') {
 			if (player.fullTime === undefined) return
-
-			if (player.status === 'stop') setShouldIncrementTime(false)
-			if (player.videoRef) await assetControl('pauseAsync', player.videoRef)
+			if (player.videoRef) {
+				await assetControl('pauseAsync', player.videoRef)
+			}
 			return
 		}
 
@@ -117,67 +163,21 @@ const PlayerHandler = ({ navigation }: Props) => {
 					currentPause: { exercise, time },
 				})
 			} else if (player.finishEffect) {
-				await assetControl('pauseAsync', player.finishEffect)
+				await assetControl('replayAsync', player.finishEffect)
 			}
 
 			navigation.replace('Home', { finished })
 		}
 	}, [player.status])
 
-	useAsyncEffect(async () => {
-		await timeout(500)
-
-		if (
-			!(player.status === 'exercising' || player.status === 'pause') ||
-			player.fullTime === undefined
-		) {
+	useEffect(() => {
+		if (!(player.status === 'exercising' || player.status === 'pause') || !player.fullTime) {
+			stopPlayerTimer()
 			return
 		}
 
-		if (player.fullTime === 0) {
-			playerContext.setPlayer({ status: 'finish' })
-			return
-		}
-
-		if (shouldIncrementTime) {
-			if (player.status === 'exercising') {
-				if (player.exerciseTime === 1) {
-					playerContext.setPlayer({
-						status: 'pause',
-						fullTime: player.fullTime - 1,
-						pauseTime: exercise.time[time].pauseTime,
-						exerciseTime: 0,
-					})
-				} else {
-					playerContext.setPlayer({
-						fullTime: player.fullTime - 1,
-						exerciseTime: player.exerciseTime - 1,
-					})
-				}
-			}
-
-			if (player.status === 'pause') {
-				if (player.pauseTime === 1) {
-					playerContext.setPlayer({
-						status: 'exercising',
-						fullTime: player.fullTime - 1,
-						exerciseTime: exercise.time[time].exerciseTime,
-						pauseTime: 0,
-					})
-				} else {
-					playerContext.setPlayer({
-						fullTime: player.fullTime - 1,
-						pauseTime: player.pauseTime - 1,
-					})
-				}
-			}
-
-			setShouldIncrementTime(false)
-			return
-		}
-
-		setShouldIncrementTime(true)
-	}, [player.status, shouldIncrementTime, player.fullTime === undefined])
+		playerTimerId.current = setTimeout(playerTimer, 1000)
+	}, [player.status, player.fullTime])
 
 	return <></>
 }
