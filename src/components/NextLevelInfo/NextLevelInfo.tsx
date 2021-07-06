@@ -7,11 +7,12 @@ import {
 	getVariety,
 } from '../../utils/helpers'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
-import styles from './NextLevelInfo.scss'
 import { TextType } from '../../types/styles'
+import styles from './NextLevelInfo.scss'
 
 type Props = {
 	title?: string
+	level: number
 	emptyBenefitsText?: string
 	color: string
 	textColor: string
@@ -20,6 +21,7 @@ type Props = {
 
 const NextLevelBenefits = ({
 	title,
+	level,
 	color,
 	textColor,
 	emptyBenefitsText,
@@ -27,11 +29,10 @@ const NextLevelBenefits = ({
 }: Props) => {
 	const { useSubscribe } = useSettingsContext()
 	const translations = useSubscribe((s) => s.translations.common)
-	const level = useSubscribe((s) => s.settings?.level)!
 
 	const levelBenefits = getNextLevelBenefits(level)
 
-	if (!levelBenefits.themes && !levelBenefits.music && !levelBenefits.exercises) {
+	if (!levelBenefits.colors && !levelBenefits.exercises) {
 		if (emptyBenefitsText) {
 			return <Text style={[styles.title, titleClassName]}>{emptyBenefitsText}</Text>
 		}
@@ -39,7 +40,7 @@ const NextLevelBenefits = ({
 	}
 
 	return (
-		<View>
+		<>
 			<Text style={[styles.title, titleClassName]}>{title}</Text>
 
 			{!!levelBenefits.exercises && (
@@ -56,26 +57,12 @@ const NextLevelBenefits = ({
 				</View>
 			)}
 
-			{!!levelBenefits.music && (
+			{!!levelBenefits.colors && (
 				<View style={addBackgroundColor(styles.nextLevelInfo, color)}>
 					<Text style={addTextColor(styles.nextLevelInfoText, textColor)}>
-						{levelBenefits.music > 1 && <Text>{levelBenefits.music}&nbsp;</Text>}
+						{levelBenefits.colors > 1 && <Text>{levelBenefits.colors}&nbsp;</Text>}
 						{getVariety(
-							levelBenefits.music,
-							translations.singularNewMusic,
-							translations.pluralNewMusic,
-							translations.genitiveNewMusic,
-						)}
-					</Text>
-				</View>
-			)}
-
-			{!!levelBenefits.themes && (
-				<View style={addBackgroundColor(styles.nextLevelInfo, color)}>
-					<Text style={addTextColor(styles.nextLevelInfoText, textColor)}>
-						{levelBenefits.themes > 1 && <Text>{levelBenefits.themes}&nbsp;</Text>}
-						{getVariety(
-							levelBenefits.themes,
+							levelBenefits.colors,
 							translations.singularNewTheme,
 							translations.pluralNewThemes,
 							translations.genitiveNewThemes,
@@ -83,7 +70,7 @@ const NextLevelBenefits = ({
 					</Text>
 				</View>
 			)}
-		</View>
+		</>
 	)
 }
 

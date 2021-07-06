@@ -6,7 +6,7 @@ import styles from './Profile.scss'
 
 //Components
 import Header from '../../components/Header/Header'
-import WavyHeader from '../../components/WavyHeader/WavyHeader'
+import Wavy from '../../components/Wavy/Wavy'
 import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import NextLevelBenefits from '../../components/NextLevelInfo/NextLevelInfo'
 import Modal from '../../components/Modal/Modal'
@@ -103,13 +103,13 @@ const Profile = ({ navigation }: Props) => {
 					)}
 				</Modal>
 
-				<WavyHeader bgColor={theme.secondary}>
+				<Wavy bgColor={theme.secondary}>
 					<Header closeIconHandler={() => navigation.goBack()}>
 						<Text style={addTextColor(styles.title, theme.primary)}>
 							{translations.Profile.title}
 						</Text>
 					</Header>
-				</WavyHeader>
+				</Wavy>
 
 				<Icon
 					name='account'
@@ -155,6 +155,7 @@ const Profile = ({ navigation }: Props) => {
 				</Text>
 
 				<NextLevelBenefits
+					level={settings.level}
 					titleClassName={addTextColor(styles.nextLevelText, pickTextColor(theme.primary))}
 					title={translations.Level.nextLevel}
 					color={theme.third}

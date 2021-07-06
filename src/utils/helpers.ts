@@ -1,9 +1,11 @@
-import { NativeModules, Platform } from 'react-native'
-import { Exercise, Music, Pause } from '../types/pause'
+import { Animated, NativeModules, Platform } from 'react-native'
+import { BoxShadowType } from 'react-native-shadow'
+import { Exercise, ExerciseTime, Pause } from '../types/pause'
 import { Difficulty, NextLevelBenefits, Settings, Time } from '../types/settings'
 import { Color } from '../types/theme'
 import { TextType, ViewType } from '../types/styles'
 import config from '../config/config'
+
 import {
 	baseExercisePoints,
 	baseLevelPoints,
@@ -15,8 +17,6 @@ import {
 	progressSqrt,
 	shortTimeMultiplier,
 } from './consts'
-
-import music from '../resources/music.json'
 import exercises from '../resources/exercises.json'
 import colors from '../resources/colors.json'
 
@@ -31,7 +31,7 @@ export const getLocale = () => {
 	return 'en'
 }
 
-export const getShadowOpt = (size: number) => ({
+export const getShadowOpt = (size: number): BoxShadowType => ({
 	width: size,
 	height: size,
 	color: '#000',
@@ -44,7 +44,6 @@ export const getShadowOpt = (size: number) => ({
 })
 
 export const getRandomPause = (pause: Pause, settings: Settings): Pause => ({
-	music: getRandomMusic(pause.music, settings.level),
 	exercise: getRandomExercises(pause.exercise, settings.level, settings.difficulty),
 	points: +(baseExercisePoints * getPointsMultiplier(settings.time, settings.difficulty)).toFixed(
 		0,
@@ -59,18 +58,20 @@ export const getPointsToLevelUp = (level: number): number => {
 }
 
 export const getNextLevelBenefits = (level: number): NextLevelBenefits => {
-	const nextLevelMusic = (music as Music[]).filter((m) => m.requiredLevel === level + 1)
 	const nextLevelExercises = (exercises as Exercise[]).filter(
 		(exercise) => exercise.requiredLevel === level + 1,
 	)
-	const nextLevelThemes = (colors as Color[]).filter((color) => color.requiredLevel === level + 1)
+	const nextLevelColors = (colors as Color[]).filter((color) => color.requiredLevel === level + 1)
 
 	return {
-		music: nextLevelMusic.length,
 		exercises: nextLevelExercises.length,
-		themes: nextLevelThemes.length,
+		colors: nextLevelColors.length,
 	}
 }
+
+export const getPauseTotalTime = (exerciseTime: ExerciseTime): number =>
+	exerciseTime.exerciseTime * exerciseTime.exerciseCount +
+	exerciseTime.pauseTime * (exerciseTime.exerciseCount - 1)
 
 export const addBackgroundColor = (baseStyles: {}, backgroundColor: string): ViewType => [
 	baseStyles,
@@ -120,24 +121,6 @@ const getVarietyOption = (
 
 const getRandomIndex = (length: number): number => Math.floor(Math.random() * length)
 
-const getRandomMusic = (actualMusic: Music | undefined, level: number): Music => {
-	if (actualMusic && music.length === 1) {
-		return actualMusic
-	}
-
-	let availableMusic
-	if (!actualMusic) {
-		availableMusic = (music as Music[]).filter((m) => +m.requiredLevel <= level)
-	} else {
-		availableMusic = (music as Music[]).filter(
-			(m) => actualMusic.name !== m.name && +m.requiredLevel <= level,
-		)
-	}
-
-	const randomIndex = getRandomIndex(availableMusic.length)
-	return availableMusic[randomIndex]
-}
-
 const getRandomExercises = (
 	actualExercise: Exercise | undefined,
 	level: number,
@@ -155,7 +138,7 @@ const getRandomExercises = (
 	} else {
 		availableExercises = (exercises as Exercise[]).filter(
 			(exercise) =>
-				actualExercise.name !== exercise.name &&
+				actualExercise.videoId !== exercise.videoId &&
 				+exercise.requiredLevel <= level &&
 				exercise.difficulty === difficulty,
 		)
@@ -185,4 +168,17 @@ export const logConfigStatus = () => {
 	console.info(`Sentry: ${config.SETUP_SENTRY}`)
 	console.info(`Google Analytics: ${config.SETUP_ANALYTICS}`)
 	console.info('To change this setup, edit config.ts file.')
+}
+
+export const setAnimation = (
+	toValue: number,
+	duration: number,
+	value: Animated.Value,
+	callback?: () => void,
+) => {
+	Animated.timing(value, {
+		toValue,
+		duration,
+		useNativeDriver: false,
+	}).start(callback)
 }

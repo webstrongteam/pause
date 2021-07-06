@@ -1,0 +1,37 @@
+@import '../../../styles/_fonts';
+
+.breakIn {
+	@include text-16;
+	@include text-light;
+}
+
+.counter {
+	align-items: center;
+	width: 100%;
+}
+
+.counterText {
+	@include heading-22;
+	@include text-bold;
+}
+
+.exerciseInfo {
+	align-items: center;
+	margin-bottom: 48px;
+}
+
+.exerciseInfoHeading {
+	@include text-16;
+	@include text-light;
+}
+
+.exerciseInfoElement {
+	@include heading-30;
+	@include text-light;
+	flex-direction: row;
+}
+
+.exerciseInfoText {
+	@include heading-30;
+	padding-top: 4px;
+}

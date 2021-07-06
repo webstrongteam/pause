@@ -1,27 +1,67 @@
 [
 	{
-		"name": "Wall Sit",
+		"videoId": "1",
 		"difficulty": "easy",
-		"iconName": "wall_sit",
+		"requiredLevel": 1,
+		"time": {
+			"short": {
+				"pauseTime": 1,
+				"exerciseCount": 3,
+				"exerciseTime": 1
+			},
+			"medium": {
+				"pauseTime": 20,
+				"exerciseCount": 4,
+				"exerciseTime": 50
+			},
+			"long": {
+				"pauseTime": 20,
+				"exerciseCount": 6,
+				"exerciseTime": 70
+			}
+		}
+	},
+	{
+		"videoId": "2",
+		"difficulty": "easy",
 		"requiredLevel": 1,
 		"time": {
 			"short": {
 				"pauseTime": 20,
 				"exerciseCount": 3,
-				"exerciseTime": 40,
-				"totalTime": 160
+				"exerciseTime": 40
 			},
 			"medium": {
 				"pauseTime": 20,
 				"exerciseCount": 4,
-				"exerciseTime": 50,
-				"totalTime": 260
+				"exerciseTime": 50
 			},
 			"long": {
 				"pauseTime": 20,
 				"exerciseCount": 6,
-				"exerciseTime": 70,
-				"totalTime": 460
+				"exerciseTime": 70
+			}
+		}
+	},
+	{
+		"videoId": "3",
+		"difficulty": "easy",
+		"requiredLevel": 2,
+		"time": {
+			"short": {
+				"pauseTime": 20,
+				"exerciseCount": 3,
+				"exerciseTime": 40
+			},
+			"medium": {
+				"pauseTime": 20,
+				"exerciseCount": 4,
+				"exerciseTime": 50
+			},
+			"long": {
+				"pauseTime": 20,
+				"exerciseCount": 6,
+				"exerciseTime": 70
 			}
 		}
 	}

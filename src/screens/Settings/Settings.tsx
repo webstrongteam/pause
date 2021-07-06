@@ -3,7 +3,7 @@ import { ScrollView, View, Text } from 'react-native'
 import { Icon, ButtonGroup, Button } from 'react-native-elements'
 
 //Components
-import WavyHeader from '../../components/WavyHeader/WavyHeader'
+import Wavy from '../../components/Wavy/Wavy'
 import Modal from '../../components/Modal/Modal'
 
 //Types and styles
@@ -26,7 +26,7 @@ import useShowFailureMessage from '../../utils/hooks/useShowFailureMessage'
 import useShowMessage from '../../utils/hooks/useShowMessage'
 import Header from '../../components/Header/Header'
 import { addBackgroundColor, addTextColor } from '../../utils/helpers'
-import { optionalColor } from '../../utils/consts'
+import { defaultTheme, optionalColor } from '../../utils/consts'
 import { restartTheme } from '../../../database/actions/theme'
 import { sentryError } from '../../utils/sentryEvent'
 import logEvent from '../../utils/logEvent'
@@ -62,7 +62,7 @@ const SettingsScreen = ({ navigation }: Props) => {
 	const showFailureMessage = useShowFailureMessage()
 	const showMessage = useShowMessage({
 		message: translations.Settings.settingsRestore,
-		backgroundColor: theme.primary,
+		backgroundColor: defaultTheme[0],
 	})
 
 	const buttonGroupStyles = [
@@ -170,13 +170,13 @@ const SettingsScreen = ({ navigation }: Props) => {
 					</View>
 				</Modal>
 
-				<WavyHeader>
+				<Wavy>
 					<Header closeIconHandler={() => navigation.replace('Home')}>
 						<Text style={addTextColor(styles.title, theme.primary)}>
 							{translations.Settings.title}
 						</Text>
 					</Header>
-				</WavyHeader>
+				</Wavy>
 
 				<View style={styles.settings as ViewType}>
 					{Object.keys(buttonGroups).map((key, index) => (

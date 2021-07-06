@@ -22,15 +22,6 @@
 		"pluralNewThemes": "nowe kolory aplikacji",
 		"genitiveNewThemes": "nowych kolorów aplikacji"
 	},
-	"Pause": {
-		"durationTime": "Czas trwania",
-		"music": "Muzyka",
-		"exercise": "Ćwiczenie",
-		"seriesDurationTime": "Czas trwania serii:",
-		"numberOfReps": "Ilość powtórzeń:",
-		"breakDurationTime": "Czas trwania przerwy:",
-		"totalTime": "Łączny czas ćwiczenia:"
-	},
 	"Settings": {
 		"title": "Ustawienia",
 		"language": "Język",
@@ -64,7 +55,15 @@
 		"breakIn": "Przerwa za:",
 		"nextSeriesIn": "Następna seria za:",
 		"leaveExercise": "Opuść ćwiczenie",
-		"leaveExerciseDescription": "Czy na pewno chcesz opuścić ćwiczenie?"
+		"leaveExerciseDescription": "Czy na pewno chcesz opuścić ćwiczenie?",
+		"durationTime": "Czas trwania",
+		"music": "Muzyka",
+		"exercise": "Ćwiczenie",
+		"seriesDurationTime": "Czas trwania serii:",
+		"numberOfReps": "Ilość powtórzeń:",
+		"breakDurationTime": "Czas trwania przerwy:",
+		"totalTime": "Łączny czas ćwiczenia:",
+		"loading": "Trwa ładowanie..."
 	},
 	"Level": {
 		"nextLevel": "Następny poziom",
