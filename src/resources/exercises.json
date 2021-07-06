@@ -46,7 +46,7 @@
 	{
 		"videoId": "3",
 		"difficulty": "easy",
-		"requiredLevel": 1,
+		"requiredLevel": 2,
 		"time": {
 			"short": {
 				"pauseTime": 20,

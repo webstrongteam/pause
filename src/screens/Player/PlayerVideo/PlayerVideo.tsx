@@ -16,7 +16,7 @@ import DownloadVideo from '../components/DownloadVideo/DownloadVideo'
 import styles from './PlayerVideo.scss'
 
 const playerWidth = width * 0.75
-const playerHeight = height * 0.5
+const playerHeight = height * 0.55
 
 const videoShadowOpt: BoxShadowType = {
 	width: playerWidth,

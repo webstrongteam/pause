@@ -7,8 +7,8 @@ import {
 	getVariety,
 } from '../../utils/helpers'
 import { useSettingsContext } from '../../utils/context/SettingsContext'
-import styles from './NextLevelInfo.scss'
 import { TextType } from '../../types/styles'
+import styles from './NextLevelInfo.scss'
 
 type Props = {
 	title?: string
@@ -40,7 +40,7 @@ const NextLevelBenefits = ({
 	}
 
 	return (
-		<View>
+		<>
 			<Text style={[styles.title, titleClassName]}>{title}</Text>
 
 			{!!levelBenefits.exercises && (
@@ -70,7 +70,7 @@ const NextLevelBenefits = ({
 					</Text>
 				</View>
 			)}
-		</View>
+		</>
 	)
 }
 

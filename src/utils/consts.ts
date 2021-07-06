@@ -8,7 +8,7 @@ export const STATUS_BAR_HEIGHT = StatusBar.currentHeight ?? 20
 
 export const headerHeight = height / 7
 export const centerHeight = height * 0.4
-export const footerHeight = height * 0.67
+export const footerHeight = height * 0.72
 
 // Levels
 export const baseExercisePoints = 75

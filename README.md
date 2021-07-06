@@ -7,8 +7,3 @@
   - E-mail: **admin@webstrong.pl**
 
 - **Jira project board:** https://webstrong.atlassian.net/secure/RapidBoard.jspa?projectKey=PAS
-
-Player TODO:
-
-- Add exercises
-- Testing

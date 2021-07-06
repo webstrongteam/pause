@@ -95,9 +95,7 @@ const PlayerFooter = () => {
 						<Text style={addTextColor(styles.exerciseInfoText, pickTextColor(theme.primary))}>
 							&nbsp;&nbsp;&nbsp;x{exercise.time[time].exerciseCount}
 						</Text>
-						<View>
-							<Icon name='info' type='feather' color={pickTextColor(theme.primary)} size={20} />
-						</View>
+						<Icon name='info' type='feather' color={pickTextColor(theme.primary)} size={18} />
 					</View>
 				</TouchableOpacity>
 			</View>
