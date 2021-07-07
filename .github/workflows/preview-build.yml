@@ -1,0 +1,80 @@
+name: Pause CI - Preview build
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.3.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Test prettier and eslint
+        run: npm run lint-cleanup
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+  build:
+    needs: check
+    name: Preview build (iOS)
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.3.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-packager: npm
+          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+          expo-cache: true
+
+      - name: Get docs
+        uses: actions/checkout@v2
+        with:
+          repository: webstrongteam/docs
+          token: ${{ secrets.ACTION_TOKEN }}
+          path: docs
+
+      - name: Add Google Service files
+        run: cp -r ./docs/pause/firebase ./
+
+      - name: Replace app.json
+        run: cp -r ./docs/pause/app.json ./
+
+      - name: Expo Build - iOS
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          EXPO_APPLE_PASSWORD: ${{ secrets.EXPO_APPLE_ID }}
+        run: expo build:ios -t archive --team-id ${{ secrets.APPLE_TEAM_ID }} --release-channel preview --non-interactive
