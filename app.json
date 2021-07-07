@@ -1,26 +1,39 @@
 {
 	"expo": {
+		"version": "1.0.0",
 		"name": "Pause",
 		"slug": "pause",
-		"description": "",
-		"version": "1.0.0",
+		"description": "Short exercises to do during the break.",
 		"githubUrl": "https://github.com/webstrongteam/pause",
 		"orientation": "portrait",
 		"platforms": ["ios", "android"],
-		"icon": "./assets/icon.png",
-		"splash": {
-			"image": "./assets/splash.png",
-			"resizeMode": "cover",
-			"backgroundColor": "#ffffff"
-		},
+		"privacy": "public",
 		"ios": {
-			"buildNumber": "1.0.0",
+			"buildNumber": "1.0.0.0",
 			"bundleIdentifier": "com.webStrong.pause",
 			"supportsTablet": false
 		},
 		"android": {
-			"package": "com.webStrong.pause",
-			"versionCode": 1000
+			"versionCode": 1000,
+			"package": "com.webStrong.pause"
+		},
+		"primaryColor": "#1A6A73",
+		"icon": "./assets/icon.png",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "cover",
+			"backgroundColor": "#1A6A73"
+		},
+		"hooks": {
+			"postPublish": [
+				{
+					"file": "sentry-expo/upload-sourcemaps",
+					"config": {
+						"organization": "webstrongteam",
+						"project": "pause"
+					}
+				}
+			]
 		},
 		"updates": {
 			"fallbackToCacheTimeout": 0
