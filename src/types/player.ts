@@ -4,7 +4,7 @@ import { Video } from 'expo-av'
 export interface Player {
 	status: PlayerStatus
 	openModal: boolean
-	modalType: 'leaveModal' | 'exerciseInfoModal'
+	modalType: 'leaveModal' | 'exerciseInfoModal' | 'ratingsModal'
 	fullTime?: number
 	exerciseTime: number
 	pauseTime: number
@@ -13,5 +13,8 @@ export interface Player {
 	finishEffect?: Sound
 	videoRef?: Video
 }
+
+export type Ratings = Partial<Record<RatingType, number>>
+export type RatingType = 'general' | 'difficulty' | 'time'
 
 export type PlayerStatus = 'exercising' | 'pause' | 'stop' | 'preview' | 'exit' | 'finish'

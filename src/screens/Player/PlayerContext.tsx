@@ -1,6 +1,7 @@
-import React, { PropsWithChildren, useEffect, useRef } from 'react'
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
 import { BackHandler } from 'react-native'
 import { Audio, Video } from 'expo-av'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Player } from '../../types/player'
 import { createStateContext } from '../../utils/createStateContext'
 import useAsyncEffect from '../../utils/hooks/useAsyncEffect'
@@ -47,6 +48,8 @@ const PlayerHandler = ({ navigation }: Props) => {
 		return <></>
 	}
 
+	const [ratedExercise, setRatedExercise] = useState<boolean>(false)
+
 	// eslint-disable-next-line no-undef
 	const playerTimerId = useRef<NodeJS.Timer | null>(null)
 
@@ -75,10 +78,22 @@ const PlayerHandler = ({ navigation }: Props) => {
 	const playerTimer = () => {
 		const timeToEnd = player.fullTime! - 1
 
+		if (timeToEnd === 0) {
+			playerContext.setPlayer({
+				status: ratedExercise ? 'finish' : 'pause',
+				modalType: 'ratingsModal',
+				openModal: !ratedExercise,
+				fullTime: timeToEnd,
+				pauseTime: exercise.time[time].pauseTime,
+				exerciseTime: 0,
+			})
+			return
+		}
+
 		if (player.status === 'exercising') {
 			if (player.exerciseTime === 1) {
 				playerContext.setPlayer({
-					status: timeToEnd === 0 ? 'finish' : 'pause',
+					status: 'pause',
 					fullTime: timeToEnd,
 					pauseTime: exercise.time[time].pauseTime,
 					exerciseTime: 0,
@@ -115,6 +130,7 @@ const PlayerHandler = ({ navigation }: Props) => {
 	}
 
 	useAsyncEffect(async () => {
+		setRatedExercise(!!(await AsyncStorage.getItem(`${exercise?.videoId}${time}`)))
 		await loadSoundEffects()
 		backHandlerEvent()
 

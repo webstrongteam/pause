@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ScrollView, View, Text } from 'react-native'
 import { Icon, ButtonGroup, Button } from 'react-native-elements'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 // Components
 import Wavy from '../../components/Wavy/Wavy'
@@ -30,6 +31,7 @@ import { defaultTheme, optionalColor } from '../../utils/consts'
 import { restartTheme } from '../../../database/actions/theme'
 import { sentryError } from '../../utils/sentryEvent'
 import logEvent from '../../utils/logEvent'
+import { VERSION } from '../../../database/db'
 
 type Props = {
 	navigation: NavigationScreenType
@@ -134,6 +136,7 @@ const SettingsScreen = ({ navigation }: Props) => {
 				component: 'Settings',
 			})
 
+			await AsyncStorage.clear()
 			setSettings(await restartSettings())
 			themeContext.setTheme(await restartTheme())
 			showMessage()
@@ -195,6 +198,12 @@ const SettingsScreen = ({ navigation }: Props) => {
 							/>
 						</View>
 					))}
+
+					<View style={styles.versionWrapper as ViewType}>
+						<Text style={addTextColor(styles.version, theme.third)}>
+							{translations.Settings.version}: {VERSION}
+						</Text>
+					</View>
 				</View>
 			</ScrollView>
 
