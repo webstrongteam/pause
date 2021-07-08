@@ -1,15 +1,4 @@
-@import '../../../styles/_fonts';
-
-.modalText {
-	@include text-16;
-	@include text-light;
-	color: #000;
-	text-align: center;
-}
-
-.modal {
-	margin-top: 12px;
-}
+@import '../../../../../styles/_fonts';
 
 .modalInfo {
 	width: 100%;

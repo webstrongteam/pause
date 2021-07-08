@@ -1,0 +1,12 @@
+@import '../../../../../styles/_fonts';
+
+.modal {
+	margin-top: 12px;
+}
+
+.modalText {
+	@include text-16;
+	@include text-light;
+	color: #000;
+	text-align: center;
+}

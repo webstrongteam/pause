@@ -36,7 +36,8 @@
 		"long": "Long",
 		"clearData": "Clear data",
 		"clearDataDescription": "Are you sure you want to clear all data?",
-		"settingsRestore": "User data has been restored."
+		"settingsRestore": "User data has been restored.",
+		"version": "App version"
 	},
 	"Profile": {
 		"title": "Profile",
@@ -63,7 +64,11 @@
 		"numberOfReps": "Number of repetitions:",
 		"breakDurationTime": "Duration of the break:",
 		"totalTime": "Total time:",
-		"loading": "Loading..."
+		"loading": "Loading...",
+		"ratingModalTitle": "How do you rate this exercise?",
+		"ratingDifficulty": "Difficulty level adjustment",
+		"ratingTime": "Duration adjustment",
+		"ratingGeneral": "General rating"
 	},
 	"Level": {
 		"nextLevel": "Next Level",

@@ -36,7 +36,8 @@
 		"long": "Długi",
 		"clearData": "Wyczyść dane",
 		"clearDataDescription": "Czy na pewno chcesz usunąć wszystkie dane?",
-		"settingsRestore": "Dane aplikacji zostały przywrócone do domyślnych."
+		"settingsRestore": "Dane aplikacji zostały przywrócone do domyślnych.",
+		"version": "Wersja aplikacji"
 	},
 	"Profile": {
 		"title": "Profil",
@@ -63,7 +64,11 @@
 		"numberOfReps": "Ilość powtórzeń:",
 		"breakDurationTime": "Czas trwania przerwy:",
 		"totalTime": "Łączny czas ćwiczenia:",
-		"loading": "Trwa ładowanie..."
+		"loading": "Trwa ładowanie...",
+		"ratingModalTitle": "Jak oceniasz to ćwiczenie?",
+		"ratingDifficulty": "Dopasowanie poziomu trudności",
+		"ratingTime": "Dopasowanie czasu trwania",
+		"ratingGeneral": "Ogólna ocena ćwiczenia"
 	},
 	"Level": {
 		"nextLevel": "Następny poziom",

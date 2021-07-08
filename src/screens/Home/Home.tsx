@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native'
 import { Icon } from 'react-native-elements'
-
-// Styles and types
-import styles from './Home.scss'
 import { ViewType } from '../../types/styles'
 import { NavigationScreenType } from '../../types/navigation'
+import styles from './Home.scss'
 
 // Components
 import Wavy from '../../components/Wavy/Wavy'
@@ -106,11 +104,14 @@ const Home = ({ navigation }: Props) => {
 				component: 'Home',
 			})
 
-			setLevelForModal(settings.level)
 			setCurrentPoints(getMaxPointsForLevel(settings.level))
 			settingsContext.setSettings(
 				await changeLevelAndPoints(settings.level + 1, pointsAfterFinishExercise),
 			)
+
+			await timeout(100) // Wait to close modal with ratings
+
+			setLevelForModal(settings.level)
 			setModalVisible(true)
 
 			await timeout(PROGRESS_ANIMATION_DURATION)
@@ -119,7 +120,7 @@ const Home = ({ navigation }: Props) => {
 			setCurrentPoints(0)
 			setMaxPoints(getMaxPointsForLevel(settings.level + 1))
 
-			await timeout(100)
+			await timeout(100) // Wait to change level in progress bar
 
 			setAnimate(true)
 			setCurrentPoints(pointsAfterFinishExercise - getPointsToLevelUp(settings.level))

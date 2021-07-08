@@ -68,6 +68,17 @@
 	@include text-16;
 }
 
+.versionWrapper {
+	margin: 20px;
+}
+
+.version {
+	@include text-12;
+	@include text-light;
+	opacity: 0.8;
+	text-align: center;
+}
+
 .clearButtonPosition {
 	position: absolute;
 	bottom: 20px;
