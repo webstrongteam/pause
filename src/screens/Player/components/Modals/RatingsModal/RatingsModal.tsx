@@ -41,10 +41,15 @@ const RatingsModal = () => {
 			try {
 				await fetch(config.DATABASE_URL, {
 					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
 					body: JSON.stringify({
 						ratings: { ratingDifficulty, ratingTime, ratingGeneral },
-						exercise,
-						time,
+						exercise: {
+							...exercise,
+							time: exercise.time[time],
+						},
 					}),
 				})
 

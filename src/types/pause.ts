@@ -8,7 +8,6 @@ export interface Pause {
 export interface Exercise {
 	videoId: string
 	difficulty: Difficulty
-	iconName: string
 	requiredLevel: number
 	time: Record<Time, ExerciseTime>
 }
