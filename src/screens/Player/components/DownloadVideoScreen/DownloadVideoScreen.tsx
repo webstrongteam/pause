@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, View, ViewStyle } from 'react-native'
+import NetInfo from '@react-native-community/netinfo'
+import { NetInfoState } from '@react-native-community/netinfo/src/internal/types'
+import { Icon } from 'react-native-elements'
 import * as FileSystem from 'expo-file-system'
 import { DownloadProgressData } from 'expo-file-system/src/FileSystem.types'
 import { usePlayerContext } from '../../PlayerContext'
@@ -8,30 +11,34 @@ import { useThemeContext } from '../../../../utils/context/ThemeContext'
 import { useSettingsContext } from '../../../../utils/context/SettingsContext'
 import { sentryError } from '../../../../utils/sentryEvent'
 import config from '../../../../config/config'
-import useAsyncEffect from '../../../../utils/hooks/useAsyncEffect'
 import ProgressBar from '../../../../components/ProgressBar/ProgressBar'
 import Spinner from '../../../../components/Spinner/Spinner'
-import styles from './DownloadVideo.scss'
+import { addTextColor, pickTextColor } from '../../../../utils/helpers'
+import { ViewType } from '../../../../types/styles'
+import styles from './DownloadVideoScreen.scss'
 
 type Props = {
 	playerHeight: number
 	playerWidth: number
 }
 
-const DownloadVideo = ({ playerHeight, playerWidth }: Props) => {
+const DownloadVideoScreen = ({ playerHeight, playerWidth }: Props) => {
 	const playerContext = usePlayerContext()
 	const pauseContext = usePauseContext()
 	const themeContext = useThemeContext()
 	const settingsContext = useSettingsContext()
 
-	const { primary } = themeContext.useSubscribe((s) => s)
+	const { primary, secondary } = themeContext.useSubscribe((s) => s)
 	const videoId = pauseContext.useSubscribe((s) => s.exercise?.videoId)
 	const translations = settingsContext.useSubscribe((s) => s.translations)
 
 	const [progress, setProgress] = useState<number | undefined>()
+	const [showInternetDisconnectedInfo, setShowInternetDisconnectedInfo] = useState<boolean | null>(
+		false,
+	)
 
 	const fileUrl = `${config.CLIPS_URL}${videoId}.mp4`
-	const fileUri = `${FileSystem.documentDirectory}/clips/${videoId}.mp4`
+	const fileUri = `${FileSystem.documentDirectory}/clips/${videoId}96798.mp4`
 
 	const setDownloadProgress = (downloadProgress: DownloadProgressData) => {
 		const videoDownloadProgress = +(
@@ -48,10 +55,13 @@ const DownloadVideo = ({ playerHeight, playerWidth }: Props) => {
 		setDownloadProgress,
 	)
 
-	const checkVideoOnFileSystem = async () => {
+	const checkVideoOnFileSystem = async (netInfo: NetInfoState) => {
 		try {
 			const result = await FileSystem.getInfoAsync(fileUri)
 			if (!result.exists) {
+				setShowInternetDisconnectedInfo(!netInfo.isConnected)
+				if (!netInfo.isConnected) return
+
 				await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}/clips/`, {
 					intermediates: true,
 				})
@@ -65,9 +75,32 @@ const DownloadVideo = ({ playerHeight, playerWidth }: Props) => {
 		}
 	}
 
-	useAsyncEffect(async () => {
-		await checkVideoOnFileSystem()
+	useEffect(() => {
+		const netInfoListener = NetInfo.addEventListener((netInfo) => checkVideoOnFileSystem(netInfo))
+		netInfoListener()
+
+		return () => {
+			netInfoListener()
+		}
 	}, [])
+
+	if (showInternetDisconnectedInfo) {
+		return (
+			<View style={{ width: playerWidth, height: playerHeight }}>
+				<View
+					style={[
+						styles.internetDisconnectedInfo as ViewType,
+						{ width: playerWidth, height: playerHeight },
+					]}
+				>
+					<Icon color={pickTextColor(secondary)} size={80} name='signal-wifi-off' type='material' />
+					<Text style={addTextColor(styles.internetDisconnectedText, pickTextColor(secondary))}>
+						{translations.Player.internetDisconnected}
+					</Text>
+				</View>
+			</View>
+		)
+	}
 
 	if (progress === undefined) {
 		return (
@@ -89,7 +122,9 @@ const DownloadVideo = ({ playerHeight, playerWidth }: Props) => {
 			<View
 				style={[styles.downloadProgress as ViewStyle, { width: playerWidth, height: playerHeight }]}
 			>
-				<Text>{translations.Player.loading}</Text>
+				<Text style={addTextColor({}, pickTextColor(secondary))}>
+					{translations.Player.loading}
+				</Text>
 				<ProgressBar
 					maxValue={1}
 					currentValue={progress}
@@ -104,4 +139,4 @@ const DownloadVideo = ({ playerHeight, playerWidth }: Props) => {
 	)
 }
 
-export default DownloadVideo
+export default DownloadVideoScreen

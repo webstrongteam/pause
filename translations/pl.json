@@ -68,7 +68,8 @@
 		"ratingModalTitle": "Jak oceniasz to ćwiczenie?",
 		"ratingDifficulty": "Dopasowanie poziomu trudności",
 		"ratingTime": "Dopasowanie czasu trwania",
-		"ratingGeneral": "Ogólna ocena ćwiczenia"
+		"ratingGeneral": "Ogólna ocena ćwiczenia",
+		"internetDisconnected": "Brak połączenia z internetem."
 	},
 	"Level": {
 		"nextLevel": "Następny poziom",
