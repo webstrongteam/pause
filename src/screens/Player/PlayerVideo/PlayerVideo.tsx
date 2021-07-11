@@ -12,7 +12,7 @@ import { useSettingsContext } from '../../../utils/context/SettingsContext'
 import { height, width } from '../../../utils/consts'
 import PauseVideo from '../components/PauseVideo/PauseVideo'
 import IconButton from '../components/IconButton/IconButton'
-import DownloadVideo from '../components/DownloadVideo/DownloadVideo'
+import DownloadVideoScreen from '../components/DownloadVideoScreen/DownloadVideoScreen'
 import styles from './PlayerVideo.scss'
 
 const playerWidth = width * 0.75
@@ -60,6 +60,8 @@ const PlayerVideo = () => {
 	}
 
 	const managePlayer = () => {
+		if (!player.videoRef) return
+
 		if (player.status === 'stop' && player.pauseTime > 0) {
 			playerContext.setPlayer({ status: 'pause' })
 			return
@@ -102,7 +104,7 @@ const PlayerVideo = () => {
 				/>
 
 				{!player.videoUri && (
-					<DownloadVideo playerHeight={playerHeight} playerWidth={playerWidth} />
+					<DownloadVideoScreen playerHeight={playerHeight} playerWidth={playerWidth} />
 				)}
 				{showPauseScreen && <PauseVideo playerHeight={playerHeight} playerWidth={playerWidth} />}
 

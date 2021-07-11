@@ -68,7 +68,8 @@
 		"ratingModalTitle": "How do you rate this exercise?",
 		"ratingDifficulty": "Difficulty level adjustment",
 		"ratingTime": "Duration adjustment",
-		"ratingGeneral": "General rating"
+		"ratingGeneral": "General rating",
+		"internetDisconnected": "No internet connection."
 	},
 	"Level": {
 		"nextLevel": "Next Level",
