@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Text, View, ViewStyle } from 'react-native'
-import NetInfo from '@react-native-community/netinfo'
-import { NetInfoState } from '@react-native-community/netinfo/src/internal/types'
+import { useNetInfo } from '@react-native-community/netinfo'
 import { Icon } from 'react-native-elements'
 import * as FileSystem from 'expo-file-system'
 import { DownloadProgressData } from 'expo-file-system/src/FileSystem.types'
@@ -15,6 +14,7 @@ import ProgressBar from '../../../../components/ProgressBar/ProgressBar'
 import Spinner from '../../../../components/Spinner/Spinner'
 import { addTextColor, pickTextColor } from '../../../../utils/helpers'
 import { ViewType } from '../../../../types/styles'
+import useAsyncEffect from '../../../../utils/hooks/useAsyncEffect'
 import styles from './DownloadVideoScreen.scss'
 
 type Props = {
@@ -23,6 +23,8 @@ type Props = {
 }
 
 const DownloadVideoScreen = ({ playerHeight, playerWidth }: Props) => {
+	const netInfo = useNetInfo()
+
 	const playerContext = usePlayerContext()
 	const pauseContext = usePauseContext()
 	const themeContext = useThemeContext()
@@ -38,7 +40,7 @@ const DownloadVideoScreen = ({ playerHeight, playerWidth }: Props) => {
 	)
 
 	const fileUrl = `${config.CLIPS_URL}${videoId}.mp4`
-	const fileUri = `${FileSystem.documentDirectory}/clips/${videoId}96798.mp4`
+	const fileUri = `${FileSystem.documentDirectory}/clips/${videoId}.mp4`
 
 	const setDownloadProgress = (downloadProgress: DownloadProgressData) => {
 		const videoDownloadProgress = +(
@@ -55,7 +57,7 @@ const DownloadVideoScreen = ({ playerHeight, playerWidth }: Props) => {
 		setDownloadProgress,
 	)
 
-	const checkVideoOnFileSystem = async (netInfo: NetInfoState) => {
+	const checkVideoOnFileSystem = async () => {
 		try {
 			const result = await FileSystem.getInfoAsync(fileUri)
 			if (!result.exists) {
@@ -75,14 +77,9 @@ const DownloadVideoScreen = ({ playerHeight, playerWidth }: Props) => {
 		}
 	}
 
-	useEffect(() => {
-		const netInfoListener = NetInfo.addEventListener((netInfo) => checkVideoOnFileSystem(netInfo))
-		netInfoListener()
-
-		return () => {
-			netInfoListener()
-		}
-	}, [])
+	useAsyncEffect(async () => {
+		await checkVideoOnFileSystem()
+	}, [netInfo.isConnected])
 
 	if (showInternetDisconnectedInfo) {
 		return (
