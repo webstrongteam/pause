@@ -15,12 +15,21 @@ import IconButton from '../components/IconButton/IconButton'
 import DownloadVideoScreen from '../components/DownloadVideoScreen/DownloadVideoScreen'
 import styles from './PlayerVideo.scss'
 
-const playerWidth = width * 0.75
-const playerHeight = height * 0.55
+const playButtonSize = height * 0.08
+
+const playerSize = {
+	width: width * 0.75,
+	height: height * 0.55,
+}
+
+const drawButtonPosition = {
+	top: -(height * 0.025),
+	right: width * 0.3,
+}
 
 const videoShadowOpt: BoxShadowType = {
-	width: playerWidth,
-	height: playerHeight,
+	width: playerSize.width,
+	height: playerSize.height,
 	border: 6,
 	opacity: 0.1,
 	color: '#000',
@@ -104,16 +113,18 @@ const PlayerVideo = () => {
 				/>
 
 				{!player.videoUri && (
-					<DownloadVideoScreen playerHeight={playerHeight} playerWidth={playerWidth} />
+					<DownloadVideoScreen playerHeight={playerSize.height} playerWidth={playerSize.width} />
 				)}
-				{showPauseScreen && <PauseVideo playerHeight={playerHeight} playerWidth={playerWidth} />}
+				{showPauseScreen && (
+					<PauseVideo playerHeight={playerSize.height} playerWidth={playerSize.width} />
+				)}
 
 				{player.videoUri && (
 					<BoxShadow setting={videoShadowOpt}>
 						<Video
 							ref={video}
 							source={{ uri: player.videoUri }}
-							style={{ width: playerWidth, height: playerHeight }}
+							style={playerSize}
 							onLoadStart={() => video.current?.playAsync()}
 							resizeMode='cover'
 							isLooping
@@ -124,7 +135,12 @@ const PlayerVideo = () => {
 			</View>
 
 			<View style={styles.playerButtons as ViewStyle}>
-				<View style={styles.randomButton as ViewStyle}>
+				<View
+					style={[
+						styles.drawButton as ViewStyle,
+						{ right: drawButtonPosition.right, top: drawButtonPosition.top },
+					]}
+				>
 					<Animated.View style={{ transform: [{ scale: scaleRandomExerciseButton }] }}>
 						<IconButton
 							size={25}
@@ -138,8 +154,8 @@ const PlayerVideo = () => {
 				</View>
 
 				<IconButton
-					size={70}
-					shadowSize={120}
+					size={playButtonSize}
+					shadowSize={playButtonSize * 2}
 					color={primary}
 					type={stopExercising ? 'foundation' : 'antdesign'}
 					name={stopExercising ? 'play' : 'pause'}

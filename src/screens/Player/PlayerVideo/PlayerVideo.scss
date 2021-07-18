@@ -19,13 +19,11 @@
 
 .playerButtons {
 	position: relative;
-	margin-top: 110px;
+	margin-top: 104px;
 	align-items: center;
 }
 
-.randomButton {
+.drawButton {
 	position: absolute;
-	right: 112px;
-	top: -24px;
 	z-index: 20;
 }

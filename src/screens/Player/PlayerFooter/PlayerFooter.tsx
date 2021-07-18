@@ -8,6 +8,7 @@ import {
 	pickTextColor,
 	setAnimation,
 } from '../../../utils/helpers'
+import { height } from '../../../utils/consts'
 import { ViewType } from '../../../types/styles'
 import { usePauseContext } from '../../../utils/context/PauseContext'
 import { useThemeContext } from '../../../utils/context/ThemeContext'
@@ -15,6 +16,8 @@ import { useSettingsContext } from '../../../utils/context/SettingsContext'
 import { usePlayerContext } from '../PlayerContext'
 import { sentryError } from '../../../utils/sentryEvent'
 import styles from './PlayerFooter.scss'
+
+const exerciseInfoPosition = height * 0.055
 
 const PlayerFooter = () => {
 	const pauseContext = usePauseContext()
@@ -35,7 +38,7 @@ const PlayerFooter = () => {
 
 	const [unmountExerciseInfo, setUnmountExerciseInfo] = useState(false)
 
-	const moveExerciseInfoAnim = useRef(new Animated.Value(0)).current
+	const moveExerciseInfoAnim = useRef(new Animated.Value(exerciseInfoPosition)).current
 	const moveProgressBarAnim = useRef(new Animated.Value(-100)).current
 
 	useEffect(() => {
@@ -47,7 +50,7 @@ const PlayerFooter = () => {
 		} else if (player.status === 'preview') {
 			setAnimation(-100, 250, moveProgressBarAnim, () => {
 				setUnmountExerciseInfo(false)
-				setAnimation(0, 150, moveExerciseInfoAnim)
+				setAnimation(exerciseInfoPosition, 150, moveExerciseInfoAnim)
 			})
 		}
 	}, [player.status, player.fullTime])
