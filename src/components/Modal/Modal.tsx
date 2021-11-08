@@ -23,7 +23,6 @@ type Props = PropsWithChildren<{
 	visible: boolean
 	title: string
 	buttons?: ModalButtonType[]
-	bgColor?: string
 	onModalHide?: () => void
 }>
 
